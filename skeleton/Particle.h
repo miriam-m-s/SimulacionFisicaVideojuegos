@@ -11,5 +11,6 @@ private:
 	Vector3 vel;
 	physx::PxTransform pose;
 	RenderItem* renderitem;
+	Vector4 color;
 };
 

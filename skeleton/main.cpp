@@ -3,7 +3,7 @@
 #include <PxPhysicsAPI.h>
 
 #include <vector>
-
+#include"Particle.h"
 #include "core.hpp"
 #include "RenderUtils.hpp"
 #include "callbacks.hpp"
@@ -16,7 +16,7 @@ using namespace physx;
 
 PxDefaultAllocator		gAllocator;
 PxDefaultErrorCallback	gErrorCallback;
-
+Particle* part=NULL;
 PxFoundation*			gFoundation = NULL;
 PxPhysics*				gPhysics	= NULL;
 
@@ -53,7 +53,9 @@ void initPhysics(bool interactive)
 	sceneDesc.filterShader = contactReportFilterShader;
 	sceneDesc.simulationEventCallback = &gContactReportCallback;
 	gScene = gPhysics->createScene(sceneDesc);
-	}
+	part = new Particle({ 0,0,0 }, { 5,5,0 });
+	
+}
 
 
 // Function to configure what happens in each step of physics
@@ -65,6 +67,7 @@ void stepPhysics(bool interactive, double t)
 
 	gScene->simulate(t);
 	gScene->fetchResults(true);
+	part->integrate(t);
 }
 
 // Function to clean data
@@ -83,6 +86,7 @@ void cleanupPhysics(bool interactive)
 	transport->release();
 	
 	gFoundation->release();
+	delete part;
 	}
 
 // Function called when a key is pressed
