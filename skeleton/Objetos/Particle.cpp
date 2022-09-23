@@ -1,10 +1,10 @@
 #include "Particle.h"
 
-Particle::Particle(Vector3 Pos, Vector3 Vel, Vector3 acel, float dampin):vel(Vel),acel_(acel),damp_(dampin)
+Particle::Particle(Vector3 Pos, Vector3 Vel, Vector3 acel, float dampin,float radius,float masa):vel(Vel),acel_(acel),damp_(dampin),masa_(masa)
 {
 	pose = physx::PxTransform( Pos.x,Pos.y,Pos.z);
 	color = Vector4(1, 0, 1, 1);
-	renderitem = new RenderItem(CreateShape(physx::PxSphereGeometry(2)), &pose, color);
+	renderitem = new RenderItem(CreateShape(physx::PxSphereGeometry(radius)), &pose, color);
 
 	RegisterRenderItem(renderitem);
 }
@@ -12,7 +12,20 @@ Particle::Particle(Vector3 Pos, Vector3 Vel, Vector3 acel, float dampin):vel(Vel
 Particle::~Particle()
 {
 	DeregisterRenderItem(renderitem);
-} 
+}
+void Particle::setpartcle(Vector3 Pos, Vector3 Vel, Vector3 acel, float dampin, float radius, float masa)
+{
+	vel = Vel;
+	acel_ = acel;
+	damp_ = dampin;
+	masa_ = masa;
+	pose = physx::PxTransform(Pos.x, Pos.y, Pos.z);
+	color = Vector4(1, 0, 1, 1);
+	renderitem = new RenderItem(CreateShape(physx::PxSphereGeometry(radius)), &pose, color);
+
+	RegisterRenderItem(renderitem);
+}
+
 
 void Particle::integrate(double t)
 {

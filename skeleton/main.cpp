@@ -3,12 +3,13 @@
 #include <PxPhysicsAPI.h>
 
 #include <vector>
-#include"Particle.h"
+
 #include "core.hpp"
 #include "RenderUtils.hpp"
 #include "callbacks.hpp"
 
 #include <iostream>
+#include "Objetos/Proyectil.h"
 
 
 
@@ -16,7 +17,8 @@ using namespace physx;
 
 PxDefaultAllocator		gAllocator;
 PxDefaultErrorCallback	gErrorCallback;
-Particle* part[30] ;
+//Proyectil* part=NULL;
+std::vector<Proyectil*>bullets;
 PxFoundation*			gFoundation = NULL;
 PxPhysics*				gPhysics	= NULL;
 
@@ -53,12 +55,7 @@ void initPhysics(bool interactive)
 	sceneDesc.filterShader = contactReportFilterShader;
 	sceneDesc.simulationEventCallback = &gContactReportCallback;
 	gScene = gPhysics->createScene(sceneDesc);
-	float s = -100;
-	for (int i = 0; i < 30; i++) {
-		part[i] = new Particle({s,100,0}, {0,5,0}, {0,-100,0}, 0.1);
-		s += 10;
-	}
-
+	//part = new Proyectil(TipoBalas::Bala,{0,20,0},{0,0,-1});
 	
 }
 
@@ -72,8 +69,8 @@ void stepPhysics(bool interactive, double t)
 
 	gScene->simulate(t);
 	gScene->fetchResults(true);
-	for (int i = 0; i < 30; i++) {
-		part[i]->integrate(t);
+	for (int i = 0; i < bullets.size(); i++) {
+		bullets[i]->integrate(t);
 	}
 	
 }
@@ -94,20 +91,23 @@ void cleanupPhysics(bool interactive)
 	transport->release();
 	
 	gFoundation->release();
-	for (int i = 0; i < 30; i++) {
-		delete part[i];
+	
+	for (int i = 0; i < bullets.size(); i++) {
+		delete bullets[i];
 	}
-
 	}
 
 // Function called when a key is pressed
 void keyPress(unsigned char key, const PxTransform& camera)
 {
 	PX_UNUSED(camera);
-
+	Vector3 p = GetCamera()->getTransform().p + GetCamera()->getDir() * 10;
 	switch(toupper(key))
 	{
-	//case 'B': break;
+	case 'B': 
+		
+		bullets.push_back(new Proyectil(TipoBalas::Balacanyon, p, GetCamera()->getDir()));
+		break;
 	//case ' ':	break;
 	case ' ':
 	{
