@@ -53,7 +53,7 @@ void initPhysics(bool interactive)
 	sceneDesc.filterShader = contactReportFilterShader;
 	sceneDesc.simulationEventCallback = &gContactReportCallback;
 	gScene = gPhysics->createScene(sceneDesc);
-	part = new Particle({ 0,0,0 }, { 5,5,0 });
+	part = new Particle({ 0,100,0 }, { 0,5,0 },{0,-100,0},0.1);
 	
 }
 
