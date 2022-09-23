@@ -16,7 +16,7 @@ using namespace physx;
 
 PxDefaultAllocator		gAllocator;
 PxDefaultErrorCallback	gErrorCallback;
-Particle* part=NULL;
+Particle* part[30] ;
 PxFoundation*			gFoundation = NULL;
 PxPhysics*				gPhysics	= NULL;
 
@@ -53,7 +53,12 @@ void initPhysics(bool interactive)
 	sceneDesc.filterShader = contactReportFilterShader;
 	sceneDesc.simulationEventCallback = &gContactReportCallback;
 	gScene = gPhysics->createScene(sceneDesc);
-	part = new Particle({ 0,100,0 }, { 0,5,0 },{0,-100,0},0.1);
+	float s = -100;
+	for (int i = 0; i < 30; i++) {
+		part[i] = new Particle({s,100,0}, {0,5,0}, {0,-100,0}, 0.1);
+		s += 10;
+	}
+
 	
 }
 
@@ -67,7 +72,10 @@ void stepPhysics(bool interactive, double t)
 
 	gScene->simulate(t);
 	gScene->fetchResults(true);
-	part->integrate(t);
+	for (int i = 0; i < 30; i++) {
+		part[i]->integrate(t);
+	}
+	
 }
 
 // Function to clean data
@@ -86,7 +94,10 @@ void cleanupPhysics(bool interactive)
 	transport->release();
 	
 	gFoundation->release();
-	delete part;
+	for (int i = 0; i < 30; i++) {
+		delete part[i];
+	}
+
 	}
 
 // Function called when a key is pressed
