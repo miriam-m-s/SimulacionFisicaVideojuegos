@@ -36,4 +36,16 @@ Proyectil::Proyectil(TipoBalas s, Vector3 Pos, Vector3 dir)
 		break;
 	}
 	setpartcle(Pos, dir.getNormalized() * speed, { 0,grav,0 }, 0.99, radius, 5.0f);
+	startime = glutGet(GLUT_ELAPSED_TIME);
+}
+
+void Proyectil::integrate(double t)
+{
+	pose.p = pose.p + vel * t;
+	vel = vel * pow(damp_, t) + acel_ * t;
+
+	cambiarcolor();
+	if (glutGet(GLUT_ELAPSED_TIME) > startime + 5000||pose.p.y < 0.0f) {
+		alive = false;
+	}
 }

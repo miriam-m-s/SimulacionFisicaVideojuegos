@@ -14,7 +14,11 @@ public:
     ~Proyectil() {
 
     }
+   
+    void integrate(double t);
 protected:
+    double startime;
+   
    
 };
 

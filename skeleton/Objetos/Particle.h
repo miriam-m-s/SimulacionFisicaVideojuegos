@@ -13,6 +13,9 @@ public:
 	void setpartcle(Vector3 Pos, Vector3 Vel, Vector3 acel, float dampin, float radius, float masa);
 	void integrate(double t);
 	void cambiarcolor();
+	bool active() {
+		return alive;
+	}
 protected:
 	Vector3 vel={0,0,0};
 	physx::PxTransform pose;
@@ -25,5 +28,6 @@ protected:
 	float damp_=0;
 	float radius=0;
 	float masa_=0;
+	bool alive = true;
 };
 

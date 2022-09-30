@@ -26,7 +26,7 @@ PxPhysics*				gPhysics	= NULL;
 PxMaterial*				gMaterial	= NULL;
 
 PxPvd*                  gPvd        = NULL;
-
+auto changebalas = TipoBalas::Balacanyon;
 PxDefaultCpuDispatcher*	gDispatcher = NULL;
 PxScene*				gScene      = NULL;
 ContactReportCallback gContactReportCallback;
@@ -69,8 +69,21 @@ void stepPhysics(bool interactive, double t)
 
 	gScene->simulate(t);
 	gScene->fetchResults(true);
+	//std::vector<Proyectil*>iterator il=bullet
+	auto it = bullets.begin();
 	for (int i = 0; i < bullets.size(); i++) {
-		bullets[i]->integrate(t);
+		if (bullets[i]->active()) {
+			bullets[i]->integrate(t);
+			++it;
+		}
+		else {
+			auto l = bullets[i];
+			delete l;
+			l = nullptr;
+			it=bullets.erase(it);
+			
+		}
+	
 	}
 	
 }
@@ -102,11 +115,21 @@ void keyPress(unsigned char key, const PxTransform& camera)
 {
 	PX_UNUSED(camera);
 	Vector3 p = GetCamera()->getTransform().p + GetCamera()->getDir() * 10;
+	
 	switch(toupper(key))
 	{
 	case 'B': 
 		
-		bullets.push_back(new Proyectil(TipoBalas::Balacanyon, p, GetCamera()->getDir()));
+		bullets.push_back(new Proyectil(changebalas, p, GetCamera()->getDir()));
+		break;
+	case '1':
+		changebalas = TipoBalas::Bala;
+		break;
+	case '2':
+		changebalas = TipoBalas::Balacanyon;
+		break;
+	case '3':
+		changebalas = TipoBalas::Laser;
 		break;
 	//case ' ':	break;
 	case ' ':
