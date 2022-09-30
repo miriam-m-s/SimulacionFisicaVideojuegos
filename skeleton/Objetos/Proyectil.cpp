@@ -39,13 +39,4 @@ Proyectil::Proyectil(TipoBalas s, Vector3 Pos, Vector3 dir)
 	startime = glutGet(GLUT_ELAPSED_TIME);
 }
 
-void Proyectil::integrate(double t)
-{
-	pose.p = pose.p + vel * t;
-	vel = vel * pow(damp_, t) + acel_ * t;
 
-	cambiarcolor();
-	if (glutGet(GLUT_ELAPSED_TIME) > startime + 5000||pose.p.y < 0.0f) {
-		alive = false;
-	}
-}

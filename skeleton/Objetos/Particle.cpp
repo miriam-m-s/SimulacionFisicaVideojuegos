@@ -2,6 +2,7 @@
 
 Particle::Particle(Vector3 Pos, Vector3 Vel, Vector3 acel, float dampin,float radius,float masa):vel(Vel),acel_(acel),damp_(dampin),masa_(masa)
 {
+	startime = glutGet(GLUT_ELAPSED_TIME);
 	pose = physx::PxTransform( Pos.x,Pos.y,Pos.z);
 	color = Vector4(1, 0, 1, 1);
 	renderitem = new RenderItem(CreateShape(physx::PxSphereGeometry(radius)), &pose, color);
@@ -34,7 +35,9 @@ void Particle::integrate(double t)
 	
 	cambiarcolor();
 
-	
+	if (glutGet(GLUT_ELAPSED_TIME) > startime + 5000 || pose.p.y < 0.0f) {
+		alive = false;
+	}
 }
 
 void Particle::cambiarcolor()
