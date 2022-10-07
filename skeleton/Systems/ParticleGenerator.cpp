@@ -24,11 +24,24 @@ std::list<Particle*> GausseanParticleGen::generateParticles()
 	std::normal_distribution<>velx{ _main_vel.x,std_dev_vel.x };
 	std::normal_distribution<>vely{ _main_vel.y,std_dev_vel.y };
 	std::normal_distribution<>velz{ _main_vel.z,std_dev_vel.z };
+
+	std::default_random_engine eng(rd());
+	//te d aun numero entre 0 1
+	std::uniform_real_distribution<double>distr(0, 1);
+
+	//te d aun numero entre 0 1
+	std::uniform_real_distribution<double>time(0, 5000);
+
 	for (int i = 0; i < num_particles; i++) {
+		if (distr(eng) < generation_probability) {
+			Vector3 ppos(x(gen), y(gen), z(gen));
+			Vector3 vel(velx(gen), vely(gen), velz(gen));
+			Vector4 color = { float(distr(eng)),float(distr(eng)),float(distr(eng)),1 };
+			Particle* part = new Particle(ppos, vel, { 0,0,0 }, 0.99, 1.0f, 0.5f,(time(eng)),color);
+			part->changecolors(false);
+			particle.push_back(part);
+		}
 		
-		Vector3 ppos(x(gen), y(gen), z(gen));
-		Vector3 vel(velx(gen), vely(gen), velz(gen));
-		Particle* part = new Particle();
 	}
 	return particle;
 }

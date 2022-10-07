@@ -25,6 +25,7 @@ protected:
 class GausseanParticleGen :public ParticleGenerator
 {
     public:
+    GausseanParticleGen() {}
     GausseanParticleGen(Vector3 pos, Vector3 vel, Vector3 dev_pos, Vector3 dev_vel,double gen_prob,int num);
     virtual std::list<Particle*>generateParticles();
 protected:

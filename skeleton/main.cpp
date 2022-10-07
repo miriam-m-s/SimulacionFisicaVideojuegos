@@ -7,7 +7,7 @@
 #include "core.hpp"
 #include "RenderUtils.hpp"
 #include "callbacks.hpp"
-
+#include "Systems/ParticleSys.h"
 #include <iostream>
 #include "Objetos/Proyectil.h"
 
@@ -24,7 +24,7 @@ PxPhysics*				gPhysics	= NULL;
 
 
 PxMaterial*				gMaterial	= NULL;
-
+ParticleSys* part_system;
 PxPvd*                  gPvd        = NULL;
 auto changebalas = TipoBalas::Balacanyon;
 PxDefaultCpuDispatcher*	gDispatcher = NULL;
@@ -55,6 +55,7 @@ void initPhysics(bool interactive)
 	sceneDesc.filterShader = contactReportFilterShader;
 	sceneDesc.simulationEventCallback = &gContactReportCallback;
 	gScene = gPhysics->createScene(sceneDesc);
+	part_system = new ParticleSys();
 	//part = new Proyectil(TipoBalas::Bala,{0,20,0},{0,0,-1});
 	
 }
@@ -69,6 +70,7 @@ void stepPhysics(bool interactive, double t)
 
 	gScene->simulate(t);
 	gScene->fetchResults(true);
+	part_system->update(t);
 	//std::vector<Proyectil*>iterator il=bullet
 	auto it = bullets.begin();
 	for (int i = 0; i < bullets.size(); i++) {
@@ -104,7 +106,7 @@ void cleanupPhysics(bool interactive)
 	transport->release();
 	
 	gFoundation->release();
-	
+	delete part_system;
 	for (int i = 0; i < bullets.size(); i++) {
 		delete bullets[i];
 	}

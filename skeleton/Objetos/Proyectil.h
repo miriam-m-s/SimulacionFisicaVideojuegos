@@ -12,7 +12,8 @@ public:
     Proyectil(Vector3 Pos, Vector3 Vel, Vector3 acel, float dampin,float radius,float masa);
     Proyectil(TipoBalas s, Vector3 Pos, Vector3 dir);
    
-   
+protected:
+    void partlifetime()override;
     
 
    
