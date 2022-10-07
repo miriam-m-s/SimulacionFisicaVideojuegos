@@ -8,6 +8,7 @@ public:
 	ParticleSys();
 	~ParticleSys();
 	void update(double t);
+	ParticleGenerator* getPartcleGenerator(std::string name);
 protected:
 	std::list<Particle*>particles;
 	std::list<ParticleGenerator*>particle_generators;

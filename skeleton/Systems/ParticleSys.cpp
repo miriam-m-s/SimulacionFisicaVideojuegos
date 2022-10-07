@@ -2,7 +2,7 @@
 
 ParticleSys::ParticleSys()
 {
-
+	particle_generators.push_back(GausseanParticleGen());
 }
 
 ParticleSys::~ParticleSys()
