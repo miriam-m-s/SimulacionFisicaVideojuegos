@@ -1,3 +1,4 @@
+#include <iostream>
 #include "Particle.h"
 
 Particle::Particle(Vector3 Pos, Vector3 Vel, Vector3 acel, float dampin,float radius,float masa,double time, Vector4 coloring):vel(Vel),acel_(acel),damp_(dampin),masa_(masa),livetime_(time),color(coloring)
@@ -27,7 +28,8 @@ void Particle::setpartcle(Vector3 Pos, Vector3 Vel, Vector3 acel, float dampin, 
 	//RegisterRenderItem(renderitem);
 }
 void Particle::partlifetime() {
-	if (glutGet(GLUT_ELAPSED_TIME) > startime +livetime_ ) {
+
+	if (livetime_<=0 ) {
 		alive = false;
 	}
 }
@@ -37,6 +39,7 @@ void Particle::integrate(double t)
 	pose.p = pose.p + vel * t;
 	vel = vel * pow(damp_, t) + acel_ * t;
 	if(changingcolor_)cambiarcolor();
+	livetime_ -= t;
 	partlifetime();
 	
 }
