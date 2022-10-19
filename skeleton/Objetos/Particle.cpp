@@ -38,7 +38,7 @@ void Particle::integrate(double t)
 {
 	pose.p = pose.p + vel * t;
 	vel = vel * pow(damp_, t) + acel_ * t;
-	if(changingcolor_)cambiarcolor();
+cambiarcolor();
 	livetime_ -= t;
 	partlifetime();
 	
@@ -46,7 +46,10 @@ void Particle::integrate(double t)
 
 void Particle::cambiarcolor()
 {
-	if (i == 0) {
+	
+	color.y -= 0.0095;
+
+	/*if (i == 0) {
 		if (!cambio) {
 			color.x -= 0.0005;
 			if (color.x <= 0.5) {
@@ -91,7 +94,7 @@ void Particle::cambiarcolor()
 				i = 0;
 			}
 		}
-	}
+	}*/
 	renderitem->color = color;
 
 }

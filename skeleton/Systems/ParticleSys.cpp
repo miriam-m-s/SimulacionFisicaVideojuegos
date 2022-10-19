@@ -58,7 +58,7 @@ TypeParticles::TypeParticles(TipoParticles par):partenum(par) {
 	{
 	case Fuego:
 		partgaus=new GausseanParticleGen(Vector3(0, 20, 0), { 0,0,0 },
-		Vector3(3, 3, 0.1), Vector3(0.3, 0.1, 0.1), 0.1, 30, 3);
+		Vector3(3, 2, 1), Vector3(0.3, 0.1, 0.1), 0.4, 200, 3);
 		partgaus->setGravity({ 0,5,0 });
 		partgaus->setColor({ 1,1,0,0.5f });
 		partgaus->setRadius(0.1f);

@@ -42,7 +42,8 @@ std::list<Particle*> GausseanParticleGen::generateParticles()
 			if(random_color)
 			color = { float(distr(eng)),float(distr(eng)),float(distr(eng)),1 };
 			Particle* part = new Particle(ppos, vel, { gravity_.x,gravity_.y,gravity_.x }, 0.99, radius, 0.5f,(time(eng)),color);
-			part->changecolors(false);
+			part->changecolors(true);
+			
 			particle.push_back(part);
 		}
 		
@@ -91,6 +92,7 @@ std::list<Particle*> UniformParticleGenerator::generateParticles()
 				color = { float(distr(eng)),float(distr(eng)),float(distr(eng)),1 };
 		
 			Particle* part = new Particle(ppos, vel, { gravity_.x,gravity_.y,gravity_.z }, 0.99, radius, 0.5f, (time(eng)), color);
+			part->changecolors(true);
 			part->changecolors(false);
 			particle.push_back(part);
 		}
