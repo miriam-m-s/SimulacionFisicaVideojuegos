@@ -7,11 +7,26 @@
 class ParticleGenerator
 {
 public:
-    ParticleGenerator(){};
+    ParticleGenerator():gravity_(0, -10, 0), random_color(false), color(0, 0.7, 0.8, 0.4) {};
     
 	virtual std::list<Particle*>generateParticles()=0;
-    
+    void setGravity(Vector3 grav) {
+        gravity_ = grav;
+    }
+    void setColor(Vector4 Color) {
+        color = Color;
+    }
+    void setRandomColor(bool active) {
+        random_color = active;
+    }
+    void setRadius(float r) {
+        radius = r;
+    }
 protected:
+    Vector4 color;
+    Vector3 gravity_;
+    bool random_color;
+    float radius = 1.0f;
     Vector3 _mean_pos;
     Vector3 _main_vel;
     double iMass_;
@@ -31,14 +46,13 @@ class GausseanParticleGen :public ParticleGenerator
     GausseanParticleGen() {}
     GausseanParticleGen(Vector3 pos, Vector3 vel, Vector3 dev_pos, Vector3 dev_vel,double gen_prob,int num,float seconds);
     virtual std::list<Particle*>generateParticles();
-    void activateGravity() {
-        gravity_ = !gravity_;
-    }
+   
+
+
 protected:
     Vector3 std_dev_pos, std_dev_vel;
     double std_dev_t;
-
-    bool gravity_=true;
+   
     std::normal_distribution<>x;
     std::normal_distribution<>y;
     std::normal_distribution<>z;

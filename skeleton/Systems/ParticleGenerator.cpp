@@ -34,14 +34,14 @@ std::list<Particle*> GausseanParticleGen::generateParticles()
 	//porque la campana de gauss es una distrubicion normal
 	std::list<Particle*>particle;
 	std::default_random_engine eng(rd());
-	float grav = -10;
-	if (!gravity_)grav = 0;
+	
 	for (int i = 0; i < num_particles; i++) {
 		if (distr(eng) < generation_probability) {
 			Vector3 ppos(x(gen), y(gen), z(gen));
 			Vector3 vel(velx(gen), vely(gen), velz(gen));
-			Vector4 color = { float(distr(eng)),float(distr(eng)),float(distr(eng)),1 };
-			Particle* part = new Particle(ppos, vel, { 0,grav,0 }, 0.99, 1.0f, 0.5f,(time(eng)),color);
+			if(random_color)
+			color = { float(distr(eng)),float(distr(eng)),float(distr(eng)),1 };
+			Particle* part = new Particle(ppos, vel, { gravity_.x,gravity_.y,gravity_.x }, 0.99, radius, 0.5f,(time(eng)),color);
 			part->changecolors(false);
 			particle.push_back(part);
 		}
@@ -49,7 +49,7 @@ std::list<Particle*> GausseanParticleGen::generateParticles()
 	}
 	return particle;
 }
-UniformParticleGenerator::UniformParticleGenerator(Vector3 pos, Vector3 vel, Vector3 vel_widht, Vector3 pos_widht, double gen_prob, int num, float seconds)
+UniformParticleGenerator::UniformParticleGenerator(Vector3 pos, Vector3 vel, Vector3 vel_widht, Vector3 pos_widht, double gen_prob, int num, float seconds) 
 {
 	_mean_pos = pos;
 	_main_vel = vel;
@@ -87,8 +87,10 @@ std::list<Particle*> UniformParticleGenerator::generateParticles()
 		if (distr(eng) < generation_probability) {
 			Vector3 ppos(x(gen), y(gen), z(gen));
 			Vector3 vel(velx(gen), vely(gen), velz(gen));
-			Vector4 color = {0,0.7,0.8,1 };
-			Particle* part = new Particle(ppos, vel, { 0,-10,0 }, 0.99,0.1f, 0.5f, (time(eng)), color);
+			if (random_color)
+				color = { float(distr(eng)),float(distr(eng)),float(distr(eng)),1 };
+		
+			Particle* part = new Particle(ppos, vel, { gravity_.x,gravity_.y,gravity_.z }, 0.99, radius, 0.5f, (time(eng)), color);
 			part->changecolors(false);
 			particle.push_back(part);
 		}
