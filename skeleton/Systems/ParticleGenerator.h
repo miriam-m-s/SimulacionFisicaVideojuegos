@@ -8,7 +8,10 @@ class ParticleGenerator
 {
 public:
     ParticleGenerator():gravity_(0, -10, 0), random_color(false), color(0, 0.7, 0.8, 0.4) {};
-    
+    ~ParticleGenerator() {
+        if(_model=nullptr)
+        delete _model;
+    }
 	virtual std::list<Particle*>generateParticles()=0;
     void setGravity(Vector3 grav) {
         gravity_ = grav;
@@ -22,10 +25,20 @@ public:
     void setRadius(float r) {
         radius = r;
     }
+    void setchangecolor(bool s) {
+        changecolor = s;
+    }
+    void setfuego(bool s) {
+        changecolor = s;
+        fuego = s;
+    }
+    void setPos(Vector3 pos) {
+        _mean_pos = pos;
+    }
 protected:
     Vector4 color;
     Vector3 gravity_;
-    bool random_color;
+    bool random_color=false;
     float radius = 1.0f;
     Vector3 _mean_pos;
     Vector3 _main_vel;
@@ -33,10 +46,12 @@ protected:
     double generation_probability;
     int num_particles;
     std::string name;
-    Particle* _model;
+    Particle* _model=nullptr;
     std::random_device rd{};
     std::mt19937 gen{ rd() };
     double tiempo;
+    bool changecolor=false;
+    bool fuego=false;
 
 };
 
@@ -45,6 +60,7 @@ class GausseanParticleGen :public ParticleGenerator
     public:
     GausseanParticleGen() {}
     GausseanParticleGen(Vector3 pos, Vector3 vel, Vector3 dev_pos, Vector3 dev_vel,double gen_prob,int num,float seconds);
+    GausseanParticleGen(Particle* partmodel,Vector3 pos, Vector3 vel, Vector3 dev_pos, Vector3 dev_vel, double gen_prob, int num);
     virtual std::list<Particle*>generateParticles();
    
 
@@ -64,6 +80,7 @@ class UniformParticleGenerator :public ParticleGenerator
 {
 public:
     UniformParticleGenerator() {}
+    UniformParticleGenerator(Vector3 pos, Vector3 vel, Particle* partmodel, Vector3 vel_widht, Vector3 pos_widht, double gen_prob, int num);
     UniformParticleGenerator(Vector3 pos, Vector3 vel,Vector3 vel_widht, Vector3 pos_widht, double gen_prob, int num, float seconds);
     virtual std::list<Particle*>generateParticles();
 protected:

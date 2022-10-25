@@ -56,6 +56,7 @@ void initPhysics(bool interactive)
 	sceneDesc.simulationEventCallback = &gContactReportCallback;
 	gScene = gPhysics->createScene(sceneDesc);
 	part_system = new ParticleSys();
+	part_system->generateFireWorkSystem();
 	//part = new Proyectil(TipoBalas::Bala,{0,20,0},{0,0,-1});
 	
 }
@@ -132,6 +133,9 @@ void keyPress(unsigned char key, const PxTransform& camera)
 		break;
 	case '3':
 		changebalas = TipoBalas::Laser;
+		break;
+	case 'F':
+		part_system->shootFireWork(0);
 		break;
 	//case ' ':	break;
 	case ' ':

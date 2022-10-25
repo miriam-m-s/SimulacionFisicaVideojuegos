@@ -14,6 +14,7 @@
     <ClCompile Include="Objetos\Proyectil.cpp" />
     <ClCompile Include="Systems\ParticleSys.cpp" />
     <ClCompile Include="Systems\ParticleGenerator.cpp" />
+    <ClCompile Include="Objetos\Firework.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.hpp" />
@@ -29,6 +30,7 @@
     <ClInclude Include="Objetos\Proyectil.h" />
     <ClInclude Include="Systems\ParticleSys.h" />
     <ClInclude Include="Systems\ParticleGenerator.h" />
+    <ClInclude Include="Objetos\Firework.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Render">

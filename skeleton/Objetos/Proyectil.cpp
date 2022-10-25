@@ -5,7 +5,7 @@ Proyectil::Proyectil(Vector3 Pos, Vector3 Vel, Vector3 acel, float dampin,float 
 
 }
 void Proyectil::partlifetime() {
-	if (glutGet(GLUT_ELAPSED_TIME) > startime + livetime_ * 1000 || pose.p.y < 0.0f) {
+	if (restavida_<=0 || pose.p.y < 0.0f) {
 		alive = false;
 	}
 }
@@ -40,7 +40,7 @@ Proyectil::Proyectil(TipoBalas s, Vector3 Pos, Vector3 dir)
 		break;
 	}
 	setpartcle(Pos, dir.getNormalized() * speed, { 0,grav,0 }, 0.99, radius, 5.0f,5);
-	startime = glutGet(GLUT_ELAPSED_TIME);
+	restavida_ = 5;
 }
 
 
