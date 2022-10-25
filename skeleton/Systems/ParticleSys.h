@@ -5,7 +5,7 @@
 #include <vector>
 #include "ParticleGenerator.h"
 enum TipoParticles {
-	Fuego, Cascada, Explosion,Purpurina,Polvo,Poder,Fireworks
+	Fuego, Cascada, Explosion,Purpurina,Polvo,Poder,Portal,Esphere
 };
 class ParticleSys
 {
@@ -13,6 +13,8 @@ public:
 	ParticleSys();
 	~ParticleSys();
 	void update(double t);
+	void deletecurrentgenerators();
+	void creategenerator(TipoParticles s);
 	ParticleGenerator* getPartcleGenerator(std::string name);
 	void generateFireWorkSystem();
 	void shootFireWork(int type);
@@ -38,5 +40,8 @@ public:
 private:
 	GausseanParticleGen* partgaus=nullptr;
 	UniformParticleGenerator* unigen = nullptr;
+	CircleGenerator* circle = nullptr;
+	SphereGenerator* sphere = nullptr;
+	HeartGen* heart=nullptr;
 	TipoParticles partenum;
 };

@@ -1,4 +1,5 @@
 #include "ParticleGenerator.h"
+#include "../Objetos/Firework.h"
 
 
 GausseanParticleGen::GausseanParticleGen(Vector3 pos, Vector3 vel, Vector3 dev_pos, Vector3 dev_vel, double gen_prob, int num, float seconds)
@@ -11,7 +12,7 @@ GausseanParticleGen::GausseanParticleGen(Vector3 pos, Vector3 vel, Vector3 dev_p
 	num_particles = num;
 	tiempo = seconds;
 	color = { 0.6,0.7,0,1 };
-	std::list<Particle*>particle;
+
 	x = std::normal_distribution<>{ _mean_pos.x,std_dev_pos.x };
 	y = std::normal_distribution<>{ _mean_pos.y,std_dev_pos.y };
 	z = std::normal_distribution<>{ _mean_pos.z,std_dev_pos.z };
@@ -31,7 +32,7 @@ GausseanParticleGen::GausseanParticleGen(Vector3 pos, Vector3 vel, Vector3 dev_p
 
 GausseanParticleGen::GausseanParticleGen(Particle* partmodel, Vector3 pos, Vector3 vel, Vector3 dev_pos, Vector3 dev_vel, double gen_prob, int num)
 {
-	_model = partmodel->clone();
+	_model = partmodel;
 	_mean_pos = pos;
 	_main_vel = vel;
 	std_dev_pos = dev_pos;
@@ -40,7 +41,7 @@ GausseanParticleGen::GausseanParticleGen(Particle* partmodel, Vector3 pos, Vecto
 	num_particles = num;
 	radius = _model->getradius();
 	color = { 0.6,0.7,0,1 };
-	std::list<Particle*>particle;
+
 	x = std::normal_distribution<>{ _mean_pos.x,std_dev_pos.x };
 	y = std::normal_distribution<>{ _mean_pos.y,std_dev_pos.y };
 	z = std::normal_distribution<>{ _mean_pos.z,std_dev_pos.z };
@@ -65,26 +66,42 @@ std::list<Particle*> GausseanParticleGen::generateParticles()
 
 	for (int i = 0; i < num_particles; i++) {
 		if (distr(eng) < generation_probability) {
-			Vector3 ppos(x(gen), y(gen), z(gen));
+			Vector3 ppos;
+			if (changepos) {
+				ppos = _mean_pos;
+			}
+			else ppos = Vector3(x(gen), y(gen), z(gen));
 			Vector3 vel(velx(gen), vely(gen), velz(gen));
 			if (random_color)
-				color = { float(distr(eng)),float(distr(eng)),float(distr(eng)),1 };
-			Particle* part;
-			if (_model != nullptr) {
-				part = new Particle(_mean_pos, vel, { gravity_.x,gravity_.y,gravity_.x }, _model->getdamp(), radius, 0.5f, _model->gettime(), _model->getcolor(),true);
+				color = { float(distr(eng)),float(distr(eng)),float(distr(eng)),1 };		
+			Particle* part = nullptr;
+			Firework* fire1 = nullptr;
+			if (_model == nullptr) {
+				part = new Particle(ppos, vel, { gravity_.x,gravity_.y,gravity_.z }, 0.99, radius, 0.5f, (time(eng)), color, true);
 			}
 			else {
-				 part = new Particle(ppos, vel, { gravity_.x,gravity_.y,gravity_.x }, 0.99, radius, 0.5f, (time(eng)), color,true);
+				Firework* fire = dynamic_cast<Firework*>(_model);
+				if (fire != nullptr) {
+					fire1 = new Firework(ppos, vel, _model->getgravity(), _model->getdamp(), radius, 0.5, _model->gettime(), _model->getcolor(), true);
+					fire1->setgenerators(fire->getGenerators());
+					particle.push_back(fire1);
+				}
+				else
+					part = new Particle(ppos, vel, _model->getgravity(), _model->getdamp(), radius, 0.5, _model->gettime(), _model->getcolor(), true);
+
+			}
+			if (part != nullptr) {
+				if (changecolor) {
+					part->changecolors(true);
+					if (fuego) {
+						part->colorfuego(true);
+					}
+				}
+				else part->changecolors(false);
+				particle.push_back(part);
+				
 			}
 			
-			if (changecolor) {
-				part->changecolors(true);
-				if (fuego) {
-					part->colorfuego(true);
-				}
-			}	
-			else part->changecolors(false);
-			particle.push_back(part);
 		}
 
 	}
@@ -92,7 +109,7 @@ std::list<Particle*> GausseanParticleGen::generateParticles()
 }
 UniformParticleGenerator::UniformParticleGenerator(Vector3 pos, Vector3 vel,Particle* partmodel, Vector3 vel_widht, Vector3 pos_widht, double gen_prob, int num)
 {
-	_model =partmodel->clone();
+	_model =partmodel;
 	_mean_pos = pos;
 	_main_vel = vel;
 	_vel_width = vel_widht;
@@ -156,22 +173,184 @@ std::list<Particle*> UniformParticleGenerator::generateParticles()
 
 	for (int i = 0; i < num_particles; i++) {
 		if (distr(eng) < generation_probability) {
-			Vector3 ppos(x(gen), y(gen), z(gen));
+			
+			Vector3 ppos;
+			if (changepos)ppos = _mean_pos;
+			else ppos= Vector3(x(gen), y(gen), z(gen));
 			Vector3 vel(velx(gen), vely(gen), velz(gen));
-			if (random_color)
-				color = { float(distr(eng)),float(distr(eng)),float(distr(eng)),1 };
-			Particle* part;
+			if (random_color)color = { float(distr(eng)),float(distr(eng)),float(distr(eng)),1 };
+				
+			Particle* part=nullptr;
+			Firework* fire1 = nullptr;
 			if (_model == nullptr) {
 				part = new Particle(ppos, vel, { gravity_.x,gravity_.y,gravity_.z }, 0.99, radius, 0.5f, (time(eng)), color,true);
 			}
 			else {
+				auto fire = dynamic_cast<Firework*>(_model);
+				if (fire != nullptr) {
+					fire1= new Firework(ppos, vel, _model->getgravity(), _model->getdamp(), _model->getradius(), 0.5, _model->gettime(), _model->getcolor(), true);
+					fire1->setgenerators(fire->getGenerators());
+					particle.push_back(fire1);
+				}
+				else
 				part = new Particle(ppos, vel, _model->getgravity(), _model->getdamp(), _model->getradius(), 0.5, _model->gettime(), _model->getcolor(),true);
 				
 			}
-			//part->changecolors(true);
-			part->changecolors(false);
-			particle.push_back(part);
+			if (part != nullptr) {
+				if (changecolor) {
+					part->changecolors(true);
+					if (fuego) {
+						part->colorfuego(true);
+					}
+				}
+				else part->changecolors(false);
+				particle.push_back(part);
+
+			}
+			
 		}
+
+	}
+	return particle;
+}
+CircleGenerator::CircleGenerator( int vel, int num, Particle* model) {
+	_mean_pos = model->getpos();
+	num_particles = num;
+	_model = model;
+}
+std::list<Particle*> CircleGenerator::generateParticles() {
+
+	std::uniform_real_distribution<double>distr = std::uniform_real_distribution<double>(0,360.0);
+	std::default_random_engine eng(rd());
+	float angle = distr(eng);
+	
+	
+
+	
+	std::list<Particle*>particle;
+	for (int i = 0; i < num_particles; i++) {
+	
+		Particle* part2 = nullptr;
+		Firework* fire = nullptr;
+		Firework* fire1 = dynamic_cast<Firework*>(_model);
+	
+		
+			if (fire1 == nullptr) {
+				part2 = new Particle(_mean_pos, { cos(angle)*vel,  sin(angle)*vel, 0}, _model->getgravity(), _model->getdamp(), 0.5,_model->getradius(), _model->gettime(), _model->getcolor(), true);
+				particle.push_back(part2);
+				if (changecolor) {
+					part2->changecolors(true);
+					if (fuego) {
+						part2->colorfuego(true);
+					}
+				}
+				else part2->changecolors(false);
+			}
+			else {
+				fire = new Firework(_mean_pos, { cos(angle) * vel,sin(angle) * vel,0 }, fire1->getgravity(), fire1->getdamp(), fire1->getradius(), 0.5, fire1->gettime(), fire1->getcolor(), true);
+				particle.push_back(part2);
+				fire1->setgenerators(fire->getGenerators());
+				particle.push_back(fire1);
+			}
+		
+		
+		angle += (360.0f / float(num_particles));
+		
+
+	}
+	return particle;
+}
+SphereGenerator::SphereGenerator(int vel, int num, Particle* model) {
+	_mean_pos = model->getpos();
+	num_particles = num;
+	_model = model;
+}
+std::list<Particle*> SphereGenerator::generateParticles() {
+
+	std::uniform_real_distribution<double>distr = std::uniform_real_distribution<double>(0, 360.0);
+	std::default_random_engine eng(rd());
+	float angle = distr(eng);
+	float angle2 = distr(eng);
+
+
+
+	std::list<Particle*>particle;
+	for (int i = 0; i < num_particles; i++) {
+
+		Particle* part2 = nullptr;
+		Firework* fire = nullptr;
+		Firework* fire1 = dynamic_cast<Firework*>(_model);
+
+
+		if (fire1 == nullptr) {
+			part2 = new Particle(_mean_pos, { sin(angle2) * cos(angle) * vel, sin(angle2) * sin(angle) * vel, cos(angle2) * vel }, _model->getgravity(), _model->getdamp(), 0.5, _model->getradius(), _model->gettime(), _model->getcolor(), true);
+			particle.push_back(part2);
+			if (changecolor) {
+				part2->changecolors(true);
+				if (fuego) {
+					part2->colorfuego(true);
+				}
+			}
+			else part2->changecolors(false);
+		}
+		else {
+			fire = new Firework(_mean_pos, { cos(angle) * vel,sin(angle) * vel,0 }, fire1->getgravity(), fire1->getdamp(), fire1->getradius(), 0.5, fire1->gettime(), fire1->getcolor(), true);
+			particle.push_back(part2);
+			fire1->setgenerators(fire->getGenerators());
+			particle.push_back(fire1);
+		}
+
+
+		angle += (360.0f / float(num_particles));
+		angle2 += (180.0f / float(num_particles));
+
+	}
+	return particle;
+}
+
+HeartGen::HeartGen(int vel, int num, Particle* model) {
+	_mean_pos = model->getpos();
+	num_particles = num;
+	_model = model;
+}
+std::list<Particle*> HeartGen::generateParticles() {
+
+	std::uniform_real_distribution<double>distr = std::uniform_real_distribution<double>(0, 360.0);
+	std::default_random_engine eng(rd());
+	float angle = -180.0;
+	float angle2 = 0.0;
+
+
+
+	std::list<Particle*>particle;
+	for (int i = 0; i < num_particles; i++) {
+
+		Particle* part2 = nullptr;
+		Firework* fire = nullptr;
+		Firework* fire1 = dynamic_cast<Firework*>(_model);
+
+
+		if (fire1 == nullptr) {
+			part2 = new Particle({ sin(angle2)*(15*sin(angle)-(4*sin(3*angle))), 8*(cos(angle2)), sin(angle2)*(15*cos(angle)-5*cos(2*angle)-2*cos(3*angle)-cos(2*angle))}, _mean_pos, _model->getgravity(), _model->getdamp(), 0.5, _model->getradius(), _model->gettime(), _model->getcolor(), true);
+			particle.push_back(part2);
+			if (changecolor) {
+				part2->changecolors(true);
+				if (fuego) {
+					part2->colorfuego(true);
+				}
+			}
+			else part2->changecolors(false);
+		}
+		else {
+			fire = new Firework(_mean_pos, { cos(angle) * vel,sin(angle) * vel,0 }, fire1->getgravity(), fire1->getdamp(), fire1->getradius(), 0.5, fire1->gettime(), fire1->getcolor(), true);
+			particle.push_back(part2);
+			fire1->setgenerators(fire->getGenerators());
+			particle.push_back(fire1);
+		}
+
+
+		angle += (360.0f / float(num_particles));
+		angle2 += (180.0f / float(num_particles));
 
 	}
 	return particle;

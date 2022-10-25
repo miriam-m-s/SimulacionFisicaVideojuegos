@@ -30,7 +30,7 @@ auto changebalas = TipoBalas::Balacanyon;
 PxDefaultCpuDispatcher*	gDispatcher = NULL;
 PxScene*				gScene      = NULL;
 ContactReportCallback gContactReportCallback;
-
+int changeparticles=0;
 
 // Initialize physics engine
 void initPhysics(bool interactive)
@@ -135,9 +135,18 @@ void keyPress(unsigned char key, const PxTransform& camera)
 		changebalas = TipoBalas::Laser;
 		break;
 	case 'F':
-		part_system->shootFireWork(0);
+		part_system->shootFireWork(1);
 		break;
-	//case ' ':	break;
+	case 'X':
+		part_system->deletecurrentgenerators();
+		break;
+	case 'Q':
+		part_system->creategenerator(TipoParticles::Esphere);
+		changeparticles++;
+		if (changeparticles >=8) {
+			changeparticles = 0;
+		}
+		break;
 	case ' ':
 	{
 		break;

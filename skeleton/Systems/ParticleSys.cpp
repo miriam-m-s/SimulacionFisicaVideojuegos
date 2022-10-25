@@ -2,15 +2,16 @@
 
 ParticleSys::ParticleSys()
 {
-	TypeParticles tipo(TipoParticles::Cascada);
 	
-	particle_generators.push_back(tipo.getparticles());
 }
 
 ParticleSys::~ParticleSys()
 {
 	for (auto gpart : particle_generators) {
 		delete gpart;
+	}
+	for (auto part : particles) {
+		delete part;
 	}
 }
 
@@ -54,6 +55,22 @@ void ParticleSys::update(double t)
 		
 	}
 }
+void ParticleSys::deletecurrentgenerators()
+{
+	for (auto gpart : particle_generators) {
+		delete gpart;
+	}
+	particle_generators.resize(0);
+	for (auto part : particles) {
+		delete part;
+	}
+	particles.resize(0);
+}
+void ParticleSys::creategenerator(TipoParticles s)
+{
+	TypeParticles tipo(s);
+	particle_generators.push_back(tipo.getparticles());
+}
 ParticleGenerator* ParticleSys::getPartcleGenerator(std::string name)
 {
 	return nullptr;
@@ -63,15 +80,36 @@ void ParticleSys::generateFireWorkSystem()
 	//firework1
 	Particle*model= new Particle({ 0,0,0 }, { 0,100,0 }, { 0, 10,0 }, 0.99f, 1, 0.5, 1, { 1,0,1,1 },false);
 	Firework* fire = new Firework({ 0,0,0 }, { 0,1,0 }, {0,100,0 }, 0.99f, 1, 0.5, 1, { 1,0,1,1 },false);
-	/*TypeParticles tipo(TipoParticles::Explosion);*/
+	
 	shared_ptr<ParticleGenerator> gener(new GausseanParticleGen(model, { 0,0,0 }, { 0,0,0 }, { 0.1,0.1,0.1 }, { 10,10,10 }, 1, 30));
 	fire->addgenerator(gener);
 	_fireworks_pool.push_back(fire);
+
+	Particle* model1 = new Particle({ 0,0,0 }, { 0,100,0 }, { 0, 10,0 }, 0.99f, 1, 0.5, 1, { 0,1,1,1 }, false);
+	shared_ptr<ParticleGenerator> gener3(new GausseanParticleGen(model1, { 0,0,0 }, { 0,0,0 }, { 0.1,0.1,0.1 }, { 3,3,3 }, 1, 5));
+	Firework* fire2 = new Firework({ 0,0,0 }, { 0,100,0 }, { 0,0,0 }, 0.99f, 1, 0.5, 1, { 0,1,1,1 }, false);
+	fire2->addgenerator(gener3);
+	//PAPA
+	Firework* fire1 = new Firework({ 0,0,0 }, { 0,50,0 }, { 0,-10,0 }, 0.99f, 1, 0.5, 1, { 0,1,1,1 }, false);
+	/*TypeParticles tipo(TipoParticles::Explosion);*/
+	auto gauss = new GausseanParticleGen(fire2, { 0,0,0 }, { 0,0,0 }, { 0.1,0.1,0.1 }, { 10,10,10 }, 1, 30);	
+	shared_ptr<ParticleGenerator> gener2(gauss);
+	fire1->addgenerator(gener2);
+	_fireworks_pool.push_back(fire1);
 	
 }
 void ParticleSys::shootFireWork(int type)
 {
-	particles.push_back(_fireworks_pool[0]->clone());
+	switch (type) {
+	case 0:
+		particles.push_back(_fireworks_pool[0]->clone());
+		break;
+	case 1:
+		particles.push_back(_fireworks_pool[1]->clone());
+		break;
+	}
+
+	
 }
 TypeParticles::TypeParticles(TipoParticles par):partenum(par) {
 	Camera* camera = GetCamera();
@@ -103,19 +141,29 @@ TypeParticles::TypeParticles(TipoParticles par):partenum(par) {
 		unigen->setRadius(0.1f);
 		break;
 	case Polvo:
-		part = new Particle({ 0,50,0 }, { 0,1,0 }, { 0, 0,0 }, 0.99f, 0.1, 0.5, 8, { 0.6,0.6,0.6,0 },true);
+		part = new Particle({ 0,50,0 }, { 0,1,0 }, { 0, 0,0 }, 0.99f, 0.1, 0.5, 8, { 0.6,0.6,0.6,0 },false);
 		unigen = new UniformParticleGenerator({ 0,50,0 }, { 0,0,0 }, part, { 3,3,3 }, { 100,100,100 }, 0.8, 50);
 		break;
 	case Poder:
-		part = new Particle({ 0,50,0 }, { 100,0,0 }, { 0, 0,0 }, 0.99f, 0.4, 0.5,1, { 1,1.0,1,1 },true);
+		part = new Particle({ 0,50,0 }, { 100,0,0 }, { 0, 0,0 }, 0.99f, 0.4, 0.5,1, { 1,1.0,1,1 },false);
 		partgaus = new GausseanParticleGen(part,part->getpos(), part->getvel(), {3,3,3}, {10,10,0.1}, 0.8, 10);
 		partgaus->setfuego(true);
 		partgaus->setGravity(part->getgravity());
+		 
 		break;
-	case Fireworks:
-		 fire= new Firework({ 0,50,0 }, { 0,1,0 }, { 100, 0,0 }, 0.99f, 0.4, 0.5, 1, { 1,1.0,1,1 },false);
-		partgaus = new GausseanParticleGen(fire, { 0,50,0 }, { 0,0,0 }, { 3,3,3 }, { 10,0.1,0.1 }, 0.8, 10);
+	case Portal:
+		part = new Particle({ 0,50,0 }, { 0,0,0 }, { 0,0,0 }, 0.99, 0.1, 3, 3, { 0.5,1,0.5,1 }, false);
+
+		circle = new CircleGenerator(2,30, part);
+		circle->setfuego(true);
 		break;
+	case Esphere:
+		part = new Particle({ 0,0,0 }, { 0,0,0 }, { 0,0,0 }, 0.99, 0.1, 3, 1, { 0.5,1,0.5,1 }, false);
+
+		heart = new HeartGen(2, 330, part);
+		//sphere->setfuego(true);
+		break;
+	
 	default:
 		break;
 	}
@@ -140,6 +188,12 @@ ParticleGenerator*  TypeParticles:: getparticles() {
 		break;
 	case Poder:
 		return partgaus;
+		break;
+	case Portal:
+		return circle;
+		break;
+	case Esphere:
+		return heart;
 		break;
 	default:
 		break;

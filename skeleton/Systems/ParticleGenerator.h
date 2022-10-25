@@ -34,8 +34,10 @@ public:
     }
     void setPos(Vector3 pos) {
         _mean_pos = pos;
+        changepos = true;
     }
 protected:
+    bool changepos = false;
     Vector4 color;
     Vector3 gravity_;
     bool random_color=false;
@@ -59,6 +61,7 @@ class GausseanParticleGen :public ParticleGenerator
 {
     public:
     GausseanParticleGen() {}
+    ~GausseanParticleGen(){}
     GausseanParticleGen(Vector3 pos, Vector3 vel, Vector3 dev_pos, Vector3 dev_vel,double gen_prob,int num,float seconds);
     GausseanParticleGen(Particle* partmodel,Vector3 pos, Vector3 vel, Vector3 dev_pos, Vector3 dev_vel, double gen_prob, int num);
     virtual std::list<Particle*>generateParticles();
@@ -80,6 +83,7 @@ class UniformParticleGenerator :public ParticleGenerator
 {
 public:
     UniformParticleGenerator() {}
+    ~UniformParticleGenerator() {}
     UniformParticleGenerator(Vector3 pos, Vector3 vel, Particle* partmodel, Vector3 vel_widht, Vector3 pos_widht, double gen_prob, int num);
     UniformParticleGenerator(Vector3 pos, Vector3 vel,Vector3 vel_widht, Vector3 pos_widht, double gen_prob, int num, float seconds);
     virtual std::list<Particle*>generateParticles();
@@ -94,3 +98,24 @@ protected:
     std::uniform_real_distribution<float>time;
 };
 
+class CircleGenerator:public ParticleGenerator {
+public:
+    CircleGenerator( int vel, int num,Particle*model);
+    virtual std::list<Particle*>generateParticles();
+protected:
+    int vel=10;
+};
+class SphereGenerator :public ParticleGenerator {
+public:
+    SphereGenerator(int vel, int num, Particle* model);
+    virtual std::list<Particle*>generateParticles();
+protected:
+    int vel = 10;
+};
+class HeartGen :public ParticleGenerator {
+public:
+    HeartGen(int vel, int num, Particle* model);
+    virtual std::list<Particle*>generateParticles();
+protected:
+    int vel = 10;
+};

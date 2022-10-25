@@ -16,6 +16,9 @@ public:
 	}
 	list<Particle*>explode();
 	void addgenerator(shared_ptr<ParticleGenerator> partgen);
+	void setgenerators(list<shared_ptr<ParticleGenerator>>gen) {
+		_gens = gen;
+	};
 	list<shared_ptr<ParticleGenerator>>getGenerators() {
 		return _gens;
 	}
