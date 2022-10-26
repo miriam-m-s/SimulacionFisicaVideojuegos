@@ -308,50 +308,50 @@ std::list<Particle*> SphereGenerator::generateParticles() {
 	return particle;
 }
 
-HeartGen::HeartGen(int vel, int num, Particle* model) {
-	_mean_pos = model->getpos();
-	num_particles = num;
-	_model = model;
-}
-std::list<Particle*> HeartGen::generateParticles() {
-
-	std::uniform_real_distribution<double>distr = std::uniform_real_distribution<double>(0, 360.0);
-	std::default_random_engine eng(rd());
-	float angle = -180.0;
-	float angle2 = 0.0;
-
-
-
-	std::list<Particle*>particle;
-	for (int i = 0; i < num_particles; i++) {
-
-		Particle* part2 = nullptr;
-		Firework* fire = nullptr;
-		Firework* fire1 = dynamic_cast<Firework*>(_model);
-
-
-		if (fire1 == nullptr) {
-			part2 = new Particle({ sin(angle2)*(15*sin(angle)-(4*sin(3*angle))), 8*(cos(angle2)), sin(angle2)*(15*cos(angle)-5*cos(2*angle)-2*cos(3*angle)-cos(2*angle))}, _mean_pos, _model->getgravity(), _model->getdamp(), 0.5, _model->getradius(), _model->gettime(), _model->getcolor(), true);
-			particle.push_back(part2);
-			if (changecolor) {
-				part2->changecolors(true);
-				if (fuego) {
-					part2->colorfuego(true);
-				}
-			}
-			else part2->changecolors(false);
-		}
-		else {
-			fire = new Firework(_mean_pos, { cos(angle) * vel,sin(angle) * vel,0 }, fire1->getgravity(), fire1->getdamp(), fire1->getradius(), 0.5, fire1->gettime(), fire1->getcolor(), true);
-			particle.push_back(part2);
-			fire1->setgenerators(fire->getGenerators());
-			particle.push_back(fire1);
-		}
-
-
-		angle += (360.0f / float(num_particles));
-		angle2 += (180.0f / float(num_particles));
-
-	}
-	return particle;
-}
+//HeartGen::HeartGen(int vel, int num, Particle* model) {
+//	//_mean_pos = model->getpos();
+//	//num_particles = num;
+//	//_model = model;
+//}
+//std::list<Particle*> HeartGen::generateParticles() {
+//
+//	/*std::uniform_real_distribution<double>distr = std::uniform_real_distribution<double>(0, 360.0);
+//	std::default_random_engine eng(rd());
+//	float angle = -180.0;
+//	float angle2 = 0.0;
+//
+//
+//
+//	std::list<Particle*>particle;
+//	for (int i = 0; i < num_particles; i++) {
+//
+//		Particle* part2 = nullptr;
+//		Firework* fire = nullptr;
+//		Firework* fire1 = dynamic_cast<Firework*>(_model);
+//
+//
+//		if (fire1 == nullptr) {
+//			part2 = new Particle({ sin(angle2)*(15*sin(angle)-(4*sin(3*angle))), 8*(cos(angle2)), sin(angle2)*(15*cos(angle)-5*cos(2*angle)-2*cos(3*angle)-cos(2*angle))}, _mean_pos, _model->getgravity(), _model->getdamp(), 0.5, _model->getradius(), _model->gettime(), _model->getcolor(), true);
+//			particle.push_back(part2);
+//			if (changecolor) {
+//				part2->changecolors(true);
+//				if (fuego) {
+//					part2->colorfuego(true);
+//				}
+//			}
+//			else part2->changecolors(false);
+//		}
+//		else {
+//			fire = new Firework(_mean_pos, { cos(angle) * vel,sin(angle) * vel,0 }, fire1->getgravity(), fire1->getdamp(), fire1->getradius(), 0.5, fire1->gettime(), fire1->getcolor(), true);
+//			particle.push_back(part2);
+//			fire1->setgenerators(fire->getGenerators());
+//			particle.push_back(fire1);
+//		}
+//
+//
+//		angle += (360.0f / float(num_particles));
+//		angle2 += (180.0f / float(num_particles));
+//
+//	}
+//	return particle;*/
+//}

@@ -112,10 +112,10 @@ public:
 protected:
     int vel = 10;
 };
-class HeartGen :public ParticleGenerator {
-public:
-    HeartGen(int vel, int num, Particle* model);
-    virtual std::list<Particle*>generateParticles();
-protected:
-    int vel = 10;
-};
+//class HeartGen :public ParticleGenerator {
+//public:
+//    HeartGen(int vel, int num, Particle* model);
+//    virtual std::list<Particle*>generateParticles();
+//protected:
+//    int vel = 10;
+//};

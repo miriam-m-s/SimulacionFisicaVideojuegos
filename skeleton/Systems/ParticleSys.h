@@ -42,6 +42,6 @@ private:
 	UniformParticleGenerator* unigen = nullptr;
 	CircleGenerator* circle = nullptr;
 	SphereGenerator* sphere = nullptr;
-	HeartGen* heart=nullptr;
+	/*HeartGen* heart=nullptr;*/
 	TipoParticles partenum;
 };

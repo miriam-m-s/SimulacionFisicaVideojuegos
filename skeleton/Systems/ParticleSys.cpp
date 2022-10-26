@@ -160,7 +160,7 @@ TypeParticles::TypeParticles(TipoParticles par):partenum(par) {
 	case Esphere:
 		part = new Particle({ 0,0,0 }, { 0,0,0 }, { 0,0,0 }, 0.99, 0.1, 3, 1, { 0.5,1,0.5,1 }, false);
 
-		heart = new HeartGen(2, 330, part);
+		sphere = new SphereGenerator(2, 30, part);
 		//sphere->setfuego(true);
 		break;
 	
@@ -193,7 +193,7 @@ ParticleGenerator*  TypeParticles:: getparticles() {
 		return circle;
 		break;
 	case Esphere:
-		return heart;
+		return sphere;
 		break;
 	default:
 		break;
