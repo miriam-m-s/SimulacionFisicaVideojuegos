@@ -22,7 +22,7 @@ std::vector<Proyectil*>bullets;
 PxFoundation*			gFoundation = NULL;
 PxPhysics*				gPhysics	= NULL;
 
-
+int firework = 0;
 PxMaterial*				gMaterial	= NULL;
 ParticleSys* part_system;
 PxPvd*                  gPvd        = NULL;
@@ -135,13 +135,16 @@ void keyPress(unsigned char key, const PxTransform& camera)
 		changebalas = TipoBalas::Laser;
 		break;
 	case 'F':
-		part_system->shootFireWork(1);
+		part_system->shootFireWork(firework);
+		firework++;
+		if (firework > 3)firework = 0;
+
 		break;
 	case 'X':
 		part_system->deletecurrentgenerators();
 		break;
 	case 'Q':
-		part_system->creategenerator(TipoParticles::Esphere);
+		part_system->creategenerator(TipoParticles(changeparticles));
 		changeparticles++;
 		if (changeparticles >=8) {
 			changeparticles = 0;

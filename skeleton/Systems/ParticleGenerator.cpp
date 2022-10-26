@@ -247,10 +247,9 @@ std::list<Particle*> CircleGenerator::generateParticles() {
 				else part2->changecolors(false);
 			}
 			else {
-				fire = new Firework(_mean_pos, { cos(angle) * vel,sin(angle) * vel,0 }, fire1->getgravity(), fire1->getdamp(), fire1->getradius(), 0.5, fire1->gettime(), fire1->getcolor(), true);
-				particle.push_back(part2);
-				fire1->setgenerators(fire->getGenerators());
-				particle.push_back(fire1);
+				fire = new Firework(_mean_pos, { cos(angle) * vel,  sin(angle) * vel, 0 }, _model->getgravity(), _model->getdamp(), 0.5, _model->getradius(), _model->gettime(), _model->getcolor(), true);
+				fire->setgenerators(fire1->getGenerators());
+				particle.push_back(fire);
 			}
 		
 		
@@ -294,10 +293,9 @@ std::list<Particle*> SphereGenerator::generateParticles() {
 			else part2->changecolors(false);
 		}
 		else {
-			fire = new Firework(_mean_pos, { cos(angle) * vel,sin(angle) * vel,0 }, fire1->getgravity(), fire1->getdamp(), fire1->getradius(), 0.5, fire1->gettime(), fire1->getcolor(), true);
-			particle.push_back(part2);
-			fire1->setgenerators(fire->getGenerators());
-			particle.push_back(fire1);
+			fire = new Firework(_mean_pos, { sin(angle2) * cos(angle) * vel, sin(angle2) * sin(angle) * vel, cos(angle2) * vel }, _model->getgravity(), _model->getdamp(), 0.5, _model->getradius(), _model->gettime(), _model->getcolor(), true);
+			fire->setgenerators(fire1->getGenerators());
+			particle.push_back(fire);
 		}
 
 

@@ -96,6 +96,19 @@ void ParticleSys::generateFireWorkSystem()
 	shared_ptr<ParticleGenerator> gener2(gauss);
 	fire1->addgenerator(gener2);
 	_fireworks_pool.push_back(fire1);
+
+
+	
+	shared_ptr<ParticleGenerator> gener5(new CircleGenerator(3,40,model1));
+	Firework* fire3 = new Firework({ 0,0,0 }, { 0,100,0 }, { 0,0,0 }, 0.99f, 1, 0.5, 1, { 0,1,1,1 }, false);
+	fire3->addgenerator(gener5);
+	//PAPA
+	Firework* fire4 = new Firework({ 0,0,0 }, { 0,50,0 }, { 0,-10,0 }, 0.99f, 1, 0.5, 1, { 0,1,1,1 }, false);
+	/*TypeParticles tipo(TipoParticles::Explosion);*/
+	auto sphere = new CircleGenerator(10, 40, fire3);
+	shared_ptr<ParticleGenerator> gener4(sphere);
+	fire4->addgenerator(gener4);
+	_fireworks_pool.push_back(fire4);
 	
 }
 void ParticleSys::shootFireWork(int type)
@@ -106,6 +119,9 @@ void ParticleSys::shootFireWork(int type)
 		break;
 	case 1:
 		particles.push_back(_fireworks_pool[1]->clone());
+		break;
+	case 2:
+		particles.push_back(_fireworks_pool[2]->clone());
 		break;
 	}
 
@@ -161,7 +177,7 @@ TypeParticles::TypeParticles(TipoParticles par):partenum(par) {
 		part = new Particle({ 0,0,0 }, { 0,0,0 }, { 0,0,0 }, 0.99, 0.1, 3, 1, { 0.5,1,0.5,1 }, false);
 
 		sphere = new SphereGenerator(2, 30, part);
-		//sphere->setfuego(true);
+		sphere->setfuego(true);
 		break;
 	
 	default:
