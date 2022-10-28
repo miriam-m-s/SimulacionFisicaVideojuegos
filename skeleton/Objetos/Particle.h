@@ -18,6 +18,9 @@ public:
 		return new Particle(pose.p,vel,acel_,damp_,radius,masa_, livetime_,color,visible);
 	}
 	double gettime() { return livetime_; }
+	void clearForce();
+
+	void addForce(const Vector3& f);
 
 	bool active() {
 		return alive;
@@ -60,11 +63,13 @@ protected:
 	float damp_=0;
 	float radius=0;
 	float masa_=0;
+	float inversemasa_=1;
 	bool alive = true;
 	double livetime_;
 	double restavida_;
 	bool changingcolor_=false;
 	bool fuego=false;
 	bool visible=true;
+	Vector3 force;
 };
 
