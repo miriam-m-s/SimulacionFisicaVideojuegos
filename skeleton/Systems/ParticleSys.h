@@ -4,6 +4,10 @@
 #include<list>
 #include <vector>
 #include "ParticleGenerator.h"
+#include"../Force/ForceGenarator.h"
+#include"../Force/GravityForceGenerator.h"
+#include "../Force/ParticleForceRegistry.h"
+
 enum TipoParticles {
 	Fuego, Cascada, Explosion,Purpurina,Polvo,Poder,Portal,Esphere
 };
@@ -26,6 +30,7 @@ protected:
 	Vector3 min_pos;
 	std::vector<Firework*>_fireworks_pool;
 	ParticleGenerator* _firework_gen;
+	ParticleForceRegistry* forceregistry;
 };
 
 
@@ -42,6 +47,8 @@ private:
 	UniformParticleGenerator* unigen = nullptr;
 	CircleGenerator* circle = nullptr;
 	SphereGenerator* sphere = nullptr;
-	/*HeartGen* heart=nullptr;*/
 	TipoParticles partenum;
+
+	GravityForceGenerator* forcegen;
+
 };

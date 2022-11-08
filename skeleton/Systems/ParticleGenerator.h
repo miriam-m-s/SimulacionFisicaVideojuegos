@@ -4,13 +4,18 @@
 #include<string>
 #include <random>
 #include <cmath>
+#include "../Force/ForceGenarator.h"
+#include "../Force/GravityForceGenerator.h"
 class ParticleGenerator
 {
 public:
-    ParticleGenerator():gravity_(0, -10, 0), random_color(false), color(0, 0.7, 0.8, 0.4) {};
+    ParticleGenerator():gravity_(0, 0, 0), random_color(false), color(0, 0.7, 0.8, 0.4) {};
     ~ParticleGenerator() {
-        if(_model=nullptr)
+        if(_model!=nullptr)
         delete _model;
+        if (gravitygen != nullptr) {
+            delete gravitygen;
+        }
     }
 	virtual std::list<Particle*>generateParticles()=0;
     void setGravity(Vector3 grav) {
@@ -36,6 +41,18 @@ public:
         _mean_pos = pos;
         changepos = true;
     }
+    void addForceGenerator(ForceGenerator* force) {
+        GravityForceGenerator* grav= dynamic_cast<GravityForceGenerator*>(force);
+        if (grav != nullptr) {
+            gravitygen = grav;
+        }
+    }
+    ForceGenerator* returnforce() {
+        if (gravitygen != nullptr) {
+            return gravitygen;
+        }
+        return nullptr;
+    }
 protected:
     bool changepos = false;
     Vector4 color;
@@ -54,6 +71,8 @@ protected:
     double tiempo;
     bool changecolor=false;
     bool fuego=false;
+    GravityForceGenerator* gravitygen=nullptr;
+    float mass = 5;
 
 };
 
@@ -62,7 +81,7 @@ class GausseanParticleGen :public ParticleGenerator
     public:
     GausseanParticleGen() {}
     ~GausseanParticleGen(){}
-    GausseanParticleGen(Vector3 pos, Vector3 vel, Vector3 dev_pos, Vector3 dev_vel,double gen_prob,int num,float seconds);
+    GausseanParticleGen(Vector3 pos, Vector3 vel, Vector3 dev_pos, Vector3 dev_vel,double gen_prob,int num,float seconds,float mass=5);
     GausseanParticleGen(Particle* partmodel,Vector3 pos, Vector3 vel, Vector3 dev_pos, Vector3 dev_vel, double gen_prob, int num);
     virtual std::list<Particle*>generateParticles();
    
@@ -84,7 +103,7 @@ class UniformParticleGenerator :public ParticleGenerator
 public:
     UniformParticleGenerator() {}
     ~UniformParticleGenerator() {}
-    UniformParticleGenerator(Vector3 pos, Vector3 vel, Particle* partmodel, Vector3 vel_widht, Vector3 pos_widht, double gen_prob, int num);
+    UniformParticleGenerator(Vector3 pos, Vector3 vel, Particle* partmodel, Vector3 vel_widht, Vector3 pos_widht, double gen_prob, int num,float mass_=5);
     UniformParticleGenerator(Vector3 pos, Vector3 vel,Vector3 vel_widht, Vector3 pos_widht, double gen_prob, int num, float seconds);
     virtual std::list<Particle*>generateParticles();
 protected:

@@ -21,5 +21,10 @@ class ParticleForceRegistry:public std::multimap<ForceGenerator*,Particle*>
 				else it++;
 			}
 		}
+		void deleteforce() {
+			for (auto it = begin(); it != end(); ) {
+					it = erase(it);
+			}
+		}
 };
 

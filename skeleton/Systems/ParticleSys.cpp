@@ -2,7 +2,7 @@
 
 ParticleSys::ParticleSys()
 {
-	
+	forceregistry = new ParticleForceRegistry();
 }
 
 ParticleSys::~ParticleSys()
@@ -13,14 +13,21 @@ ParticleSys::~ParticleSys()
 	for (auto part : particles) {
 		delete part;
 	}
+	forceregistry->deleteforce();
+	delete forceregistry;
 }
 
 void ParticleSys::update(double t)
 {
 	for (auto gpart : particle_generators) {
 		std::list<Particle*>aux = gpart->generateParticles();
+		ForceGenerator* force= gpart->returnforce();
+		GravityForceGenerator* grav = dynamic_cast<GravityForceGenerator*>(force);
 		for (auto il = aux.begin(); il != aux.end(); ++il) {
 			particles.push_back(*il);
+			if (grav != nullptr) {
+				forceregistry->addRegistry(grav,*il);
+			}
 		}
 	}
 	for (std::list<Particle*>::iterator il = particles.begin(); il != particles.end(); ) {
@@ -33,9 +40,12 @@ void ParticleSys::update(double t)
 			}
 			else {
 				auto l = particle;
+				forceregistry->deleteParticleRegistry(l);
+			
 				delete l;
 				l = nullptr;
 				il = particles.erase(il);
+				
 			}
 		}
 		else {
@@ -54,6 +64,7 @@ void ParticleSys::update(double t)
 		}
 		
 	}
+	forceregistry->updateForces(t);
 }
 void ParticleSys::deletecurrentgenerators()
 {
@@ -63,13 +74,16 @@ void ParticleSys::deletecurrentgenerators()
 	particle_generators.resize(0);
 	for (auto part : particles) {
 		delete part;
+		
 	}
+	forceregistry->deleteforce();
 	particles.resize(0);
 }
 void ParticleSys::creategenerator(TipoParticles s)
 {
 	TypeParticles tipo(s);
 	particle_generators.push_back(tipo.getparticles());
+
 }
 ParticleGenerator* ParticleSys::getPartcleGenerator(std::string name)
 {
@@ -134,18 +148,21 @@ TypeParticles::TypeParticles(TipoParticles par):partenum(par) {
 	switch (par)
 	{
 	case Fuego:
+		forcegen = new GravityForceGenerator({ 100,-10,0 });
 		partgaus=new GausseanParticleGen(Vector3(0, 20, 0), { 0,0,0 },
 		Vector3(3, 2, 1), Vector3(0.3, 0.1, 0.1), 0.4, 200, 3);
 		partgaus->setGravity({ 0,5,0 });
 		partgaus->setColor({ 1,1,0,0.5f });
 		partgaus->setfuego(true);
 		partgaus->setRadius(0.1f);
+		partgaus->addForceGenerator(forcegen);
 
 		break;
 	case Cascada:
-		 
+		forcegen = new GravityForceGenerator({ 0,-10,0 });
 		partgaus = new GausseanParticleGen(Vector3(15, 40, 0), camera->getDir() * (-10),
-			Vector3(0.1, 0.1, 10), Vector3(0.1, 0.1, 0.1), 0.8, 1, 10);
+			Vector3(0.1, 0.1, 10), Vector3(0.1, 0.1, 0.1), 0.8, 1, 10,1);
+		partgaus->addForceGenerator(forcegen);
 
 		break;
 	case Explosion:

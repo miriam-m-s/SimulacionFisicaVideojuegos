@@ -144,7 +144,7 @@ void keyPress(unsigned char key, const PxTransform& camera)
 		part_system->deletecurrentgenerators();
 		break;
 	case 'Q':
-		part_system->creategenerator(TipoParticles(changeparticles));
+		part_system->creategenerator(TipoParticles(1));
 		changeparticles++;
 		if (changeparticles >=8) {
 			changeparticles = 0;

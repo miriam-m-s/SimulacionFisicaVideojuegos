@@ -47,9 +47,9 @@ void Particle::partlifetime() {
 
 void Particle::integrate(double t)
 {
-	if ((1/masa_) <= 0.0f) return;
+	if ((inversemasa_) <= 0.0f) return;
 	pose.p = pose.p + vel * t;
-	vel = vel * pow(damp_, t) + acel_ * t;
+	
 
 	cambiarcolor();
 	restavida_ -= t;
@@ -58,10 +58,7 @@ void Particle::integrate(double t)
 	Vector3 totalAcceleration = acel_;
 	totalAcceleration += force * inversemasa_;
 	// Update linear
-	vel += totalAcceleration * t;
-
-	// Impose drag  (damping)
-	vel *= powf(damp_, t);
+	vel = vel * pow(damp_, t) + totalAcceleration * t;
 	clearForce();
 
 }
