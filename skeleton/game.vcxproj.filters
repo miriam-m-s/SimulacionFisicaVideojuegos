@@ -17,6 +17,8 @@
     <ClCompile Include="Objetos\Firework.cpp" />
     <ClCompile Include="Force\GravityForceGenerator.cpp" />
     <ClCompile Include="Force\ForceGenarator.cpp" />
+    <ClCompile Include="Force\ParticleForceRegistry.cpp" />
+    <ClCompile Include="Force\ParticleDragGenerator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.hpp" />
@@ -35,6 +37,8 @@
     <ClInclude Include="Objetos\Firework.h" />
     <ClInclude Include="Force\GravityForceGenerator.h" />
     <ClInclude Include="Force\ForceGenarator.h" />
+    <ClInclude Include="Force\ParticleForceRegistry.h" />
+    <ClInclude Include="Force\ParticleDragGenerator.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Render">

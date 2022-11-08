@@ -260,6 +260,8 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Objetos\Particle.cpp" />
     <ClCompile Include="Objetos\Proyectil.cpp" />
+    <ClCompile Include="Force\ParticleForceRegistry.cpp" />
+    <ClCompile Include="Force\ParticleDragGenerator.cpp" />
     <ClCompile Include="Systems\ParticleGenerator.cpp" />
     <ClCompile Include="Systems\ParticleSys.cpp" />
     <ClCompile Include="RenderUtils.cpp" />
@@ -274,6 +276,8 @@
     <ClInclude Include="Objetos\Firework.h" />
     <ClInclude Include="Objetos\Particle.h" />
     <ClInclude Include="Objetos\Proyectil.h" />
+    <ClInclude Include="Force\ParticleForceRegistry.h" />
+    <ClInclude Include="Force\ParticleDragGenerator.h" />
     <ClInclude Include="Systems\ParticleGenerator.h" />
     <ClInclude Include="Systems\ParticleSys.h" />
     <ClInclude Include="RenderUtils.hpp" />

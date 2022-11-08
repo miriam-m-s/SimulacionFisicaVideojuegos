@@ -14,6 +14,9 @@ Particle::Particle(Vector3 Pos, Vector3 Vel, Vector3 acel, float dampin, float r
 		inversemasa_ = (1 / masa_);
 	}
 }
+void Particle::addForce(const Vector3& f) {
+	force += f; 
+}
 
 Particle::~Particle()
 {
@@ -65,11 +68,10 @@ void Particle::integrate(double t)
 
 void Particle::clearForce()
 {
+	force *= 0;
 }
 
-void Particle::addForce(const Vector3& f)
-{
-}
+
 
 void Particle::cambiarcolor()
 {

@@ -49,6 +49,13 @@ public:
 	void colorfuego(bool s) {
 		fuego = s;
 	}
+	float inv_mass() {
+		return inversemasa_;
+	}
+	float mass() {
+		return masa_;
+	}
+
 protected:
 	virtual void partlifetime();
 	void cambiarcolor();
@@ -70,6 +77,6 @@ protected:
 	bool changingcolor_=false;
 	bool fuego=false;
 	bool visible=true;
-	Vector3 force;
+	Vector3 force={0,0,0};
 };
 
