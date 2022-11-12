@@ -6,6 +6,8 @@
 #include <cmath>
 #include "../Force/ForceGenarator.h"
 #include "../Force/GravityForceGenerator.h"
+#include "../Force/ParticleDragGenerator.h"
+using namespace std;
 class ParticleGenerator
 {
 public:
@@ -41,17 +43,28 @@ public:
         _mean_pos = pos;
         changepos = true;
     }
-    void addForceGenerator(ForceGenerator* force) {
+    int addForceGenerator(ForceGenerator* force) {
         GravityForceGenerator* grav= dynamic_cast<GravityForceGenerator*>(force);
         if (grav != nullptr) {
             gravitygen = grav;
+            return -1;
         }
+        WindGenerator* wind = dynamic_cast<WindGenerator*>(force);
+        if (wind != nullptr) {
+            windgen = wind;
+            return -1;
+        }
+        return 0;
     }
-    ForceGenerator* returnforce() {
+    std::vector<ForceGenerator*> returnforce() {
+        vector<ForceGenerator*>fuerza;
         if (gravitygen != nullptr) {
-            return gravitygen;
+            fuerza.push_back(gravitygen);
         }
-        return nullptr;
+        if (windgen != nullptr) {
+            fuerza.push_back(windgen);
+        }
+        return fuerza;
     }
 protected:
     bool changepos = false;
@@ -72,6 +85,7 @@ protected:
     bool changecolor=false;
     bool fuego=false;
     GravityForceGenerator* gravitygen=nullptr;
+    WindGenerator * windgen = nullptr;
     float mass = 5;
 
 };

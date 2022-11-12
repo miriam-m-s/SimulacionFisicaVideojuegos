@@ -7,7 +7,7 @@
 #include"../Force/ForceGenarator.h"
 #include"../Force/GravityForceGenerator.h"
 #include "../Force/ParticleForceRegistry.h"
-
+#include "../Force/ParticleDragGenerator.h"
 enum TipoParticles {
 	Fuego, Cascada, Explosion,Purpurina,Polvo,Poder,Portal,Esphere
 };
@@ -49,6 +49,7 @@ private:
 	SphereGenerator* sphere = nullptr;
 	TipoParticles partenum;
 
-	GravityForceGenerator* forcegen;
+	GravityForceGenerator* forcegen=nullptr;
+	WindGenerator* windgen=nullptr;
 
 };

@@ -21,13 +21,21 @@ void ParticleSys::update(double t)
 {
 	for (auto gpart : particle_generators) {
 		std::list<Particle*>aux = gpart->generateParticles();
-		ForceGenerator* force= gpart->returnforce();
-		GravityForceGenerator* grav = dynamic_cast<GravityForceGenerator*>(force);
+		vector<ForceGenerator*> force = gpart->returnforce();
+		
 		for (auto il = aux.begin(); il != aux.end(); ++il) {
 			particles.push_back(*il);
-			if (grav != nullptr) {
-				forceregistry->addRegistry(grav,*il);
+			for (auto s : force) {
+				GravityForceGenerator* grav = dynamic_cast<GravityForceGenerator*>(s);
+				if (grav != nullptr) {
+					forceregistry->addRegistry(grav, *il);
+				}
+				WindGenerator* wind = dynamic_cast<WindGenerator*>(s);
+				if (wind != nullptr) {
+					forceregistry->addRegistry(wind, *il);
+				}
 			}
+		
 		}
 	}
 	for (std::list<Particle*>::iterator il = particles.begin(); il != particles.end(); ) {
@@ -41,11 +49,11 @@ void ParticleSys::update(double t)
 			else {
 				auto l = particle;
 				forceregistry->deleteParticleRegistry(l);
-			
+
 				delete l;
 				l = nullptr;
 				il = particles.erase(il);
-				
+
 			}
 		}
 		else {
@@ -54,15 +62,15 @@ void ParticleSys::update(double t)
 				++il;
 			}
 			else {
-				auto explosion=fire->explode();
-				particles.insert(particles.end(), explosion.begin(), explosion.end());	
+				auto explosion = fire->explode();
+				particles.insert(particles.end(), explosion.begin(), explosion.end());
 				auto l = fire;
 				delete l;
 				l = nullptr;
 				il = particles.erase(il);
 			}
 		}
-		
+
 	}
 	forceregistry->updateForces(t);
 }
@@ -74,7 +82,7 @@ void ParticleSys::deletecurrentgenerators()
 	particle_generators.resize(0);
 	for (auto part : particles) {
 		delete part;
-		
+
 	}
 	forceregistry->deleteforce();
 	particles.resize(0);
@@ -92,9 +100,9 @@ ParticleGenerator* ParticleSys::getPartcleGenerator(std::string name)
 void ParticleSys::generateFireWorkSystem()
 {
 	//firework1
-	Particle*model= new Particle({ 0,0,0 }, { 0,100,0 }, { 0, 10,0 }, 0.99f, 1, 0.5, 1, { 1,0,1,1 },false);
-	Firework* fire = new Firework({ 0,0,0 }, { 0,1,0 }, {0,100,0 }, 0.99f, 1, 0.5, 1, { 1,0,1,1 },false);
-	
+	Particle* model = new Particle({ 0,0,0 }, { 0,100,0 }, { 0, 10,0 }, 0.99f, 1, 0.5, 1, { 1,0,1,1 }, false);
+	Firework* fire = new Firework({ 0,0,0 }, { 0,1,0 }, { 0,100,0 }, 0.99f, 1, 0.5, 1, { 1,0,1,1 }, false);
+
 	shared_ptr<ParticleGenerator> gener(new GausseanParticleGen(model, { 0,0,0 }, { 0,0,0 }, { 0.1,0.1,0.1 }, { 10,10,10 }, 1, 30));
 	fire->addgenerator(gener);
 	_fireworks_pool.push_back(fire);
@@ -106,14 +114,14 @@ void ParticleSys::generateFireWorkSystem()
 	//PAPA
 	Firework* fire1 = new Firework({ 0,0,0 }, { 0,50,0 }, { 0,-10,0 }, 0.99f, 1, 0.5, 1, { 0,1,1,1 }, false);
 	/*TypeParticles tipo(TipoParticles::Explosion);*/
-	auto gauss = new GausseanParticleGen(fire2, { 0,0,0 }, { 0,0,0 }, { 0.1,0.1,0.1 }, { 10,10,10 }, 1, 30);	
+	auto gauss = new GausseanParticleGen(fire2, { 0,0,0 }, { 0,0,0 }, { 0.1,0.1,0.1 }, { 10,10,10 }, 1, 30);
 	shared_ptr<ParticleGenerator> gener2(gauss);
 	fire1->addgenerator(gener2);
 	_fireworks_pool.push_back(fire1);
 
 
-	
-	shared_ptr<ParticleGenerator> gener5(new CircleGenerator(3,40,model1));
+
+	shared_ptr<ParticleGenerator> gener5(new CircleGenerator(3, 40, model1));
 	Firework* fire3 = new Firework({ 0,0,0 }, { 0,100,0 }, { 0,0,0 }, 0.99f, 1, 0.5, 1, { 0,1,1,1 }, false);
 	fire3->addgenerator(gener5);
 	//PAPA
@@ -123,7 +131,7 @@ void ParticleSys::generateFireWorkSystem()
 	shared_ptr<ParticleGenerator> gener4(sphere);
 	fire4->addgenerator(gener4);
 	_fireworks_pool.push_back(fire4);
-	
+
 }
 void ParticleSys::shootFireWork(int type)
 {
@@ -139,29 +147,31 @@ void ParticleSys::shootFireWork(int type)
 		break;
 	}
 
-	
+
 }
-TypeParticles::TypeParticles(TipoParticles par):partenum(par) {
+TypeParticles::TypeParticles(TipoParticles par) :partenum(par) {
 	Camera* camera = GetCamera();
 	Particle* part;
 	Firework* fire;
 	switch (par)
 	{
 	case Fuego:
-		forcegen = new GravityForceGenerator({ 100,-10,0 });
-		partgaus=new GausseanParticleGen(Vector3(0, 20, 0), { 0,0,0 },
-		Vector3(3, 2, 1), Vector3(0.3, 0.1, 0.1), 0.4, 200, 3);
+		windgen = new WindGenerator(0.8, { 10,0,0 });
+		partgaus = new GausseanParticleGen(Vector3(0, 20, 0), { 0,0,0 },
+			Vector3(3, 2, 1), Vector3(0.3, 0.1, 0.1), 0.4, 200, 3);
 		partgaus->setGravity({ 0,5,0 });
 		partgaus->setColor({ 1,1,0,0.5f });
 		partgaus->setfuego(true);
 		partgaus->setRadius(0.1f);
-		partgaus->addForceGenerator(forcegen);
+		partgaus->addForceGenerator(windgen);
 
 		break;
 	case Cascada:
+		windgen = new WindGenerator(0.8, { -10,0,-10 });
 		forcegen = new GravityForceGenerator({ 0,-10,0 });
 		partgaus = new GausseanParticleGen(Vector3(15, 40, 0), camera->getDir() * (-10),
-			Vector3(0.1, 0.1, 10), Vector3(0.1, 0.1, 0.1), 0.8, 1, 10,1);
+			Vector3(0.1, 0.1, 10), Vector3(0.1, 0.1, 0.1), 0.8, 1, 10, 1);
+		partgaus->addForceGenerator(windgen);
 		partgaus->addForceGenerator(forcegen);
 
 		break;
@@ -170,24 +180,24 @@ TypeParticles::TypeParticles(TipoParticles par):partenum(par) {
 		partgaus->setRandomColor(true);
 		break;
 	case Purpurina:
-		unigen= new UniformParticleGenerator({ 0,70,0 }, { 0,0,0 }, { 8,8,8 }, { 8,8,8 }, 0.8, 20, 10);
+		unigen = new UniformParticleGenerator({ 0,70,0 }, { 0,0,0 }, { 8,8,8 }, { 8,8,8 }, 0.8, 20, 10);
 		unigen->setRadius(0.1f);
 		break;
 	case Polvo:
-		part = new Particle({ 0,50,0 }, { 0,1,0 }, { 0, 0,0 }, 0.99f, 0.1, 0.5, 8, { 0.6,0.6,0.6,0 },false);
+		part = new Particle({ 0,50,0 }, { 0,1,0 }, { 0, 0,0 }, 0.99f, 0.1, 0.5, 8, { 0.6,0.6,0.6,0 }, false);
 		unigen = new UniformParticleGenerator({ 0,50,0 }, { 0,0,0 }, part, { 3,3,3 }, { 100,100,100 }, 0.8, 50);
 		break;
 	case Poder:
-		part = new Particle({ 0,50,0 }, { 100,0,0 }, { 0, 0,0 }, 0.99f, 0.4, 0.5,1, { 1,1.0,1,1 },false);
-		partgaus = new GausseanParticleGen(part,part->getpos(), part->getvel(), {3,3,3}, {10,10,0.1}, 0.8, 10);
+		part = new Particle({ 0,50,0 }, { 100,0,0 }, { 0, 0,0 }, 0.99f, 0.4, 0.5, 1, { 1,1.0,1,1 }, false);
+		partgaus = new GausseanParticleGen(part, part->getpos(), part->getvel(), { 3,3,3 }, { 10,10,0.1 }, 0.8, 10);
 		partgaus->setfuego(true);
 		partgaus->setGravity(part->getgravity());
-		 
+
 		break;
 	case Portal:
 		part = new Particle({ 0,50,0 }, { 0,0,0 }, { 0,0,0 }, 0.99, 0.1, 3, 3, { 0.5,1,0.5,1 }, false);
 
-		circle = new CircleGenerator(2,30, part);
+		circle = new CircleGenerator(2, 30, part);
 		circle->setfuego(true);
 		break;
 	case Esphere:
@@ -196,12 +206,12 @@ TypeParticles::TypeParticles(TipoParticles par):partenum(par) {
 		sphere = new SphereGenerator(2, 30, part);
 		sphere->setfuego(true);
 		break;
-	
+
 	default:
 		break;
 	}
 }
-ParticleGenerator*  TypeParticles:: getparticles() {
+ParticleGenerator* TypeParticles::getparticles() {
 	switch (partenum)
 	{
 	case Fuego:

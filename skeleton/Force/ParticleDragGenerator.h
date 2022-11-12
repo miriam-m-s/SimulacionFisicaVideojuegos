@@ -1,7 +1,7 @@
 #pragma once
 #include "ForceGenarator.h"
 #include "../core.hpp"
-class ParticleDragGenerator
+class ParticleDragGenerator:public ForceGenerator
 {
 public:
 	ParticleDragGenerator();
@@ -18,7 +18,29 @@ public:
 		return k2_;
 	}
 protected:
-	float k1_;
+	float k1_;//drags
 	float k2_;
 };
+
+class WindGenerator:public ParticleDragGenerator
+{
+public:
+	WindGenerator();
+	WindGenerator(const float k1,Vector3 velwind);
+	virtual void updateForce(Particle* particle, double t);
+	protected:
+	Vector3 velwind_;
+
+};
+
+//class WindGenerator :public ParticleDragGenerator
+//{
+//public:
+//	WindGenerator();
+//	WindGenerator(const float k1, Vector3 velwind);
+//	virtual void updateForce(Particle* particle, double t);
+//protected:
+//	Vector3 velwind_;
+//
+//};
 
