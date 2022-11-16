@@ -7,6 +7,7 @@
 #include "../Force/ForceGenarator.h"
 #include "../Force/GravityForceGenerator.h"
 #include "../Force/ParticleDragGenerator.h"
+#include "../Force/ExplosionGenerator.h"
 using namespace std;
 class ParticleGenerator
 {
@@ -39,6 +40,10 @@ public:
         changecolor = s;
         fuego = s;
     }
+    void setrandommass(bool h) {
+        randommass_ = h;
+    }
+    float getrandommass(int maxmass);
     void setPos(Vector3 pos) {
         _mean_pos = pos;
         changepos = true;
@@ -47,24 +52,31 @@ public:
         GravityForceGenerator* grav= dynamic_cast<GravityForceGenerator*>(force);
         if (grav != nullptr) {
             gravitygen = grav;
+            fuerzas.push_back(gravitygen);
             return -1;
         }
         WindGenerator* wind = dynamic_cast<WindGenerator*>(force);
         if (wind != nullptr) {
             windgen = wind;
+            fuerzas.push_back(wind);
+            return -1;
+        }
+        Torbellino* torb= dynamic_cast<Torbellino*>(force);
+        if (torb != nullptr) {
+            torbelline = torb;
+            fuerzas.push_back(torbelline);
+            return -1;
+        }
+        ExplosionGenerator *exp= dynamic_cast<ExplosionGenerator*>(force);
+        if (exp != nullptr) {
+            explosion = exp;
+            fuerzas.push_back(explosion);
             return -1;
         }
         return 0;
     }
     std::vector<ForceGenerator*> returnforce() {
-        vector<ForceGenerator*>fuerza;
-        if (gravitygen != nullptr) {
-            fuerza.push_back(gravitygen);
-        }
-        if (windgen != nullptr) {
-            fuerza.push_back(windgen);
-        }
-        return fuerza;
+        return fuerzas;
     }
 protected:
     bool changepos = false;
@@ -86,15 +98,18 @@ protected:
     bool fuego=false;
     GravityForceGenerator* gravitygen=nullptr;
     WindGenerator * windgen = nullptr;
+    Torbellino* torbelline = nullptr;
+    ExplosionGenerator* explosion=nullptr;
     float mass = 5;
-
+    vector<ForceGenerator*>fuerzas;
+    bool randommass_=false;
+    std::uniform_real_distribution<float>massdist_;
 };
 
 class GausseanParticleGen :public ParticleGenerator
 {
     public:
     GausseanParticleGen() {}
-    ~GausseanParticleGen(){}
     GausseanParticleGen(Vector3 pos, Vector3 vel, Vector3 dev_pos, Vector3 dev_vel,double gen_prob,int num,float seconds,float mass=5);
     GausseanParticleGen(Particle* partmodel,Vector3 pos, Vector3 vel, Vector3 dev_pos, Vector3 dev_vel, double gen_prob, int num);
     virtual std::list<Particle*>generateParticles();
@@ -116,9 +131,8 @@ class UniformParticleGenerator :public ParticleGenerator
 {
 public:
     UniformParticleGenerator() {}
-    ~UniformParticleGenerator() {}
-    UniformParticleGenerator(Vector3 pos, Vector3 vel, Particle* partmodel, Vector3 vel_widht, Vector3 pos_widht, double gen_prob, int num,float mass_=5);
-    UniformParticleGenerator(Vector3 pos, Vector3 vel,Vector3 vel_widht, Vector3 pos_widht, double gen_prob, int num, float seconds);
+    UniformParticleGenerator(Vector3 pos, Vector3 vel, Particle* partmodel, Vector3 vel_widht, Vector3 pos_widht, double gen_prob, int num);
+    UniformParticleGenerator(Vector3 pos, Vector3 vel,Vector3 vel_widht, Vector3 pos_widht, double gen_prob, int num, float seconds, float mass_ = 5);
     virtual std::list<Particle*>generateParticles();
 protected:
     Vector3 _vel_width, std_pos_width;

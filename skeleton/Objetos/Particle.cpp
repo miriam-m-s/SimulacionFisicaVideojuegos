@@ -9,6 +9,7 @@ Particle::Particle(Vector3 Pos, Vector3 Vel, Vector3 acel, float dampin, float r
 	if (visible) {
 		renderitem = new RenderItem(CreateShape(physx::PxSphereGeometry(radius)), &pose, color);
 	}
+
 	restavida_ = livetime_;
 	if (masa > 0) {
 		inversemasa_ = (1 / masa_);

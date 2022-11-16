@@ -37,11 +37,43 @@ void WindGenerator::updateForce(Particle* particle, double t)
 	if (fabs(particle->inv_mass()) < 1e-10) {
 		return;
 	}
-	Vector3 v = velwind_-particle->getvel();
+	Vector3 v = particle->getvel()- velwind_;
 	float drag_coef = v.normalize();
 	Vector3 dragF;
 	drag_coef = k1_ * drag_coef + k2_ * drag_coef * drag_coef;
 	dragF = -v * drag_coef;
-	
+	Vector3 cuadrado;
+	for (int i = 0; i < 3; i++) {
+		cuadrado[i] = velwind_[i] * velwind_[i];
+	}
+	double areaEsphere = 4 * pi * particle->getradius() * particle->getradius();
+	Vector3 force = areaEsphere * coefAerodin * airDensity * (velwind_);
+	Vector3 force1 = k2_ * cuadrado;
+	particle->addForce(force*particle->mass());
+}
+
+Torbellino::Torbellino()
+{
+}
+
+Torbellino::Torbellino(const float k1, Vector3 postorbelino, int K_) :WindGenerator(k1, { 0,0,0 }), postorbeline_(postorbelino), K(K_)
+{
+}
+
+void Torbellino::updateForce(Particle* particle, double t)
+{
+
+
+	if (fabs(particle->inv_mass()) < 1e-10) {
+		return;
+	}
+	velwind_ = K * Vector3(-(particle->getpos().z - postorbeline_.z), 50 - (particle->getpos().y - postorbeline_.y), particle->getpos().x - postorbeline_.x);
+	Vector3 v =  particle->getvel()- velwind_;
+	float drag_coef = v.normalize();
+	Vector3 dragF;
+	drag_coef = k1_ * drag_coef + k2_ * drag_coef * drag_coef;
+	dragF = -v * drag_coef;
+
 	particle->addForce(dragF);
+
 }

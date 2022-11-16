@@ -19,6 +19,7 @@
     <ClCompile Include="Force\ForceGenarator.cpp" />
     <ClCompile Include="Force\ParticleForceRegistry.cpp" />
     <ClCompile Include="Force\ParticleDragGenerator.cpp" />
+    <ClCompile Include="Force\ExplosionGenerator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.hpp" />
@@ -39,6 +40,7 @@
     <ClInclude Include="Force\ForceGenarator.h" />
     <ClInclude Include="Force\ParticleForceRegistry.h" />
     <ClInclude Include="Force\ParticleDragGenerator.h" />
+    <ClInclude Include="Force\ExplosionGenerator.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Render">
