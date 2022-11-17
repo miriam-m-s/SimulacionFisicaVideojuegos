@@ -49,7 +49,7 @@ void WindGenerator::updateForce(Particle* particle, double t)
 	double areaEsphere = 4 * pi * particle->getradius() * particle->getradius();
 	Vector3 force = areaEsphere * coefAerodin * airDensity * (velwind_);
 	Vector3 force1 = k2_ * cuadrado;
-	particle->addForce(force*particle->mass());
+	particle->addForce(dragF);
 }
 
 Torbellino::Torbellino()
