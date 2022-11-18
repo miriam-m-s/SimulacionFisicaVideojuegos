@@ -165,13 +165,14 @@ TypeParticles::TypeParticles(TipoParticles par) :partenum(par) {
 	switch (par)
 	{
 	case Fuego:
-	
+		forcegen = new GravityForceGenerator({ 0,5,0 });
 		partgaus = new GausseanParticleGen(Vector3(0, 20, 0), { 0,0,0 },
 			Vector3(3, 2, 1), Vector3(0.3, 0.1, 0.1), 0.4, 200, 3);
-		partgaus->setGravity({ 0,5,0 });
+		partgaus->setGravity({ 0,0,0 });
 		partgaus->setColor({ 1,1,0,0.5f });
 		partgaus->setfuego(true);
 		partgaus->setRadius(0.1f);
+		partgaus->addForceGenerator(forcegen);
 	
 
 		break;
@@ -206,10 +207,10 @@ TypeParticles::TypeParticles(TipoParticles par) :partenum(par) {
 		unigen->addForceGenerator(torbe);
 		break;
 	case Polvo:
-		//torbe = new Torbellino(10, { 0,0,0 }, 10);
+		torbe = new Torbellino(10, { 0,0,0 }, 10);
 		part = new Particle({ 0,50,0 }, { 0,1,0 }, { 0, 0,0 }, 0.99f, 0.1, 0.5, 8, { 0.6,0.6,0.6,0 }, true);
-		unigen = new UniformParticleGenerator({ 0,50,0 }, { 0,0,0 }, part, { 3,3,3 }, { 100,100,100 }, 0.8, 50);
-		//unigen->addForceGenerator(torbe);
+		unigen = new UniformParticleGenerator({ 0,50,0 }, { 0,0,0 }, part, { 3,3,3 }, { 50,50,50 }, 0.8, 5);
+		unigen->addForceGenerator(torbe);
 		break;
 	case Poder:
 		part = new Particle({ 0,50,0 }, { 100,0,0 }, { 0, 0,0 }, 0.99f, 0.4, 0.5, 1, { 1,1.0,1,1 }, true);

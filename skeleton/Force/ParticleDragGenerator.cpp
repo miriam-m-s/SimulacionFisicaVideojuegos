@@ -46,8 +46,8 @@ void WindGenerator::updateForce(Particle* particle, double t)
 	for (int i = 0; i < 3; i++) {
 		cuadrado[i] = velwind_[i] * velwind_[i];
 	}
-	double areaEsphere = 4 * pi * particle->getradius() * particle->getradius();
-	Vector3 force = areaEsphere * coefAerodin * airDensity * (velwind_);
+	double areaSphere = 4 * pi * particle->getradius() * particle->getradius();
+	Vector3 force = areaSphere * coefAerodin * airDensity * (velwind_);
 	Vector3 force1 = k2_ * cuadrado;
 	particle->addForce(dragF);
 }
