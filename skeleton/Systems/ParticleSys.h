@@ -32,6 +32,8 @@ protected:
 	std::vector<Firework*>_fireworks_pool;
 	ParticleGenerator* _firework_gen;
 	ParticleForceRegistry* forceregistry;
+	bool loop_ = true;
+	bool hey = true;
 };
 
 
@@ -39,6 +41,9 @@ class TypeParticles {
 public:
 	TypeParticles(TipoParticles par);
 	ParticleGenerator* getparticles();
+	bool isLoop() {
+		return repeat;
+	}
 	~TypeParticles() {
 		
 	};
@@ -54,5 +59,5 @@ private:
 	WindGenerator* windgen=nullptr;
 	Torbellino* torbe = nullptr;
 	ExplosionGenerator* explosion = nullptr;
-
+	bool repeat = true;
 };

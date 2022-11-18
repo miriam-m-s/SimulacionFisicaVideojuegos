@@ -7,7 +7,7 @@ class ExplosionGenerator:public ForceGenerator
 {
 public:
 	ExplosionGenerator() {};
-	ExplosionGenerator(int K,Vector3 posexplosion,  float cnstexplosion);
+	ExplosionGenerator(int K,Vector3 posexplosion,  float cnstexplosion, double velExpansion_);
 	virtual void updateForce(Particle* particle, double t);
 	void setvel(double velExpansion) {
 		velExpansion_ = velExpansion;

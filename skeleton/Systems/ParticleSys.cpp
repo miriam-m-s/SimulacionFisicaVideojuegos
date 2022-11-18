@@ -81,6 +81,15 @@ void ParticleSys::update(double t)
 
 	}
 	forceregistry->updateForces(t);
+	if (!loop_) {
+		int size = particle_generators.size()-1;
+
+		auto it = particle_generators.end();
+		--it;
+		it=particle_generators.erase(it);
+		loop_ = true;
+		//particle_generators.resize(size);
+	}
 }
 void ParticleSys::deletecurrentgenerators()
 {
@@ -100,6 +109,7 @@ void ParticleSys::creategenerator(TipoParticles s)
 {
 	TypeParticles tipo(s);
 	particle_generators.push_back(tipo.getparticles());
+	loop_ = tipo.isLoop();
 
 }
 ParticleGenerator* ParticleSys::getPartcleGenerator(std::string name)
@@ -178,25 +188,27 @@ TypeParticles::TypeParticles(TipoParticles par) :partenum(par) {
 		break;
 	case Cascada:
 		//torbe = new Torbellino(0.8, camera->getDir() * (-10), -10);
-		windgen = new WindGenerator(0.8, { -8,0,0 });
-		forcegen = new GravityForceGenerator({ 0,-10,0 });
+		windgen = new WindGenerator(0.8, { 3,4,0 });
+		
 		partgaus = new GausseanParticleGen(Vector3(0, 40, 0), {0,0,0},
-			Vector3(10, 0.1, 0.1), Vector3(0.1, 0.1, 0.1), 0.8, 1, 100, 1);
-		partgaus->addForceGenerator(forcegen);
+			Vector3(10, 0.1, 10), Vector3(0.1, 0.1, 0.1), 0.8, 1, 100, 300);
+		//partgaus->addForceGenerator(forcegen);
 		partgaus->addForceGenerator(windgen);
+		partgaus->setrandommass(true);
 
 		break;
 	case Explosion:
 		//torbe = new Torbellino(0.8, { 0,0,0 },10);
-		explosion = new ExplosionGenerator(100,{ 3,30,3 }, 5);
+		explosion = new ExplosionGenerator(1000,{ 3,30,3 }, 5,1000);
 		explosion->setvel(2000);
-		partgaus = new GausseanParticleGen({ 3,30,3 }, { 0,0,0 }, { 10,10,10 }, { 0.1,0.1,0.1 }, 0.8, 1, 100,200);
+		partgaus = new GausseanParticleGen({ 3,30,3 }, { 0,0,0 }, { 10,10,10 }, { 0.1,0.1,0.1 }, 0.8, 1000, 100,200);
 		partgaus->setGravity({ 0,0,0 });
 		partgaus->setColor({ 0,1,1,1 });
 		partgaus->setfuego(true);
 		partgaus->setrandommass(true);
 		//partgaus->setRandomColor(true);
 		partgaus->addForceGenerator(explosion);
+		repeat = false;
 		//partgaus->addForceGenerator(torbe);
 		break;
 	case Purpurina:
@@ -207,10 +219,10 @@ TypeParticles::TypeParticles(TipoParticles par) :partenum(par) {
 		unigen->addForceGenerator(torbe);
 		break;
 	case Polvo:
-		torbe = new Torbellino(10, { 0,0,0 }, 10);
+		forcegen = new GravityForceGenerator({ 0,-10,0 });
 		part = new Particle({ 0,50,0 }, { 0,1,0 }, { 0, 0,0 }, 0.99f, 0.1, 0.5, 8, { 0.6,0.6,0.6,0 }, true);
-		unigen = new UniformParticleGenerator({ 0,50,0 }, { 0,0,0 }, part, { 3,3,3 }, { 50,50,50 }, 0.8, 5);
-		unigen->addForceGenerator(torbe);
+		unigen = new UniformParticleGenerator({ 0,50,0 }, { 0,0,0 }, part, { 3,3,3 }, { 100,100,100 }, 0.8, 5);
+		unigen->addForceGenerator(forcegen);
 		break;
 	case Poder:
 		part = new Particle({ 0,50,0 }, { 100,0,0 }, { 0, 0,0 }, 0.99f, 0.4, 0.5, 1, { 1,1.0,1,1 }, true);

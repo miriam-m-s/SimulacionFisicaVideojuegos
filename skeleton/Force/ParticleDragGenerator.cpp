@@ -37,18 +37,14 @@ void WindGenerator::updateForce(Particle* particle, double t)
 	if (fabs(particle->inv_mass()) < 1e-10) {
 		return;
 	}
+	double areaSphere = 4 * pi * particle->getradius() * particle->getradius();
+	k2_= areaSphere * coefAerodin * airDensity ;
 	Vector3 v = particle->getvel()- velwind_;
 	float drag_coef = v.normalize();
 	Vector3 dragF;
 	drag_coef = k1_ * drag_coef + k2_ * drag_coef * drag_coef;
 	dragF = -v * drag_coef;
 	Vector3 cuadrado;
-	for (int i = 0; i < 3; i++) {
-		cuadrado[i] = velwind_[i] * velwind_[i];
-	}
-	double areaSphere = 4 * pi * particle->getradius() * particle->getradius();
-	Vector3 force = areaSphere * coefAerodin * airDensity * (velwind_);
-	Vector3 force1 = k2_ * cuadrado;
 	particle->addForce(dragF);
 }
 

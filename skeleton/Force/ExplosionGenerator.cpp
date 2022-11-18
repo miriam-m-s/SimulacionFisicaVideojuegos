@@ -1,7 +1,7 @@
 ﻿#include "ExplosionGenerator.h"
 #include <iostream>
 
-ExplosionGenerator::ExplosionGenerator(int K, Vector3 posexplosion, float cnstexplosion):ForceGenerator(),K_(K),posexplosion_(posexplosion),cnstexplosion_(cnstexplosion),R_(0)
+ExplosionGenerator::ExplosionGenerator(int K, Vector3 posexplosion, float cnstexplosion, double velExpansion_):ForceGenerator(),K_(K),posexplosion_(posexplosion),cnstexplosion_(cnstexplosion),R_(0)
 {
 
 }
