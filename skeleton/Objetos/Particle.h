@@ -3,7 +3,7 @@
 #include "../core.hpp"
 #include "../RenderUtils.hpp"
 enum FormaParticle {
-	SPHERE,PLANE
+	SPHERE,PLANE,BOX
 
 };
 class Particle

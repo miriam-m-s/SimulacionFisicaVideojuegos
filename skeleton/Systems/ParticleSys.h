@@ -10,6 +10,7 @@
 #include "../Force/ParticleDragGenerator.h"
 #include"../Force/ExplosionGenerator.h"
 #include"../Muelles/SpringForceGenerator.h"
+#include"../Muelles/AnchoredSpringFG.h"
 enum TipoParticles {
 	Fuego, Cascada, Explosion,Purpurina,Polvo,Poder,Portal,Esphere
 };

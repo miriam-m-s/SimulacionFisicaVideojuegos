@@ -125,6 +125,11 @@ void ParticleSys::generatemuelle() {
 	particles.push_back(ancla);
 	particles.push_back(noancla);
 
+	Particle* p3 = new Particle({ -10,20,0 }, { 0,0,0 }, { 0, 0,0 }, 0.85, 4, 2, 1000, { 1,0,0,1 }, true);
+	AnchoredSpringFG* f3 = new AnchoredSpringFG(1, 10, { 10.0,20.0,0 });
+	forceregistry->addRegistry(f3, p3);
+	particles.push_back(p3);
+
 }
 
 void ParticleSys::generateFireWorkSystem()

@@ -25,7 +25,7 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='checked|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -253,6 +253,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Muelles\AnchoredSpringFG.cpp" />
     <ClCompile Include="callbacks.cpp" />
     <ClCompile Include="Force\ExplosionGenerator.cpp" />
     <ClCompile Include="Force\ForceGenarator.cpp" />
@@ -271,7 +272,7 @@
     <ClCompile Include="Render\Render.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AnchoredSpringFG.h" />
+    <ClInclude Include="Muelles\AnchoredSpringFG.h" />
     <ClInclude Include="callbacks.hpp" />
     <ClInclude Include="core.hpp" />
     <ClInclude Include="Force\ExplosionGenerator.h" />

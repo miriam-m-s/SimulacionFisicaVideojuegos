@@ -21,6 +21,7 @@
     <ClCompile Include="Force\ParticleDragGenerator.cpp" />
     <ClCompile Include="Force\ExplosionGenerator.cpp" />
     <ClCompile Include="Muelles\SpringForceGenerator.cpp" />
+    <ClCompile Include="Muelles\AnchoredSpringFG.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.hpp" />
@@ -43,7 +44,7 @@
     <ClInclude Include="Force\ParticleDragGenerator.h" />
     <ClInclude Include="Force\ExplosionGenerator.h" />
     <ClInclude Include="Muelles\SpringForceGenerator.h" />
-    <ClInclude Include="AnchoredSpringFG.h" />
+    <ClInclude Include="Muelles\AnchoredSpringFG.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Render">

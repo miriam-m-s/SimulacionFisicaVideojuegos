@@ -11,6 +11,8 @@ Particle::Particle(Vector3 Pos, Vector3 Vel, Vector3 acel, float dampin, float r
 		renderitem = new RenderItem(CreateShape(physx::PxSphereGeometry(radius)), &pose, color);
 		else if(S == PLANE)
 			renderitem = new RenderItem(CreateShape(physx::PxPlaneGeometry()), &pose, color);
+		else if (S == BOX)
+			renderitem = new RenderItem(CreateShape(physx::PxBoxGeometry(radius,radius,radius)), &pose, color);
 	}
 
 	restavida_ = livetime_;
