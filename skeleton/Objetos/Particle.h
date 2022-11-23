@@ -2,11 +2,15 @@
 #include <math.h>
 #include "../core.hpp"
 #include "../RenderUtils.hpp"
+enum FormaParticle {
+	SPHERE,PLANE
+
+};
 class Particle
 {
 public:
 	
-	Particle(Vector3 Pos, Vector3 Vel, Vector3 acel, float dampin, float radius, float masa, double timevida, Vector4 coloring,bool visible);
+	Particle(Vector3 Pos, Vector3 Vel, Vector3 acel, float dampin, float radius, float masa, double timevida, Vector4 coloring,bool visible,FormaParticle S=SPHERE);	
 	Particle() {
 		
 	}

@@ -3,11 +3,14 @@
 
 
 
-Particle::Particle(Vector3 Pos, Vector3 Vel, Vector3 acel, float dampin, float radius, float masa, double timevida, Vector4 coloring, bool visible) :vel(Vel), acel_(acel), damp_(dampin), masa_(masa), livetime_(timevida), color(coloring), radius(radius), visible(visible)
+Particle::Particle(Vector3 Pos, Vector3 Vel, Vector3 acel, float dampin, float radius, float masa, double timevida, Vector4 coloring, bool visible, FormaParticle S) :vel(Vel), acel_(acel), damp_(dampin), masa_(masa), livetime_(timevida), color(coloring), radius(radius), visible(visible)
 {
 	pose = physx::PxTransform(Pos.x, Pos.y, Pos.z);
 	if (visible) {
+		if(S==SPHERE)
 		renderitem = new RenderItem(CreateShape(physx::PxSphereGeometry(radius)), &pose, color);
+		else if(S == PLANE)
+			renderitem = new RenderItem(CreateShape(physx::PxPlaneGeometry()), &pose, color);
 	}
 
 	restavida_ = livetime_;
@@ -15,6 +18,8 @@ Particle::Particle(Vector3 Pos, Vector3 Vel, Vector3 acel, float dampin, float r
 		inversemasa_ = (1 / masa_);
 	}
 }
+
+
 void Particle::addForce(const Vector3& f) {
 	force += f; 
 }

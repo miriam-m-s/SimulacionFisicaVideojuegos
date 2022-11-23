@@ -43,6 +43,7 @@
     <ClInclude Include="Force\ParticleDragGenerator.h" />
     <ClInclude Include="Force\ExplosionGenerator.h" />
     <ClInclude Include="Muelles\SpringForceGenerator.h" />
+    <ClInclude Include="AnchoredSpringFG.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Render">

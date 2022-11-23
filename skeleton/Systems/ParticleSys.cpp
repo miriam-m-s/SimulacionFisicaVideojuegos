@@ -112,10 +112,21 @@ void ParticleSys::creategenerator(TipoParticles s)
 	loop_ = tipo.isLoop();
 
 }
-ParticleGenerator* ParticleSys::getPartcleGenerator(std::string name)
-{
-	return nullptr;
+void ParticleSys::generatemuelle() {
+	Particle* ancla = new Particle({ -10,10,0 }, { 0,0,0 }, { 0, 0,0 }, 0.85, 4,2, 1000, { 1,0,0,1 }, true);
+	Particle* noancla = new Particle({ 10,10,0 }, { 0,0,0 }, { 0, 0,0 }, 0.85, 4, 2, 1000, {1,1,0,1 }, true);
+	
+	SpringForceGenerator* f1 = new SpringForceGenerator(5, 10, ancla);
+	forceregistry->addRegistry(f1, noancla);
+	SpringForceGenerator* f2 = new SpringForceGenerator(5, 10, noancla);
+	forceregistry->addRegistry(f2, ancla);
+	
+
+	particles.push_back(ancla);
+	particles.push_back(noancla);
+
 }
+
 void ParticleSys::generateFireWorkSystem()
 {
 	//firework1

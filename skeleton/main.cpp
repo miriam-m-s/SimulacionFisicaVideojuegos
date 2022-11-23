@@ -150,6 +150,9 @@ void keyPress(unsigned char key, const PxTransform& camera)
 			changeparticles = 0;
 		}
 		break;
+	case 'M':
+		part_system->generatemuelle();
+		break;
 	case ' ':
 	{
 		break;

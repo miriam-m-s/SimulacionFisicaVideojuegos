@@ -9,6 +9,7 @@
 #include "../Force/ParticleForceRegistry.h"
 #include "../Force/ParticleDragGenerator.h"
 #include"../Force/ExplosionGenerator.h"
+#include"../Muelles/SpringForceGenerator.h"
 enum TipoParticles {
 	Fuego, Cascada, Explosion,Purpurina,Polvo,Poder,Portal,Esphere
 };
@@ -23,6 +24,7 @@ public:
 	ParticleGenerator* getPartcleGenerator(std::string name);
 	void generateFireWorkSystem();
 	void shootFireWork(int type);
+	void generatemuelle();
 
 protected:
 	std::list<Particle*>particles;

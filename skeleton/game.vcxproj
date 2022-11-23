@@ -271,6 +271,7 @@
     <ClCompile Include="Render\Render.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AnchoredSpringFG.h" />
     <ClInclude Include="callbacks.hpp" />
     <ClInclude Include="core.hpp" />
     <ClInclude Include="Force\ExplosionGenerator.h" />
