@@ -31,6 +31,7 @@ PxDefaultCpuDispatcher*	gDispatcher = NULL;
 PxScene*				gScene      = NULL;
 ContactReportCallback gContactReportCallback;
 int changeparticles=0;
+int changemuelles = 0;
 
 // Initialize physics engine
 void initPhysics(bool interactive)
@@ -151,7 +152,21 @@ void keyPress(unsigned char key, const PxTransform& camera)
 		}
 		break;
 	case 'M':
-		part_system->generatemuelle();
+		part_system->deletecurrentgenerators();
+		part_system->generatemuelle(changemuelles);
+		changemuelles++;
+		if (changemuelles >= 4) {
+			changemuelles = 0;
+		}
+		break;
+	case 'G':
+		part_system->putGravity();
+		break;
+	case '+':
+		part_system->incrementK(0.5);
+		break;
+	case '-':
+		part_system->incrementK(-0.5);
 		break;
 	case ' ':
 	{

@@ -10,9 +10,13 @@ class Particle
 {
 public:
 	
-	Particle(Vector3 Pos, Vector3 Vel, Vector3 acel, float dampin, float radius, float masa, double timevida, Vector4 coloring,bool visible,FormaParticle S=SPHERE);	
+	Particle(Vector3 Pos, Vector3 Vel, Vector3 acel, float dampin, float masa, double timevida, Vector4 coloring,bool visible,double ancho,double largo,double alto);
+	Particle(Vector3 Pos, Vector3 Vel, Vector3 acel, float dampin, float radius, float masa, double timevida, Vector4 coloring, bool visible, FormaParticle S = SPHERE);
 	Particle() {
 		
+	}
+	void setInfiniteVida(bool s) {
+		infinitevida = s;
 	}
 	~Particle();
 	void setpartcle(Vector3 Pos, Vector3 Vel, Vector3 acel, float dampin, float radius, float masa,double timevida);
@@ -59,6 +63,9 @@ public:
 	float mass() {
 		return masa_;
 	}
+	void setEulerExplicit(bool s) {
+		euelerexplicit = s;
+	}
 
 protected:
 	virtual void partlifetime();
@@ -82,5 +89,7 @@ protected:
 	bool fuego=false;
 	bool visible=true;
 	Vector3 force={0,0,0};
+	bool euelerexplicit = true;
+	bool infinitevida = false;
 };
 

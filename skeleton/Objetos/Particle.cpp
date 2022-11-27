@@ -3,7 +3,19 @@
 
 
 
-Particle::Particle(Vector3 Pos, Vector3 Vel, Vector3 acel, float dampin, float radius, float masa, double timevida, Vector4 coloring, bool visible, FormaParticle S) :vel(Vel), acel_(acel), damp_(dampin), masa_(masa), livetime_(timevida), color(coloring), radius(radius), visible(visible)
+Particle::Particle(Vector3 Pos, Vector3 Vel, Vector3 acel, float dampin, float masa, double timevida, Vector4 coloring, bool visible, double ancho, double largo, double alto)
+	:vel(Vel), acel_(acel), damp_(dampin), masa_(masa), livetime_(timevida), color(coloring), visible(visible)
+{
+	pose = physx::PxTransform(Pos.x, Pos.y, Pos.z);
+	renderitem = new RenderItem(CreateShape(physx::PxBoxGeometry(ancho, alto, largo)), &pose, color);
+	restavida_ = livetime_;
+	if (masa > 0) {
+		inversemasa_ = (1 / masa_);
+	}
+}
+
+Particle::Particle(Vector3 Pos, Vector3 Vel, Vector3 acel, float dampin, float radius, float masa, double timevida, Vector4 coloring, bool visible, FormaParticle S) :
+	vel(Vel), acel_(acel), damp_(dampin), masa_(masa), livetime_(timevida), color(coloring), radius(radius), visible(visible)
 {
 	pose = physx::PxTransform(Pos.x, Pos.y, Pos.z);
 	if (visible) {
@@ -48,7 +60,7 @@ void Particle::setpartcle(Vector3 Pos, Vector3 Vel, Vector3 acel, float dampin, 
 }
 void Particle::partlifetime() {
 
-	if (restavida_ <= 0) {
+	if (!infinitevida&&restavida_ <= 0) {
 		alive = false;
 	}
 }
@@ -56,17 +68,27 @@ void Particle::partlifetime() {
 void Particle::integrate(double t)
 {
 	if ((inversemasa_) <= 0.0f) return;
-	pose.p = pose.p + vel * t;
-	
-
 	cambiarcolor();
 	restavida_ -= t;
 	partlifetime();
+	if (euelerexplicit) {
+		pose.p = pose.p + vel * t;
 
-	Vector3 totalAcceleration = acel_;
-	totalAcceleration += force * inversemasa_;
-	// Update linear
-	vel = vel * pow(damp_, t) + totalAcceleration * t;
+		Vector3 totalAcceleration = acel_;
+		totalAcceleration += force * inversemasa_;
+		// Update linear
+		vel = vel * pow(damp_, t) + totalAcceleration * t;
+	}
+	else {
+	
+
+		Vector3 totalAcceleration = acel_;
+		totalAcceleration += force * inversemasa_;
+		// Update linear
+		vel = vel * pow(damp_, t) + totalAcceleration * t;
+		pose.p = pose.p + vel * t;
+	}
+	
 	clearForce();
 
 }

@@ -11,6 +11,7 @@
 #include"../Force/ExplosionGenerator.h"
 #include"../Muelles/SpringForceGenerator.h"
 #include"../Muelles/AnchoredSpringFG.h"
+#include "../Force/BuoyancyForceGenerator.h"
 enum TipoParticles {
 	Fuego, Cascada, Explosion,Purpurina,Polvo,Poder,Portal,Esphere
 };
@@ -25,7 +26,9 @@ public:
 	ParticleGenerator* getPartcleGenerator(std::string name);
 	void generateFireWorkSystem();
 	void shootFireWork(int type);
-	void generatemuelle();
+	void generatemuelle(int ejs);
+	void putGravity();
+	void incrementK(double s);
 
 protected:
 	std::list<Particle*>particles;
@@ -35,6 +38,7 @@ protected:
 	std::vector<Firework*>_fireworks_pool;
 	ParticleGenerator* _firework_gen;
 	ParticleForceRegistry* forceregistry;
+	list<SpringForceGenerator*>fuerzasMuelles;
 	bool loop_ = true;
 	bool hey = true;
 };
