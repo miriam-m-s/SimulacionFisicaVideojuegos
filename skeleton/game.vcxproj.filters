@@ -23,6 +23,8 @@
     <ClCompile Include="Muelles\SpringForceGenerator.cpp" />
     <ClCompile Include="Muelles\AnchoredSpringFG.cpp" />
     <ClCompile Include="Force\BuoyancyForceGenerator.cpp" />
+    <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="Objetos\Enemies.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.hpp" />
@@ -47,6 +49,8 @@
     <ClInclude Include="Muelles\SpringForceGenerator.h" />
     <ClInclude Include="Muelles\AnchoredSpringFG.h" />
     <ClInclude Include="Force\BuoyancyForceGenerator.h" />
+    <ClInclude Include="Scene.h" />
+    <ClInclude Include="Objetos\Enemies.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Render">

@@ -39,6 +39,7 @@ protected:
 	ParticleGenerator* _firework_gen;
 	ParticleForceRegistry* forceregistry;
 	list<SpringForceGenerator*>fuerzasMuelles;
+	list<ForceGenerator*>forces;
 	bool loop_ = true;
 	bool hey = true;
 };

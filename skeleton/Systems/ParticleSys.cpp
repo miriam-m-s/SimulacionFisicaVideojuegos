@@ -14,14 +14,22 @@ ParticleSys::~ParticleSys()
 		delete part;
 	}
 
-		for (auto gpart : fuerzasMuelles) {
-			auto anchored = dynamic_cast<AnchoredSpringFG*>(gpart);
-			if (anchored == nullptr)
-				delete gpart;
-			else delete anchored;
-		}
-	
-	
+	for (auto gpart : fuerzasMuelles) {
+		auto anchored = dynamic_cast<AnchoredSpringFG*>(gpart);
+		if (anchored == nullptr)
+			delete gpart;
+		else delete anchored;
+	}
+
+
+	for (auto gpart : forces) {
+
+		auto buoy = dynamic_cast<BuoyancyForceGenerator*>(gpart);
+
+		if (buoy != nullptr)delete buoy;
+		else delete gpart;
+	}
+
 	forceregistry->deleteforce();
 	delete forceregistry;
 }
@@ -113,11 +121,23 @@ void ParticleSys::deletecurrentgenerators()
 	if (fuerzasMuelles.size() > 0) {
 		for (auto gpart : fuerzasMuelles) {
 			auto anchored = dynamic_cast<AnchoredSpringFG*>(gpart);
-			if (anchored == nullptr)
-				delete gpart;
-			else delete anchored;
+			auto buoy = dynamic_cast<BuoyancyForceGenerator*>(gpart);
+			if (anchored != nullptr)
+				delete anchored;
+			else if (buoy != nullptr)delete buoy;
+			else delete gpart;
 		}
 		fuerzasMuelles.resize(0);
+	}
+	if (forces.size() > 0) {
+		for (auto gpart : forces) {
+
+			auto buoy = dynamic_cast<BuoyancyForceGenerator*>(gpart);
+
+			if (buoy != nullptr)delete buoy;
+			else delete gpart;
+		}
+		forces.resize(0);
 	}
 	particle_generators.resize(0);
 	forceregistry->deleteforce();
@@ -158,7 +178,7 @@ void ParticleSys::generatemuelle(int ejs) {
 	}
 	else if (ejs == 2) {
 		//Particle* p1 = new Particle({ 0,20,0 }, { 0,0,0 }, { 0, 0,0 }, 0.85, 4, 2, 1000, { 1,0,1,1 }, true);
-		Particle* p2 = new Particle({0,15,0 }, { 0,0,0 }, { 0, 0,0 }, 0.85, 4, 2, 1000, { 1,0,0.7,1 }, true);
+		Particle* p2 = new Particle({ 0,15,0 }, { 0,0,0 }, { 0, 0,0 }, 0.85, 4, 2, 1000, { 1,0,0.7,1 }, true);
 		Particle* p3 = new Particle({ 0,10,0 }, { 0,0,0 }, { 0, 0,0 }, 0.85, 4, 2, 1000, { 1,0,0.4,1 }, true);
 		Particle* p4 = new Particle({ 0,5,0 }, { 0,0,0 }, { 0, 0,0 }, 0.85, 4, 2, 1000, { 1,0,0.1,1 }, true);
 		Particle* p5 = new Particle({ 0,0,0 }, { 0,0,0 }, { 0, 0,0 }, 0.85, 4, 2, 1000, { 0.7,0,0.1,1 }, true);
@@ -166,7 +186,7 @@ void ParticleSys::generatemuelle(int ejs) {
 		/*p1->setEulerExplicit(false);
 		p2->setEulerExplicit(false);*/
 		//1,2
-		AnchoredSpringFG* f1 = new AnchoredSpringFG(15, 20,{0,20,0});
+		AnchoredSpringFG* f1 = new AnchoredSpringFG(15, 20, { 0,20,0 });
 		forceregistry->addRegistry(f1, p2);
 		SpringForceGenerator* f2 = new SpringForceGenerator(15, 20, p2);
 		//forceregistry->addRegistry(f2, p1);
@@ -194,26 +214,29 @@ void ParticleSys::generatemuelle(int ejs) {
 		fuerzasMuelles.push_back(f5);
 		fuerzasMuelles.push_back(f6);
 		//particles.push_back(p1);
-		particles.push_back(p2);	
+		particles.push_back(p2);
 		particles.push_back(p3);
-		particles.push_back(p4);	
+		particles.push_back(p4);
 		particles.push_back(p5);
 		particles.push_back(p6);
 
 	}
 	else if (ejs == 3) {
-		Particle* p2 = new Particle({ 0,30,0 }, { 0,0,0 }, { 0, 0,0 }, 0.8,4, 100, 1000, { 1,0,0,1 }, true,BOX);
+		Particle* p2 = new Particle({ 0,30,0 }, { 0,0,0 }, { 0, 0,0 }, 0.8, 4, 100, 1000, { 1,0,0,1 }, true, BOX);
 		GravityForceGenerator* grav = new GravityForceGenerator({ 0,-9.8,0 });
 		ParticleDragGenerator* drag = new ParticleDragGenerator(100, 0);
-		forceregistry->addRegistry(grav,p2);
-		BuoyancyForceGenerator* buoy = new BuoyancyForceGenerator(1,100,1,50, 1000);
+		forceregistry->addRegistry(grav, p2);
+		BuoyancyForceGenerator* buoy = new BuoyancyForceGenerator(1, 100, 1, 50, 1000);
+		forces.push_back(buoy);
+		forces.push_back(grav);
+		forces.push_back(drag);
 		forceregistry->addRegistry(buoy, p2);
 		forceregistry->addRegistry(drag, p2);
 		particles.push_back(p2);
 	}
-	
 
-	
+
+
 
 
 }

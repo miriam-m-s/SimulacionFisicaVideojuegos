@@ -6,7 +6,9 @@ class BuoyancyForceGenerator:public ForceGenerator
 public:
 	BuoyancyForceGenerator(float h,float heigh, float a,float l, float d);
 	virtual void updateForce(Particle* particle, double duration);
-	~BuoyancyForceGenerator(){};
+	~BuoyancyForceGenerator(){
+		delete _liquid_particle;
+	};
 protected:
 	float _height;
 	float _volume;
