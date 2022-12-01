@@ -23,11 +23,6 @@ void SpringForceGenerator::updateForce(Particle* particle, double t)
 		std::cout << "Colisiona" << std::endl;
 		_other->addForce(-forceDistance);
 	}
-
-	//if (force.magnitude()) {
-	//	s *= -1;
-	//}
-
 	else if (!goma || length > _resting_length) {
 		particle->addForce(forceDistance);
 	}

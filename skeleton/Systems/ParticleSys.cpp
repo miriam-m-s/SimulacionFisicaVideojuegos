@@ -222,11 +222,11 @@ void ParticleSys::generatemuelle(int ejs) {
 
 	}
 	else if (ejs == 3) {
-		Particle* p2 = new Particle({ 0,30,0 }, { 0,0,0 }, { 0, 0,0 }, 0.8, 4, 100, 1000, { 1,0,0,1 }, true, BOX);
+		Particle* p2 = new Particle({ 0,20,0 }, { 0,0,0 }, { 0, 0,0 }, 0.8, 4, 100, 1000, { 1,0,0,1 }, true, BOX);
 		GravityForceGenerator* grav = new GravityForceGenerator({ 0,-9.8,0 });
 		ParticleDragGenerator* drag = new ParticleDragGenerator(100, 0);
 		forceregistry->addRegistry(grav, p2);
-		BuoyancyForceGenerator* buoy = new BuoyancyForceGenerator(1, 100, 1, 50, 1000);
+		BuoyancyForceGenerator* buoy = new BuoyancyForceGenerator(1, 100, 1, 50, 920);
 		forces.push_back(buoy);
 		forces.push_back(grav);
 		forces.push_back(drag);

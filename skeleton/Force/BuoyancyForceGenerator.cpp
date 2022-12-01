@@ -23,6 +23,6 @@ void BuoyancyForceGenerator::updateForce(Particle* particle, double duration)
 	else{
 		immersed = (h0 - h) / _height + 0.5;
 	}
-	f.y = _liquid_density * _volume * immersed ;
+	f.y = _liquid_density * _volume * immersed;
 	particle->addForce(f);
 }
