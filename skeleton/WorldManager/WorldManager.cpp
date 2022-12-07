@@ -1,4 +1,5 @@
 #include "WorldManager.h"
+#include <iostream>
 
 
 WorldManager::WorldManager(PxScene* gScene, PxPhysics* gPhysics):gScene_(gScene),gPhysics_(gPhysics)
@@ -32,7 +33,7 @@ WorldManager::~WorldManager()
 
 }
 
-void WorldManager::createRigidStatic(Vector3 pos, Vector3 size, Vector4 color, double time)
+void WorldManager::createRigidStatic(Vector3 pos, Vector3 size, Vector4 color, std::string name ,double time)
 {
 	PxRigidStatic* new_solid = gPhysics_->createRigidStatic(PxTransform(pos));
 	PxShape* shape_suelo = CreateShape(PxBoxGeometry(40, 20, 5));
@@ -41,12 +42,17 @@ void WorldManager::createRigidStatic(Vector3 pos, Vector3 size, Vector4 color, d
 	gScene_->addActor(*new_solid);
 	ParticleRigid* part = new ParticleRigid(new_solid,item);
 	if (time != 0)part->settimeVida(time);
+	if (name != "") { 
+	
+		part->setName(name);
+	}
 	Objects.push_back(part);
 }
 
-void WorldManager::createRigidDynamic(Vector3 pos, Vector3 size, Vector3 vel, Vector4 color, double time)
+void WorldManager::createRigidDynamic(Vector3 pos, Vector3 size, Vector3 vel, Vector4 color, std::string name , double time)
 {
 	PxRigidDynamic* new_solid;
+	
 
 	new_solid = gPhysics_->createRigidDynamic(PxTransform(pos));
 	new_solid->setLinearVelocity(vel);
@@ -59,6 +65,10 @@ void WorldManager::createRigidDynamic(Vector3 pos, Vector3 size, Vector3 vel, Ve
 	gScene_->addActor(*new_solid);
 	ParticleRigid* part = new ParticleRigid(new_solid,item);
 	if (time != 0)part->settimeVida(time);
+	if (name != "") {
+		
+		part->setName(name);
+	}
 	Objects.push_back(part);
 
 }
@@ -78,3 +88,26 @@ void WorldManager::integrate(double t)
 
 	}
 }
+
+void WorldManager::handleCollision(PxActor* actor1, PxActor* actor2)
+{
+	std::vector<std::list<ParticleRigid*>::iterator>particles(2);
+	std::list<ParticleRigid*>::iterator it = Objects.begin();
+	int i = 0;
+	while (it != Objects.end() && i < 2) {
+		if ((*it)->getRigid() == actor1 || (*it)->getRigid() == actor2) {
+		
+			particles[i] = (it);
+			i++;
+		}
+		else ++it;
+	}
+	if ((*particles[0]) != nullptr && (*particles[1]) != nullptr) {
+		(*particles[1])->onCollision((*particles[0]));
+		std::cout << (*particles[0])->getName();
+		(*particles[0])->onCollision((*particles[1]));
+		std::cout << (*particles[1])->getName();
+	}
+}
+
+

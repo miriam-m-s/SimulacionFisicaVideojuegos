@@ -60,8 +60,8 @@ void initPhysics(bool interactive)
 	part_system = new ParticleSys();
 	part_system->generateFireWorkSystem();
 	wold = new WorldManager(gScene, gPhysics);
-	wold->createRigidDynamic({ 100,100,-50 }, { 20,20,20 }, { 0,0,0 }, { 0,0,0,1 }, 8);
-	wold->createRigidDynamic({ 50,100,-50 }, { 20,20,20 }, { 0,0,0 }, { 1,0,0,1 },5);
+	wold->createRigidDynamic({ 100,100,-50 }, { 20,20,20 }, { 0,0,0 }, { 0,0,0,1 },"bala");
+	wold->createRigidDynamic({ 50,100,-50 }, { 20,20,20 }, { 0,0,0 }, { 1,0,0,1 },"bala");
 	//part = new Proyectil(TipoBalas::Bala,{0,20,0},{0,0,-1});
 	
 }
@@ -72,7 +72,7 @@ void initPhysics(bool interactive)
 // t: time passed since last call in milliseconds
 void stepPhysics(bool interactive, double t)
 {
-	cout << t << endl;
+
 	PX_UNUSED(interactive);
 
 	gScene->simulate(t);
@@ -188,6 +188,9 @@ void onCollision(physx::PxActor* actor1, physx::PxActor* actor2)
 {
 	PX_UNUSED(actor1);
 	PX_UNUSED(actor2);
+    wold->handleCollision(actor1, actor2);
+	
+	
 }
 
 
