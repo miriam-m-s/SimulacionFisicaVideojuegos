@@ -267,12 +267,14 @@
     <ClCompile Include="Force\ParticleForceRegistry.cpp" />
     <ClCompile Include="Force\ParticleDragGenerator.cpp" />
     <ClCompile Include="Muelles\SpringForceGenerator.cpp" />
+    <ClCompile Include="WorldManager\ParticleRigid.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Systems\ParticleGenerator.cpp" />
     <ClCompile Include="Systems\ParticleSys.cpp" />
     <ClCompile Include="RenderUtils.cpp" />
     <ClCompile Include="Render\Camera.cpp" />
     <ClCompile Include="Render\Render.cpp" />
+    <ClCompile Include="WorldManager\WorldManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Objetos\Enemies.h" />
@@ -289,12 +291,14 @@
     <ClInclude Include="Force\ParticleForceRegistry.h" />
     <ClInclude Include="Force\ParticleDragGenerator.h" />
     <ClInclude Include="Muelles\SpringForceGenerator.h" />
+    <ClInclude Include="WorldManager\ParticleRigid.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Systems\ParticleGenerator.h" />
     <ClInclude Include="Systems\ParticleSys.h" />
     <ClInclude Include="RenderUtils.hpp" />
     <ClInclude Include="Render\Camera.h" />
     <ClInclude Include="Render\Render.h" />
+    <ClInclude Include="WorldManager\WorldManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -10,7 +10,7 @@
 #include "Systems/ParticleSys.h"
 #include <iostream>
 #include "Objetos/Proyectil.h"
-
+#include "WorldManager/WorldManager.h"
 
 
 using namespace physx;
@@ -30,6 +30,7 @@ auto changebalas = TipoBalas::Balacanyon;
 PxDefaultCpuDispatcher*	gDispatcher = NULL;
 PxScene*				gScene      = NULL;
 ContactReportCallback gContactReportCallback;
+WorldManager* wold;
 int changeparticles=0;
 int changemuelles = 0;
 
@@ -58,6 +59,9 @@ void initPhysics(bool interactive)
 	gScene = gPhysics->createScene(sceneDesc);
 	part_system = new ParticleSys();
 	part_system->generateFireWorkSystem();
+	wold = new WorldManager(gScene, gPhysics);
+	wold->createRigidDynamic({ 100,100,-50 }, { 20,20,20 }, { 0,0,0 }, { 0,0,0,1 }, 8);
+	wold->createRigidDynamic({ 50,100,-50 }, { 20,20,20 }, { 0,0,0 }, { 1,0,0,1 },5);
 	//part = new Proyectil(TipoBalas::Bala,{0,20,0},{0,0,-1});
 	
 }
@@ -68,6 +72,7 @@ void initPhysics(bool interactive)
 // t: time passed since last call in milliseconds
 void stepPhysics(bool interactive, double t)
 {
+	cout << t << endl;
 	PX_UNUSED(interactive);
 
 	gScene->simulate(t);
@@ -89,6 +94,7 @@ void stepPhysics(bool interactive, double t)
 		}
 	
 	}
+	wold->integrate(t);
 	
 }
 
@@ -112,6 +118,7 @@ void cleanupPhysics(bool interactive)
 	for (int i = 0; i < bullets.size(); i++) {
 		delete bullets[i];
 	}
+	delete wold;
 	}
 
 // Function called when a key is pressed

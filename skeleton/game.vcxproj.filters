@@ -25,6 +25,8 @@
     <ClCompile Include="Force\BuoyancyForceGenerator.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Objetos\Enemies.cpp" />
+    <ClCompile Include="WorldManager\WorldManager.cpp" />
+    <ClCompile Include="WorldManager\ParticleRigid.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.hpp" />
@@ -51,6 +53,8 @@
     <ClInclude Include="Force\BuoyancyForceGenerator.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Objetos\Enemies.h" />
+    <ClInclude Include="WorldManager\WorldManager.h" />
+    <ClInclude Include="WorldManager\ParticleRigid.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Render">
