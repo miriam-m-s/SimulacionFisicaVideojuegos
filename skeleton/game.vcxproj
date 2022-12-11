@@ -267,6 +267,7 @@
     <ClCompile Include="Force\ParticleForceRegistry.cpp" />
     <ClCompile Include="Force\ParticleDragGenerator.cpp" />
     <ClCompile Include="Muelles\SpringForceGenerator.cpp" />
+    <ClCompile Include="WorldManager\ParticleRigidGenerator.cpp" />
     <ClCompile Include="WorldManager\ParticleRigid.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Systems\ParticleGenerator.cpp" />
@@ -291,6 +292,7 @@
     <ClInclude Include="Force\ParticleForceRegistry.h" />
     <ClInclude Include="Force\ParticleDragGenerator.h" />
     <ClInclude Include="Muelles\SpringForceGenerator.h" />
+    <ClInclude Include="WorldManager\ParticleRigidGenerator.h" />
     <ClInclude Include="WorldManager\ParticleRigid.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Systems\ParticleGenerator.h" />

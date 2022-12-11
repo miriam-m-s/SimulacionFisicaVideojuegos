@@ -9,7 +9,7 @@ class Proyectil :
     public Particle
 {
 public:
-    Proyectil(Vector3 Pos, Vector3 Vel, Vector3 acel, float dampin,float radius,float masa);
+    Proyectil();
     Proyectil(TipoBalas s, Vector3 Pos, Vector3 dir);
    
 protected:

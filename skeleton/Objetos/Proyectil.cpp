@@ -1,6 +1,6 @@
 #include "Proyectil.h"
 
-Proyectil::Proyectil(Vector3 Pos, Vector3 Vel, Vector3 acel, float dampin,float radius,float masa)
+Proyectil::Proyectil()
 {
 
 }
