@@ -45,6 +45,7 @@ std::list<ParticleRigid*> GausseanParticleGenF::generateParticles(PxScene* gScen
 			if (random_color)
 				color = { float(distr(eng)),float(distr(eng)),float(distr(eng)),1 };
 			ParticleRigid* part = new ParticleRigid(gScene, gPhysics, ppos, _model->getRenderItem()->shape,vel,color);
+			part->setmass(_model->getRigid()->getMass());
 			double time = _model->getTimeVida();
 			if (time != 0)part->settimeVida(time);
 			part->setName(_model->getName());

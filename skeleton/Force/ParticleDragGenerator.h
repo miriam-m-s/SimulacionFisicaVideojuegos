@@ -29,6 +29,7 @@ public:
 	WindGenerator();
 	WindGenerator(const float k1,Vector3 velwind);
 	virtual void updateForce(Particle* particle, double t);
+	virtual void updateForce(ParticleRigid* particle, double t);
 	protected:
 	Vector3 velwind_;
 	const double pi = 3.142857;

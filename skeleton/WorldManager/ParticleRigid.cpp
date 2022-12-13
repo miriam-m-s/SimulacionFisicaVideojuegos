@@ -1,55 +1,65 @@
 #include "ParticleRigid.h"
 
 
+PhsiscsPart::PhsiscsPart()
+{
+}
+
+void PhsiscsPart::integrate(double t)
+{
+	lifeTime -= t;
+	if (lifeTime <= 0 && !InfiniteLife)alive = false;
+
+}
+RenderItem* PhsiscsPart::getRenderItem()
+{
+	return render_;
+}
+double PhsiscsPart::getTimeVida()
+{
+	return lifeTime;
+}
+
+bool PhsiscsPart::isAlive()
+{
+	return alive;
+}
+
+void PhsiscsPart::settimeVida(double time)
+{
+	lifeTime = time;
+	InfiniteLife = false;
+
+}
+
+void PhsiscsPart::setName(std::string s)
+{
+	name = s;
+}
+
+void PhsiscsPart::setInfiniteVida(bool infinite)
+{
+	InfiniteLife = infinite;
+}
 
 
 
 ParticleRigid::ParticleRigid(PxScene* gScene, PxPhysics* gPhysics, Vector3 pos, PxShape* shape, Vector3 vel, Vector4 color, float density)
 {
-	PxRigidDynamic* part;
-	part = gPhysics->createRigidDynamic(PxTransform(pos));
-	part->setLinearVelocity(vel);
-	part->setAngularVelocity({ 0,0,0 });
-	part->attachShape(*shape);
-	PxRigidBodyExt::setMassAndUpdateInertia(*part, density);
+
+	part_dy = gPhysics->createRigidDynamic(PxTransform(pos));
+	part_dy->setLinearVelocity(vel);
+	part_dy->setAngularVelocity({ 0,0,0 });
+	part_dy->attachShape(*shape);
+	PxRigidBodyExt::setMassAndUpdateInertia(*part_dy, density);
 	
-	gScene->addActor(*part);
-	part_ = part;
-	render_ = new RenderItem(shape, part_, color);
+	gScene->addActor(*part_dy);
+	render_ = new RenderItem(shape, part_dy, color);
+	shape->getGeometryType();
 	
 }
 
-ParticleRigid::ParticleRigid(PxScene* gScene, PxPhysics* gPhysics, Vector3 pos, PxShape* shape, Vector4 color)
-{
-	part_ = gPhysics->createRigidStatic(PxTransform(pos));
-	part_->attachShape(*shape);
-	render_ = new RenderItem(shape, part_, color);
-	gScene->addActor(*part_);
-}
-
-void ParticleRigid::settimeVida(double time)
-{
-	 lifeTime=time;
-	 InfiniteLife = false;
-
-}
-
-void ParticleRigid::setName(std::string s)
-{
-	name = s;
-}
-
-void ParticleRigid::setInfiniteVida(bool infinite)
-{
-	InfiniteLife = infinite;
-}
-
-double ParticleRigid::getTimeVida()
-{
-	return lifeTime;
-}
-
-void ParticleRigid::onCollision(ParticleRigid* name1)
+void ParticleRigid::onCollision(PhsiscsPart* name1)
 {
 	if (name1->getName() == "bala") {
 		alive = false;
@@ -57,19 +67,24 @@ void ParticleRigid::onCollision(ParticleRigid* name1)
 	}
 }
 
-RenderItem* ParticleRigid::getRenderItem()
+void ParticleRigid::setmass(double mass)
 {
-	return render_;
+	part_dy->setMass(mass);
 }
 
-void ParticleRigid::integrate(double t)
-{
-	lifeTime -= t;
-	if (lifeTime <= 0 && !InfiniteLife)alive = false;
 
+
+ParticleRigidStatic::ParticleRigidStatic(PxScene* gScene, PxPhysics* gPhysics, Vector3 pos, PxShape* shape, Vector4 color)
+{
+	part_ = gPhysics->createRigidStatic(PxTransform(pos));
+	part_->attachShape(*shape);
+	render_ = new RenderItem(shape, part_, color);
+	gScene->addActor(*part_);
 }
 
-bool ParticleRigid::isAlive()
+void ParticleRigidStatic::onCollision(PhsiscsPart* name1)
 {
-	return alive;
 }
+
+
+

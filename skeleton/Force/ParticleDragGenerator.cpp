@@ -48,6 +48,47 @@ void WindGenerator::updateForce(Particle* particle, double t)
 	particle->addForce(dragF);
 }
 
+void WindGenerator::updateForce(ParticleRigid* particle, double t)
+{
+
+	if (fabs(particle->getRigid()->getInvMass()) < 1e-10) {
+		return;
+	}
+	auto type = particle->getRenderItem()->shape->getGeometryType();
+
+	double area;
+	switch (type)
+	{
+	case physx::PxGeometryType::eSPHERE: 
+	{
+		physx::PxSphereGeometry bola;
+		particle->getRenderItem()->shape->getSphereGeometry(bola);
+		area = 4 * pi * bola.radius * bola.radius;
+	}
+		
+		break;
+	case physx::PxGeometryType::eBOX:
+	{
+		physx::PxBoxGeometry caja;
+		particle->getRenderItem()->shape->getBoxGeometry(caja);
+		physx::PxVec3 lados = caja.halfExtents;
+		auto area1 = 2 * lados[0] * 2 * lados[1] * 2;
+		auto area2 = lados[0] * 2 * lados[2] * 2 * 2;
+		auto area3 = lados[1] * 2 * lados[2] * 2 * 2;
+		area = area1 + area2 + area3;
+	}
+		
+		break;
+	}
+	Vector3 v = particle->getRigid()->getLinearVelocity() - velwind_;
+	k2_ = area * coefAerodin * airDensity;
+	float drag_coef = v.normalize();
+	Vector3 dragF;
+	drag_coef = k1_ * drag_coef + k2_ * drag_coef * drag_coef;
+	dragF = -v * drag_coef;
+	particle->getRigid()->addForce({45,0,0}, PxForceMode::eACCELERATION);
+}
+
 Torbellino::Torbellino()
 {
 }
