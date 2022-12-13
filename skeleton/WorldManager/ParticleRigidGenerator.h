@@ -13,8 +13,7 @@ class ParticleRigidGenerator
 public:
     ParticleRigidGenerator() : random_color(false), color(0, 0.7, 0.8, 0.4) {};
     ~ParticleRigidGenerator() {
-        if (_model != nullptr)
-            delete _model;
+      
         
     }
     virtual std::list<ParticleRigid*>generateParticles(PxScene* gScene, PxPhysics* gPhysics) = 0;

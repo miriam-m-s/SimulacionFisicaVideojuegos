@@ -10,7 +10,7 @@ WorldManager::WorldManager(PxScene* gScene, PxPhysics* gPhysics):gScene_(gScene)
 	ParticleRigidStatic* part1 = new ParticleRigidStatic(gScene_, gPhysics_, { 10,10,-30 }, CreateShape(PxBoxGeometry(40, 20, 5)), { 0.8,0.8,0.8,1 });
 	Objects.push_back(part1);
 	forceregistry = new ParticleForceRegistryPhis();
-	//generateparticles();
+	generateparticles();
 }
 
 WorldManager::~WorldManager()
@@ -22,12 +22,12 @@ WorldManager::~WorldManager()
 			l = nullptr;
 			it = Objects.erase(it);
 	}
-	for (std::list<ParticleRigidGenerator*>::iterator it= particle_generators.begin(); it != particle_generators.end();) {
+	for (std::list<ParticleRigidGenerator*>::iterator it= particle_generators.begin(); it != particle_generators.end();++it) {
 		delete (*it);
 	}
-	/*for (std::list<ForceGenerator*>::iterator it = forces.begin(); it != forces.end();) {
+	for (std::list<ForceGenerator*>::iterator it = forces.begin(); it != forces.end();++it) {
 		delete (*it);
-	}*/
+	}
 	forceregistry->deleteforce();
 	delete forceregistry;
 
@@ -80,10 +80,14 @@ void WorldManager::integrate(double t)
 	for (std::list<PhsiscsPart*>::iterator it = Objects.begin(); it != Objects.end();) {
 		(*it)->integrate(t);
 		if (!(*it)->isAlive()) {
+			auto s = dynamic_cast<ParticleRigid*>(*it);
+			if (s != nullptr)forceregistry->deleteParticleRegistry((s));
+			
 			auto l = *it;
 			delete l;
 			l = nullptr;
 			it = Objects.erase(it);
+			
 			
 		}
 		else ++it;
@@ -149,6 +153,10 @@ void WorldManager::generaFuerzas(TipoFuerzasF fuerza)
 
 void WorldManager::deletecurrentforces()
 {
+	for (std::list<ForceGenerator*>::iterator it = forces.begin(); it != forces.end();) {
+		delete(*it);
+		it = forces.erase(it);
+	}
 	forceregistry->deleteforce();
 }
 
@@ -164,7 +172,7 @@ TypeParticlesF::TypeParticlesF(TipoParticlesF par, PxScene* gScene, PxPhysics* g
 	case fCascada:
 		gMaterial = gPhysics->createMaterial(10.0f, 10.0f, 10.0f);
 		ParticleRigid* part = new ParticleRigid(gScene, gPhysics, { 0,100,50 }, CreateShape(physx::PxBoxGeometry(1, 1, 1),gMaterial), {0,0,0}, {1,1,1,1}, 2);
-
+		part->setmass(3);
 		partgaus = new GausseanParticleGenF(part, { 0,100,50 }, { -10,0,-10 }, { 0.1,0.1,0.1 }, { 0.1,0.1,0.1 }, 0.8, 3);
 		partgaus->setrandomColor(true);
 		
