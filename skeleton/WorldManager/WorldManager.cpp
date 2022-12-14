@@ -4,10 +4,13 @@
 
 WorldManager::WorldManager(PxScene* gScene, PxPhysics* gPhysics):gScene_(gScene),gPhysics_(gPhysics)
 {	
-	ParticleRigidStatic* part = new ParticleRigidStatic(gScene_, gPhysics_, { 0,0,0 }, CreateShape(PxBoxGeometry(100, 0.1, 100)), { 0.8,0.8,0.8,1 });
+	hsv col = { 299,0.81,0.40 };
+	rgb morado = hsv2rgb(col);
+	ParticleRigidStatic* part = new ParticleRigidStatic(gScene_, gPhysics_, { 0,0,0 }, CreateShape(PxBoxGeometry(100, 0.1, 100)),{morado.r,morado.g,morado.b,1});
 	Objects.push_back(part);
-
-	ParticleRigidStatic* part1 = new ParticleRigidStatic(gScene_, gPhysics_, { 10,10,-30 }, CreateShape(PxBoxGeometry(40, 20, 5)), { 0.8,0.8,0.8,1 });
+	 col = { 49,0.98,0.94 };
+	 rgb amarillo = hsv2rgb(col);
+	ParticleRigidStatic* part1 = new ParticleRigidStatic(gScene_, gPhysics_, { 10,10,-30 }, CreateShape(PxBoxGeometry(40, 20, 5)), {amarillo.r,amarillo.g,amarillo.b,1  });
 	Objects.push_back(part1);
 	forceregistry = new ParticleForceRegistryPhis();
 	generateparticles();
@@ -143,7 +146,7 @@ void WorldManager::generaFuerzas(TipoFuerzasF fuerza)
 	ForceGenerator* force;
 	switch (fuerza) {
 	case Viento:
-		force= new WindGenerator(0.8, { 10,0,0 });
+		force= new WindGenerator(0.8, { 20,0,0 });
 	
 		break;
 	default:
@@ -178,7 +181,7 @@ TypeParticlesF::TypeParticlesF(TipoParticlesF par, PxScene* gScene, PxPhysics* g
 	
 	case fCascada:
 		gMaterial = gPhysics->createMaterial(0.5f,0.5f, 0.6f);
-		ParticleRigid* part = new ParticleRigid(gScene, gPhysics, { 0,100,50 }, CreateShape(physx::PxBoxGeometry(2,2, 1),gMaterial), {0,0,0}, {1,1,1,1}, 200);
+		ParticleRigid* part = new ParticleRigid(gScene, gPhysics, { 0,100,50 }, CreateShape(physx::PxBoxGeometry(2,2, 1),gMaterial), {0,0,0}, {1,1,1,1}, 500);
 		part->settimeVida(10);
 		partgaus = new GausseanParticleGenF(part, { 0,30,50 }, { 0,-10,10 }, { 100,100,100 }, { 0.1,0.1,0.1 }, 0.8, 8);
 		partgaus->setrandomColor(true);

@@ -267,9 +267,10 @@
     <ClCompile Include="Force\ParticleForceRegistry.cpp" />
     <ClCompile Include="Force\ParticleDragGenerator.cpp" />
     <ClCompile Include="Muelles\SpringForceGenerator.cpp" />
+    <ClCompile Include="Scenes\SceneManager.cpp" />
+    <ClCompile Include="Scenes\SceneShoot.cpp" />
     <ClCompile Include="WorldManager\ParticleRigidGenerator.cpp" />
     <ClCompile Include="WorldManager\ParticleRigid.cpp" />
-    <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Systems\ParticleGenerator.cpp" />
     <ClCompile Include="Systems\ParticleSys.cpp" />
     <ClCompile Include="RenderUtils.cpp" />
@@ -278,6 +279,7 @@
     <ClCompile Include="WorldManager\WorldManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ColorHSV.h" />
     <ClInclude Include="Objetos\Enemies.h" />
     <ClInclude Include="Force\BuoyancyForceGenerator.h" />
     <ClInclude Include="Muelles\AnchoredSpringFG.h" />
@@ -292,9 +294,11 @@
     <ClInclude Include="Force\ParticleForceRegistry.h" />
     <ClInclude Include="Force\ParticleDragGenerator.h" />
     <ClInclude Include="Muelles\SpringForceGenerator.h" />
+    <ClInclude Include="Scenes\SceneManager.h" />
+    <ClInclude Include="Scenes\SceneShoot.h" />
     <ClInclude Include="WorldManager\ParticleRigidGenerator.h" />
     <ClInclude Include="WorldManager\ParticleRigid.h" />
-    <ClInclude Include="Scene.h" />
+    <ClInclude Include="Scenes\Scene.h" />
     <ClInclude Include="Systems\ParticleGenerator.h" />
     <ClInclude Include="Systems\ParticleSys.h" />
     <ClInclude Include="RenderUtils.hpp" />

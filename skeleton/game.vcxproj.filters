@@ -23,11 +23,12 @@
     <ClCompile Include="Muelles\SpringForceGenerator.cpp" />
     <ClCompile Include="Muelles\AnchoredSpringFG.cpp" />
     <ClCompile Include="Force\BuoyancyForceGenerator.cpp" />
-    <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Objetos\Enemies.cpp" />
     <ClCompile Include="WorldManager\WorldManager.cpp" />
     <ClCompile Include="WorldManager\ParticleRigid.cpp" />
     <ClCompile Include="WorldManager\ParticleRigidGenerator.cpp" />
+    <ClCompile Include="Scenes\SceneShoot.cpp" />
+    <ClCompile Include="Scenes\SceneManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.hpp" />
@@ -52,11 +53,14 @@
     <ClInclude Include="Muelles\SpringForceGenerator.h" />
     <ClInclude Include="Muelles\AnchoredSpringFG.h" />
     <ClInclude Include="Force\BuoyancyForceGenerator.h" />
-    <ClInclude Include="Scene.h" />
+    <ClInclude Include="Scenes\Scene.h" />
     <ClInclude Include="Objetos\Enemies.h" />
     <ClInclude Include="WorldManager\WorldManager.h" />
     <ClInclude Include="WorldManager\ParticleRigid.h" />
     <ClInclude Include="WorldManager\ParticleRigidGenerator.h" />
+    <ClInclude Include="ColorHSV.h" />
+    <ClInclude Include="Scenes\SceneShoot.h" />
+    <ClInclude Include="Scenes\SceneManager.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Render">
