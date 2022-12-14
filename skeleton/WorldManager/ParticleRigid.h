@@ -14,6 +14,7 @@ class PhsiscsPart {
 	virtual void onCollision(PhsiscsPart* name1)=0;
 	virtual void integrate(double t);
 	double getTimeVida();
+	bool getInfiniteVida();
 	bool isAlive();
 	void settimeVida(double time);
 	void setName(std::string s);
@@ -25,7 +26,7 @@ class PhsiscsPart {
 	void setInfiniteVida(bool infinite);
 	RenderItem* getRenderItem();
 protected:
-	double lifeTime = 5.;
+	double lifeTime = 0.;
 	bool InfiniteLife = true;
 	bool alive = true;
 	std::string name = " ";

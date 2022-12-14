@@ -20,6 +20,11 @@ double PhsiscsPart::getTimeVida()
 	return lifeTime;
 }
 
+bool PhsiscsPart::getInfiniteVida()
+{
+	return InfiniteLife;
+}
+
 bool PhsiscsPart::isAlive()
 {
 	return alive;

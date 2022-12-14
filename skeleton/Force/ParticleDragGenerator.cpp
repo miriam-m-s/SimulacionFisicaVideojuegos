@@ -74,10 +74,8 @@ void WindGenerator::updateForce(ParticleRigid* particle, double t)
 		physx::PxBoxGeometry caja;
 		particle->getRenderItem()->shape->getBoxGeometry(caja);
 		physx::PxVec3 lados = caja.halfExtents;
-		auto area1 =  lados[0] *  lados[1] * 2;
-		auto area2 = lados[0] *  lados[2]  * 2;
-		auto area3 = lados[1]  * lados[2]  * 2;
-		area = (area1 + area2 + area3)/100;
+		area = lados[0] * lados[1];
+	
 	}
 		
 		break;
@@ -88,7 +86,7 @@ void WindGenerator::updateForce(ParticleRigid* particle, double t)
 	PxVec3 dragF;
 	drag_coef = k1_ * drag_coef + k2_ * drag_coef * drag_coef;
 	dragF = -v * drag_coef;
-	particle->getRigid()->addForce({dragF.x,dragF.y,dragF.z}, PxForceMode::eACCELERATION);
+	particle->getRigid()->addForce({dragF.x,dragF.y,dragF.z}, PxForceMode::eFORCE);
 }
 
 Torbellino::Torbellino()

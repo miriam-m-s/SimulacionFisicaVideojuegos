@@ -24,7 +24,7 @@ GausseanParticleGenF::GausseanParticleGenF(ParticleRigid* partmodel, Vector3 pos
 	//te d aun numero entre 0 1
 	distr = std::uniform_real_distribution<double>(0, 1);
 	
-
+	size = std::uniform_real_distribution<double>(1, 10);
 
 }
 
@@ -44,7 +44,12 @@ std::list<ParticleRigid*> GausseanParticleGenF::generateParticles(PxScene* gScen
 			Vector3 vel(velx(gen), vely(gen), velz(gen));
 			if (random_color)
 				color = { float(distr(eng)),float(distr(eng)),float(distr(eng)),1 };
-			ParticleRigid* part = new ParticleRigid(gScene, gPhysics, ppos, _model->getRenderItem()->shape,vel,color);
+			auto shape = _model->getRenderItem()->shape;
+			if (randomCub) {
+				shape = CreateShape(physx::PxBoxGeometry(size(eng), size(eng), size(eng)));
+			}
+
+			ParticleRigid* part = new ParticleRigid(gScene, gPhysics, ppos, shape,vel,color);
 			part->setmass(_model->getRigid()->getMass());
 			double time = _model->getTimeVida();
 			if (time != 0)part->settimeVida(time);

@@ -33,6 +33,9 @@ public:
     void setrandomColor(bool s) {
         random_color = true;
     }
+    void randomCube(bool s) {
+        randomCub = s;
+    }
   
 protected:
     bool changepos = false;
@@ -48,6 +51,7 @@ protected:
     std::random_device rd{};
     std::mt19937 gen{ rd() };
     double tiempo;
+    bool randomCub;
  
 };
 
@@ -69,5 +73,6 @@ protected:
     std::normal_distribution<>z;
     std::normal_distribution<>velx; std::normal_distribution<>vely; std::normal_distribution<>velz;
     std::uniform_real_distribution<double>distr;
+    std::uniform_real_distribution<double>size;
     std::uniform_real_distribution<float>time;
 };

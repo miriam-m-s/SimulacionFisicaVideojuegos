@@ -16,7 +16,7 @@ WorldManager::WorldManager(PxScene* gScene, PxPhysics* gPhysics):gScene_(gScene)
 WorldManager::~WorldManager()
 {
 	for (std::list<PhsiscsPart*>::iterator it = Objects.begin(); it != Objects.end();) {
-
+			//gScene_->removeActor(*((*it)->getRigid()));
 			auto l = *it;
 			delete l;
 			l = nullptr;
@@ -45,11 +45,11 @@ ParticleRigidStatic* WorldManager::createRigidStatic(Vector3 pos, PxShape* shape
 	return part;
 }
 
-ParticleRigid* WorldManager::createRigidDynamic(Vector3 pos, PxShape* shape, Vector3 vel, Vector4 color,double mass,float density, std::string name , double time)
+ParticleRigid* WorldManager::createRigidDynamic(Vector3 pos, PxShape* shape, Vector3 vel, Vector4 color,float density, std::string name , double time)
 {
 
 	ParticleRigid* part = new ParticleRigid(gScene_,gPhysics_, pos, shape,  vel, color,density);
-	part->setmass(mass);
+	
 	if (time != 0)part->settimeVida(time);
 	if (name != "") {
 		
@@ -65,28 +65,35 @@ ParticleRigid* WorldManager::createRigidDynamic(Vector3 pos, PxShape* shape, Vec
 
 void WorldManager::integrate(double t)
 {
-	for (auto gpart : particle_generators) {
-		if (Objects.size() < NUMMAX){
-			std::list<ParticleRigid*>aux = gpart->generateParticles(gScene_, gPhysics_);
-			for (auto il = aux.begin(); il != aux.end(); ++il) {
-				Objects.push_back(*il);
-				for (auto force: forces) {
-					forceregistry->addRegistry(force, (*il));
+	contador += t;
+	if (contador >= time_gen) {
+		for (auto gpart : particle_generators) {
+			if (Objects.size() < NUMMAX) {
+				std::list<ParticleRigid*>aux = gpart->generateParticles(gScene_, gPhysics_);
+				for (auto il = aux.begin(); il != aux.end(); ++il) {
+					Objects.push_back(*il);
+					for (auto force : forces) {
+						forceregistry->addRegistry(force, (*il));
+					}
 				}
 			}
+
 		}
-		
+		contador = 0;
 	}
+	
+	
 	for (std::list<PhsiscsPart*>::iterator it = Objects.begin(); it != Objects.end();) {
 		(*it)->integrate(t);
 		if (!(*it)->isAlive()) {
 			auto s = dynamic_cast<ParticleRigid*>(*it);
 			if (s != nullptr)forceregistry->deleteParticleRegistry((s));
-			
+			gScene_->removeActor(*((*it)->getRigid()));
 			auto l = *it;
 			delete l;
 			l = nullptr;
 			it = Objects.erase(it);
+		
 			
 			
 		}
@@ -136,7 +143,7 @@ void WorldManager::generaFuerzas(TipoFuerzasF fuerza)
 	ForceGenerator* force;
 	switch (fuerza) {
 	case Viento:
-		force= new WindGenerator(0.8, { 3,4,0 });
+		force= new WindGenerator(0.8, { 10,0,0 });
 	
 		break;
 	default:
@@ -170,10 +177,10 @@ TypeParticlesF::TypeParticlesF(TipoParticlesF par, PxScene* gScene, PxPhysics* g
 	{
 	
 	case fCascada:
-		gMaterial = gPhysics->createMaterial(10.0f, 10.0f, 10.0f);
-		ParticleRigid* part = new ParticleRigid(gScene, gPhysics, { 0,100,50 }, CreateShape(physx::PxBoxGeometry(1, 1, 1),gMaterial), {0,0,0}, {1,1,1,1}, 2);
-		part->setmass(3);
-		partgaus = new GausseanParticleGenF(part, { 0,100,50 }, { -10,0,-10 }, { 0.1,0.1,0.1 }, { 0.1,0.1,0.1 }, 0.8, 3);
+		gMaterial = gPhysics->createMaterial(0.5f,0.5f, 0.6f);
+		ParticleRigid* part = new ParticleRigid(gScene, gPhysics, { 0,100,50 }, CreateShape(physx::PxBoxGeometry(2,2, 1),gMaterial), {0,0,0}, {1,1,1,1}, 200);
+		part->settimeVida(10);
+		partgaus = new GausseanParticleGenF(part, { 0,30,50 }, { 0,-10,10 }, { 100,100,100 }, { 0.1,0.1,0.1 }, 0.8, 8);
 		partgaus->setrandomColor(true);
 		
 

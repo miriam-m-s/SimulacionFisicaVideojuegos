@@ -61,7 +61,7 @@ void initPhysics(bool interactive)
 	part_system->generateFireWorkSystem();
 	wold = new WorldManager(gScene, gPhysics);
 	//wold->createRigidDynamic({ 100,100,-50 }, CreateShape(physx::PxBoxGeometry(20,20,20)), { 0, 0, 0 }, {0,0,0,1},3, 2, "bala");
-	wold->createRigidDynamic({ 50,100,-50 }, CreateShape(physx::PxBoxGeometry(20, 20, 20)), { 0,0,0 }, { 1,0,0,1 },2,3,"bala");
+	wold->createRigidDynamic({ 50,100,-50 }, CreateShape(physx::PxBoxGeometry(20, 20, 20)), { 0,0,0 }, { 1,0,0,1 },200,"bala");
 	//part = new Proyectil(TipoBalas::Bala,{0,20,0},{0,0,-1});
 	
 }

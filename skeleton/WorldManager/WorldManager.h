@@ -25,7 +25,7 @@ public:
 	WorldManager(PxScene* gScene, PxPhysics* gPhysics);
 	~WorldManager();
 	ParticleRigidStatic* createRigidStatic(Vector3 pos, PxShape* shape, Vector4 color,  std::string name =" ", double time = 0);
-	ParticleRigid* createRigidDynamic(Vector3 pos, PxShape* shape, Vector3 vel, Vector4 color,double mass=1, float density=2, std::string name="", double time=0);
+	ParticleRigid* createRigidDynamic(Vector3 pos, PxShape* shape, Vector3 vel, Vector4 color,float density=2, std::string name="", double time=0);
 	void integrate(double t);
 	void handleCollision(PxActor* actor1, PxActor* actor2);
 	void generateparticles();
@@ -40,7 +40,8 @@ protected:
 	list<ParticleRigidGenerator*>particle_generators;
 	list<ForceGenerator*>forces;
 	int NUMMAX = MAXPART;
-	
+	double time_gen=1;
+	double contador=0;
 };
 
 class TypeParticlesF {
