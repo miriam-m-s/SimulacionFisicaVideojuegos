@@ -15,6 +15,7 @@ public:
 	void changeScene(int i);
 	int getScene(int id);
 	void InputHandler(unsigned char key);
+	void handleCollision(PxActor* actor1, PxActor* actor2);
 protected:
 	PxScene* gScene_;
 	PxPhysics* gPhysics_;

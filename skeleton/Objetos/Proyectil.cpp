@@ -1,46 +1,48 @@
 #include "Proyectil.h"
 
-Proyectil::Proyectil()
-{
 
-}
-void Proyectil::partlifetime() {
-	if (restavida_<=0 || pose.p.y < 0.0f) {
-		alive = false;
-	}
-}
-Proyectil::Proyectil(TipoBalas s, Vector3 Pos, Vector3 dir)
-{
-	float grav=0;
-	float speed=0;
-	float dumping=0;
-	float radius = 0;
+
+TipoBala::TipoBala(TipoBalas s) {
 	switch (s)
 	{
 	case Bala:
-		grav = -0.1f;
 		speed = 300.f;
-		dumping = 0.99;
 		radius = 2;
+		density = 50;
+
 		break;
 	case Laser:
-		grav = -0.01f;
 		speed = 100.f;
-		dumping = 0.99;
 		radius = 1;
+		density = 1;
 		break;
-	case Balacanyon:
-		grav = -9.8f;
+	case Balacanyon:;
 		speed = 50.f;
-		dumping = 0.99;
 		radius = 4;
+		density = 100000;
 		break;
 
 	default:
 		break;
 	}
-	setpartcle(Pos, dir.getNormalized() * speed, { 0,grav,0 }, 0.99, radius, 5.0f,5);
-	restavida_ = 5;
 }
 
+Proyectil::Proyectil(TipoBala s, Vector3 Pos, Vector3 dir,PxScene* gScene, PxPhysics* gPhysics):ParticleRigid( gScene,gPhysics,  Pos, CreateShape(physx::PxSphereGeometry(s.radius)), dir.getNormalized()* s.speed, {1,1,1,1}, s.density)
+{
+	float grav=0;
+	float speed=0;
+	float dumping=0;
+	float radius = 0;
+	settimeVida(10);
+	setName("bala");
+	
+	
+	
+}
+void Proyectil::onCollision(PhsiscsPart* name1)
+{
+	
+		alive = false;
+	
+}
 

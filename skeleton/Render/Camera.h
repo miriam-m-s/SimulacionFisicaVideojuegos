@@ -53,6 +53,8 @@ private:
 	physx::PxVec3	mDir;
 	int				mMouseX;
 	int				mMouseY;
+	physx::PxVec3   posInicial;
+	bool player = true;
 };
 
 

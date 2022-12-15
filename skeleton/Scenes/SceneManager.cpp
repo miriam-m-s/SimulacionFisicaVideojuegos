@@ -1,6 +1,6 @@
 #include "SceneManager.h"
 
-SceneManager::SceneManager(PxScene* gScene, PxPhysics* gPhysics):gScene_(gScene),gPhysics_(gPhysics_)
+SceneManager::SceneManager(PxScene* gScene, PxPhysics* gPhysics):gScene_(gScene),gPhysics_(gPhysics)
 {
 
 	escenas.push_back(new SceneShoot(gScene_, gPhysics_));
@@ -36,4 +36,9 @@ int SceneManager::getScene(int id)
 void SceneManager::InputHandler(unsigned char key)
 {
 	escenas[id]->inputHandler(key);
+}
+
+void SceneManager::handleCollision(PxActor* actor1, PxActor* actor2)
+{
+	escenas[id]->handleCollision(actor1, actor2);
 }

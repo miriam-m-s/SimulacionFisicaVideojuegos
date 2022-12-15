@@ -11,6 +11,8 @@
 #include <iostream>
 #include "Objetos/Proyectil.h"
 #include "WorldManager/WorldManager.h"
+#include "Scenes/SceneManager.h"
+
 
 
 using namespace physx;
@@ -30,7 +32,8 @@ auto changebalas = TipoBalas::Balacanyon;
 PxDefaultCpuDispatcher*	gDispatcher = NULL;
 PxScene*				gScene      = NULL;
 ContactReportCallback gContactReportCallback;
-WorldManager* wold;
+SceneManager* scene;
+
 int changeparticles=0;
 int changemuelles = 0;
 
@@ -59,10 +62,9 @@ void initPhysics(bool interactive)
 	gScene = gPhysics->createScene(sceneDesc);
 	part_system = new ParticleSys();
 	part_system->generateFireWorkSystem();
-	wold = new WorldManager(gScene, gPhysics);
-	//wold->createRigidDynamic({ 100,100,-50 }, CreateShape(physx::PxBoxGeometry(20,20,20)), { 0, 0, 0 }, {0,0,0,1},3, 2, "bala");
-	wold->createRigidDynamic({ 50,100,-50 }, CreateShape(physx::PxBoxGeometry(20, 20, 20)), { 0,0,0 }, { 1,0,0,1 },200,"bala");
-	//part = new Proyectil(TipoBalas::Bala,{0,20,0},{0,0,-1});
+	scene = new SceneManager(gScene, gPhysics);
+	
+	 
 	
 }
 
@@ -79,22 +81,9 @@ void stepPhysics(bool interactive, double t)
 	gScene->fetchResults(true);
 	part_system->update(t);
 	//std::vector<Proyectil*>iterator il=bullet
-	auto it = bullets.begin();
-	for (int i = 0; i < bullets.size(); i++) {
-		if (bullets[i]->active()) {
-			bullets[i]->integrate(t);
-			++it;
-		}
-		else {
-			auto l = bullets[i];
-			delete l;
-			l = nullptr;
-			it=bullets.erase(it);
-			
-		}
-	
-	}
-	wold->integrate(t);
+
+	scene->update(t);
+
 	
 }
 
@@ -119,20 +108,20 @@ void cleanupPhysics(bool interactive)
 	for (int i = 0; i < bullets.size(); i++) {
 		delete bullets[i];
 	}
-	delete wold;
+	delete scene;
 	}
 
 // Function called when a key is pressed
 void keyPress(unsigned char key, const PxTransform& camera)
 {
 	PX_UNUSED(camera);
-	Vector3 p = GetCamera()->getTransform().p + GetCamera()->getDir() * 10;
 	
+	scene->InputHandler(key);
 	switch(toupper(key))
 	{
 	case 'B': 
 		
-		bullets.push_back(new Proyectil(changebalas, p, GetCamera()->getDir()));
+		
 		break;
 	case '1':
 		changebalas = TipoBalas::Bala;
@@ -151,7 +140,7 @@ void keyPress(unsigned char key, const PxTransform& camera)
 		break;
 	case 'X':
 		part_system->deletecurrentgenerators();
-		wold->deletecurrentforces();
+	
 		break;
 	case 'Q':
 		part_system->creategenerator(TipoParticles(changeparticles));
@@ -169,7 +158,7 @@ void keyPress(unsigned char key, const PxTransform& camera)
 		}
 		break;
 	case 'G':
-		wold->generaFuerzas(Viento);
+	
 		break;
 	case '+':
 		part_system->incrementK(0.5);
@@ -190,7 +179,7 @@ void onCollision(physx::PxActor* actor1, physx::PxActor* actor2)
 {
 	PX_UNUSED(actor1);
 	PX_UNUSED(actor2);
-    wold->handleCollision(actor1, actor2);
+	scene->handleCollision(actor1, actor2);
 	
 	
 }

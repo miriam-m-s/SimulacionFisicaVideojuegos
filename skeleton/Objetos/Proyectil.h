@@ -1,22 +1,25 @@
 #pragma once
-#include "Particle.h"
+#include "../WorldManager/ParticleRigid.h"
 #include <string>
-
-enum TipoBalas{
-    Bala,Laser,Balacanyon
+enum TipoBalas {
+    Bala, Laser, Balacanyon
 };
-class Proyectil :
-    public Particle
+class TipoBala {
+public:
+    TipoBala(TipoBalas s);
+    float density = 0;
+    float speed = 0;
+    float radius = 0;
+
+    
+};
+
+class Proyectil : public ParticleRigid
 {
 public:
-    Proyectil();
-    Proyectil(TipoBalas s, Vector3 Pos, Vector3 dir);
    
-protected:
-    void partlifetime()override;
-    
+    Proyectil(TipoBala s, Vector3 Pos, Vector3 dir, PxScene* gScene, PxPhysics* gPhysics);
+    virtual void onCollision(PhsiscsPart* name1)override;
 
-   
-   
 };
 

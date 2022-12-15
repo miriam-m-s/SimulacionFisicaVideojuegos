@@ -13,13 +13,13 @@ WorldManager::WorldManager(PxScene* gScene, PxPhysics* gPhysics):gScene_(gScene)
 	ParticleRigidStatic* part1 = new ParticleRigidStatic(gScene_, gPhysics_, { 10,10,-30 }, CreateShape(PxBoxGeometry(40, 20, 5)), {amarillo.r,amarillo.g,amarillo.b,1  });
 	Objects.push_back(part1);
 	forceregistry = new ParticleForceRegistryPhis();
-	generateparticles();
+	//generateparticles();
 }
 
 WorldManager::~WorldManager()
 {
 	for (std::list<PhsiscsPart*>::iterator it = Objects.begin(); it != Objects.end();) {
-			//gScene_->removeActor(*((*it)->getRigid()));
+			gScene_->removeActor(*((*it)->getRigid()));
 			auto l = *it;
 			delete l;
 			l = nullptr;
@@ -117,11 +117,12 @@ void WorldManager::handleCollision(PxActor* actor1, PxActor* actor2)
 			particles[i] = (*it);
 			i++;
 		}
-		else ++it;
+		++it;
 	}
 	if ((particles[0]) != nullptr && (particles[1]) != nullptr) {
 		(particles[1])->onCollision((particles[0]));
 		(particles[0])->onCollision((particles[1]));
+		cout << "colision" << "\n";
 	}
 }
 
@@ -169,7 +170,12 @@ void WorldManager::deletecurrentforces()
 	}
 	forceregistry->deleteforce();
 }
+void WorldManager::createBullet(TipoBala s, Vector3 Pos, Vector3 dir) {
+	
 
+	Objects.push_back(new Proyectil(s,Pos,dir,gScene_,gPhysics_));
+
+}
 TypeParticlesF::TypeParticlesF(TipoParticlesF par, PxScene* gScene, PxPhysics* gPhysics)
 {
 	Camera* camera = GetCamera();
@@ -196,3 +202,4 @@ ParticleRigidGenerator* TypeParticlesF::getparticles()
 	if (partgaus)return partgaus;
 	return nullptr;
 }
+

@@ -68,6 +68,10 @@ void mouseCallback(int button, int state, int x, int y)
 	sCamera->handleMouse(button, state, x, y);
 	
 }
+void func(int mx, int my) {
+
+	sCamera->handleMotion(mx, my);
+}
 
 void idleCallback()
 {
@@ -149,7 +153,8 @@ void renderLoop()
 	glutDisplayFunc(renderCallback);
 	glutKeyboardFunc(keyboardCallback);
 	glutMouseFunc(mouseCallback);
-	glutMotionFunc(motionCallback);
+	glutMotionFunc(func);
+	glutPassiveMotionFunc(func);
 	motionCallback(0,0);
 
 	atexit(exitCallback);
@@ -168,6 +173,7 @@ void DeregisterRenderItem(const RenderItem* _item)
 	auto it = find(gRenderItems.begin(), gRenderItems.end(), _item);
 	gRenderItems.erase(it);
 }
+
 
 double GetLastTime()
 {

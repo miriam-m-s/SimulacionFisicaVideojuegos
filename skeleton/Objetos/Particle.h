@@ -66,7 +66,9 @@ public:
 	void setEulerExplicit(bool s) {
 		euelerexplicit = s;
 	}
-
+	void setPos(Vector3 Pos) {
+		pose=physx::PxTransform(Pos.x, Pos.y, Pos.z);
+	}
 protected:
 	virtual void partlifetime();
 	void cambiarcolor();

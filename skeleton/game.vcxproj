@@ -253,7 +253,8 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Objetos\Enemies.cpp" />
+    <ClCompile Include="WorldManager\Enemy.cpp" />
+    <ClCompile Include="Interfaz\Interfaz.cpp" />
     <ClCompile Include="Force\BuoyancyForceGenerator.cpp" />
     <ClCompile Include="Muelles\AnchoredSpringFG.cpp" />
     <ClCompile Include="callbacks.cpp" />
@@ -280,7 +281,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ColorHSV.h" />
-    <ClInclude Include="Objetos\Enemies.h" />
+    <ClInclude Include="WorldManager\Enemy.h" />
+    <ClInclude Include="Interfaz\Interfaz.h" />
     <ClInclude Include="Force\BuoyancyForceGenerator.h" />
     <ClInclude Include="Muelles\AnchoredSpringFG.h" />
     <ClInclude Include="callbacks.hpp" />

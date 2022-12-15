@@ -11,6 +11,7 @@
 #include "../Force/ForceGenarator.h"
 #include "../Force/ParticleForceRegistry.h"
 #include"../ColorHSV.h"
+#include "../Objetos/Proyectil.h"
 #define MAXPART 400;
 //
 using namespace physx;
@@ -33,6 +34,7 @@ public:
 	void eraseGenerators();
 	void generaFuerzas(TipoFuerzasF fuerza);
 	void deletecurrentforces();
+	void createBullet(TipoBala s, Vector3 Pos, Vector3 dir);
 protected:
 	PxScene* gScene_;
 	PxPhysics* gPhysics_;
@@ -43,6 +45,7 @@ protected:
 	int NUMMAX = MAXPART;
 	double time_gen=1;
 	double contador=0;
+	std::vector<Proyectil*>bullets;
 };
 
 class TypeParticlesF {

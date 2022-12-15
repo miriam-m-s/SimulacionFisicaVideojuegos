@@ -12,5 +12,6 @@ public:
 	}
 	virtual void update(double const& t) = 0;
 	virtual void inputHandler(unsigned char key) = 0;
+	virtual void handleCollision(PxActor* actor1, PxActor* actor2) = 0;
 	//virtual void mouseHandler(int button, int state, int x, int y) {};
 };
