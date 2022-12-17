@@ -12,6 +12,7 @@ public:
 	
 	Particle(Vector3 Pos, Vector3 Vel, Vector3 acel, float dampin, float masa, double timevida, Vector4 coloring,bool visible,double ancho,double largo,double alto);
 	Particle(Vector3 Pos, Vector3 Vel, Vector3 acel, float dampin, float radius, float masa, double timevida, Vector4 coloring, bool visible, FormaParticle S = SPHERE);
+	Particle(Vector3 Pos, Vector3 Vel, Vector3 acel, float dampin, float masa, double timevida, Vector4 coloring, bool visible, physx::PxShape*shape);
 	Particle() {
 		
 	}
@@ -69,11 +70,16 @@ public:
 	void setPos(Vector3 Pos) {
 		pose=physx::PxTransform(Pos.x, Pos.y, Pos.z);
 	}
+	void setRot(physx::PxQuat q) {
+		
+		pose.q = q;
+	}
 protected:
 	virtual void partlifetime();
 	void cambiarcolor();
 	Vector3 vel={0,0,0};
 	physx::PxTransform pose;
+	
 	RenderItem* renderitem;
 	Vector4 color;
 	bool cambio = false;

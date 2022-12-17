@@ -33,6 +33,20 @@ Particle::Particle(Vector3 Pos, Vector3 Vel, Vector3 acel, float dampin, float r
 	}
 }
 
+Particle::Particle(Vector3 Pos, Vector3 Vel, Vector3 acel, float dampin, float masa, double timevida, Vector4 coloring, bool visible, physx::PxShape* shape) :
+	vel(Vel), acel_(acel), damp_(dampin), masa_(masa), livetime_(timevida), color(coloring), radius(radius), visible(visible)
+{
+	pose = physx::PxTransform(Pos.x, Pos.y, Pos.z);
+	if (visible) {
+		renderitem = new RenderItem(shape, &pose, color);
+	}
+
+	restavida_ = livetime_;
+	if (masa > 0) {
+		inversemasa_ = (1 / masa_);
+	}
+}
+
 
 void Particle::addForce(const Vector3& f) {
 	force += f; 

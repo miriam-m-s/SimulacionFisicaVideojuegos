@@ -9,5 +9,7 @@ public:
 protected:
 	Camera* cam_;
 	Particle* part;
+	Particle* parteabajo;
+	Particle* punta;
 };
 
