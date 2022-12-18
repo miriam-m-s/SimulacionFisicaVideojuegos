@@ -74,6 +74,9 @@ public:
 		
 		pose.q = q;
 	}
+	void setColor(Vector4 colors) {
+		color = colors;
+	}
 protected:
 	virtual void partlifetime();
 	void cambiarcolor();

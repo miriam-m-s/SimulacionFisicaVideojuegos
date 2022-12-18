@@ -7,7 +7,7 @@ using namespace physx;
 class PhsiscsPart {
 	public:
 	PhsiscsPart();
-	~PhsiscsPart() {
+	virtual ~PhsiscsPart() {
 		DeregisterRenderItem(render_);
 		delete render_;
 	}
@@ -41,6 +41,8 @@ public :
 	 PxRigidDynamic* getRigid()override {
 		return part_dy;
 	 }
+	 virtual ~ParticleRigid()
+	 {}
 	 void setmass(double mass); 
 protected:
 	PxRigidDynamic* part_dy;

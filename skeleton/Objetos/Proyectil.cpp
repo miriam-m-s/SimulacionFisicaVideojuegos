@@ -7,21 +7,32 @@ TipoBala::TipoBala(TipoBalas s) {
 	{
 	case Bala:
 		speed = 300.f;
-		radius = 2;
+		radius = 0.5;
 		density = 50;
-
+		name = "bala";
 		break;
 	case Laser:
 		speed = 100.f;
-		radius = 1;
+		radius = 0.1;
 		density = 1;
+		name = "bala";
+
 		break;
 	case Balacanyon:;
 		speed = 50.f;
-		radius = 4;
+		radius = 1;
 		density = 100000;
-		break;
+		name = "bala";
 
+		break;
+	case BalaEnemy:
+		speed = 300.f;
+		radius = 0.5;
+		density = 50;
+		name = "balaenemy";
+
+
+		break;
 	default:
 		break;
 	}
@@ -34,7 +45,7 @@ Proyectil::Proyectil(TipoBala s, Vector3 Pos, Vector3 dir,PxScene* gScene, PxPhy
 	float dumping=0;
 	float radius = 0;
 	settimeVida(10);
-	setName("bala");
+	setName(s.name);
 	
 	
 	

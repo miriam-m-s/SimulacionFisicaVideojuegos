@@ -7,6 +7,7 @@
 #include "../WorldManager/ParticleRigid.h"
 #include"../Interfaz/Interfaz.h"
 #include"../Objetos/Enemy.h"
+#include"../Objetos/Player.h"
 #include "../Systems/ParticleSys.h"
 
 class SceneShoot:public Scene
@@ -22,7 +23,7 @@ protected:
 	Interfaz* is;
 	TipoBalas balas= TipoBalas::Balacanyon;
 	ParticleSys* part_sys;
-	ParticleRigid* player;
+	Player* player;
 	
 };
 

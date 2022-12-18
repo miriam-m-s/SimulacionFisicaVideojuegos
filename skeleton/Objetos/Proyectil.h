@@ -2,7 +2,7 @@
 #include "../WorldManager/ParticleRigid.h"
 #include <string>
 enum TipoBalas {
-    Bala, Laser, Balacanyon
+    Bala, Laser, Balacanyon,BalaEnemy
 };
 class TipoBala {
 public:
@@ -10,7 +10,7 @@ public:
     float density = 0;
     float speed = 0;
     float radius = 0;
-
+   std:: string name;
     
 };
 

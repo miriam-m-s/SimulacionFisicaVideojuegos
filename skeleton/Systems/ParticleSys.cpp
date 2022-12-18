@@ -415,11 +415,11 @@ TypeParticles::TypeParticles(TipoParticles par, Vector3 pos):partenum(par)
 	switch (par)
 	{
 	case Sangre:
-		explosion = new ExplosionGenerator(10000, pos, 5, 10000);
+		explosion = new ExplosionGenerator(100, pos, 5, 10);
 		explosion->setvel(2000);
-		partgaus = new GausseanParticleGen(pos, { 0,0,0 }, { 10,10,10 }, { 0.1,0.1,0.1 }, 0.8, 1000, 2, 50);
+		partgaus = new GausseanParticleGen(pos, { 0,0,0 }, { 0.1,0.1,0.1 }, { 0.1,0.1,0.1 }, 0.8, 1000, 1, 50);
 		partgaus->setGravity({ 0,0,0 });
-		partgaus->setColor({ 1,1,0,1 });
+		partgaus->setColor({ 0,0,0,1 });
 		partgaus->setfuego(true);
 		partgaus->settimes(1);
 		//partgaus->setran;
