@@ -20,6 +20,7 @@ public:
             delete gravitygen;
         }
     }
+    
 	virtual std::list<Particle*>generateParticles()=0;
     void setGravity(Vector3 grav) {
         gravity_ = grav;
@@ -78,7 +79,19 @@ public:
     std::vector<ForceGenerator*> returnforce() {
         return fuerzas;
     }
+    int& gettime() {
+        return times;
+    }
+    bool getinfiniteTime() {
+        return infinite;
+    }
+    void settimes(int times) {
+        infinite = false;
+        times = 0;
+    }
 protected:
+    int times = 0;
+    bool infinite = true;
     bool changepos = false;
     Vector4 color;
     Vector3 gravity_;

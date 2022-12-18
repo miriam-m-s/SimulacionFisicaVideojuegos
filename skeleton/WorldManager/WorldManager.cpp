@@ -106,6 +106,12 @@ void WorldManager::integrate(double t)
 	forceregistry->updateForces(t);
 }
 
+void WorldManager::addRigid(PhsiscsPart* rig)
+{
+	Objects.push_back(rig);
+}
+
+
 void WorldManager::handleCollision(PxActor* actor1, PxActor* actor2)
 {
 	std::vector<PhsiscsPart*>particles(2,nullptr);

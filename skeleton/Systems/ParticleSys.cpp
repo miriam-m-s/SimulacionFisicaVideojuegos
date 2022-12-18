@@ -36,7 +36,8 @@ ParticleSys::~ParticleSys()
 
 void ParticleSys::update(double t)
 {
-	for (auto gpart : particle_generators) {
+	for (auto gpar = particle_generators.begin(); gpar != particle_generators.end();) {
+		auto gpart = (*gpar);
 		std::list<Particle*>aux = gpart->generateParticles();
 		vector<ForceGenerator*> force = gpart->returnforce();
 
@@ -62,6 +63,15 @@ void ParticleSys::update(double t)
 			}
 
 		}
+		auto s=gpart->gettime()--;
+		if (s <= 0) {
+			delete(gpart);
+			gpar = particle_generators.erase(gpar);
+		}
+		else {
+			++gpar;
+		}
+
 	}
 	for (std::list<Particle*>::iterator il = particles.begin(); il != particles.end(); ) {
 		auto particle = *il;
@@ -260,6 +270,13 @@ void ParticleSys::incrementK(double as)
 	}
 }
 
+void ParticleSys::createBloodExplosion(Vector3 pos)
+{
+	TypeParticles part(Sangre,pos);
+	particle_generators.push_back(part.getparticles());
+
+}
+
 void ParticleSys::generateFireWorkSystem()
 {
 	//firework1
@@ -393,6 +410,25 @@ TypeParticles::TypeParticles(TipoParticles par) :partenum(par) {
 		break;
 	}
 }
+TypeParticles::TypeParticles(TipoParticles par, Vector3 pos):partenum(par)
+{
+	switch (par)
+	{
+	case Sangre:
+		explosion = new ExplosionGenerator(10000, pos, 5, 10000);
+		explosion->setvel(2000);
+		partgaus = new GausseanParticleGen(pos, { 0,0,0 }, { 10,10,10 }, { 0.1,0.1,0.1 }, 0.8, 1000, 2, 50);
+		partgaus->setGravity({ 0,0,0 });
+		partgaus->setColor({ 1,1,0,1 });
+		partgaus->setfuego(true);
+		partgaus->settimes(1);
+		//partgaus->setran;
+		partgaus->setrandommass(true);
+		//partgaus->setRandomColor(true);
+		partgaus->addForceGenerator(explosion);
+		break;
+	}
+}
 ParticleGenerator* TypeParticles::getparticles() {
 	switch (partenum)
 	{
@@ -419,6 +455,9 @@ ParticleGenerator* TypeParticles::getparticles() {
 		break;
 	case Esphere:
 		return sphere;
+		break;
+	case Sangre:
+		return partgaus;
 		break;
 	default:
 		break;

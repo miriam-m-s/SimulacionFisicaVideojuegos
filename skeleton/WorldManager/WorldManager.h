@@ -29,6 +29,7 @@ public:
 	ParticleRigidStatic* createRigidStatic(Vector3 pos, PxShape* shape, Vector4 color,  std::string name =" ", double time = 0);
 	ParticleRigid* createRigidDynamic(Vector3 pos, PxShape* shape, Vector3 vel, Vector4 color,float density=2, std::string name="", double time=0);
 	void integrate(double t);
+	void addRigid(PhsiscsPart* rig);
 	void handleCollision(PxActor* actor1, PxActor* actor2);
 	void generateparticles();
 	void eraseGenerators();

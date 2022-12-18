@@ -13,7 +13,7 @@
 #include"../Muelles/AnchoredSpringFG.h"
 #include "../Force/BuoyancyForceGenerator.h"
 enum TipoParticles {
-	Fuego, Cascada, Explosion,Purpurina,Polvo,Poder,Portal,Esphere
+	Fuego, Cascada, Explosion,Purpurina,Polvo,Poder,Portal,Esphere,Sangre
 };
 class ParticleSys
 {
@@ -29,6 +29,7 @@ public:
 	void generatemuelle(int ejs);
 	void putGravity();
 	void incrementK(double s);
+	void createBloodExplosion(Vector3 pos);
 
 protected:
 	std::list<Particle*>particles;
@@ -48,6 +49,7 @@ protected:
 class TypeParticles {
 public:
 	TypeParticles(TipoParticles par);
+	TypeParticles(TipoParticles par,Vector3 pos);
 	ParticleGenerator* getparticles();
 	bool isLoop() {
 		return repeat;

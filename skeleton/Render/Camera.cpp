@@ -61,7 +61,7 @@ bool Camera::handleKey(unsigned char key, int x, int y, float speed)
 	PX_UNUSED(y);
 
 	PxVec3 viewY = mDir.cross(PxVec3(0,1,0)).getNormalized();
-	//if (!player) {
+	if (!player) {
 		switch (toupper(key))
 		{
 		case 'W':	mEye += mDir * 2.0f * speed;		break;
@@ -71,7 +71,7 @@ bool Camera::handleKey(unsigned char key, int x, int y, float speed)
 		default:							return false;
 		}
 		return true;
-//	}
+	}
 	return false;
 	
 }
@@ -115,6 +115,11 @@ PxTransform Camera::getTransform() const
 PxVec3 Camera::getEye() const
 { 
 	return mEye; 
+}
+
+void Camera::setEye(physx::PxVec3 mEyes) 
+{
+	mEye = mEyes;
 }
 
 PxVec3 Camera::getDir() const

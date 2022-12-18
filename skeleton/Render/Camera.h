@@ -46,6 +46,7 @@ public:
 	void				handleAnalogMove(float x, float y);
 
 	physx::PxVec3		getEye()	const;
+	void        		setEye(physx::PxVec3 mEyes)	;
 	physx::PxVec3		getDir()	const;
 	physx::PxTransform	getTransform() const;
 private:

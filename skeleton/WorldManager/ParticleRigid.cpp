@@ -66,10 +66,10 @@ ParticleRigid::ParticleRigid(PxScene* gScene, PxPhysics* gPhysics, Vector3 pos, 
 
 void ParticleRigid::onCollision(PhsiscsPart* name1)
 {
-	if (name1->getName() == "bala") {
-		alive = false;
-		//name1->alive=false;
-	}
+	//if (name1->getName() == "bala") {
+	//	alive = false;
+	//	//name1->alive=false;
+	//}
 }
 
 void ParticleRigid::setmass(double mass)

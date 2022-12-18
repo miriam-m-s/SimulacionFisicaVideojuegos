@@ -29,7 +29,8 @@
     <ClCompile Include="Scenes\SceneShoot.cpp" />
     <ClCompile Include="Scenes\SceneManager.cpp" />
     <ClCompile Include="Interfaz\Interfaz.cpp" />
-    <ClCompile Include="WorldManager\Enemy.cpp" />
+    <ClCompile Include="Objetos\Enemy.cpp" />
+    <ClCompile Include="Objetos\Player.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.hpp" />
@@ -62,7 +63,8 @@
     <ClInclude Include="Scenes\SceneShoot.h" />
     <ClInclude Include="Scenes\SceneManager.h" />
     <ClInclude Include="Interfaz\Interfaz.h" />
-    <ClInclude Include="WorldManager\Enemy.h" />
+    <ClInclude Include="Objetos\Enemy.h" />
+    <ClInclude Include="Objetos\Player.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Render">
