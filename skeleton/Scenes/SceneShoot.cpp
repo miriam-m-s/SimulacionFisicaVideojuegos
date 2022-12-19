@@ -6,7 +6,7 @@ SceneShoot::SceneShoot(PxScene* gScene, PxPhysics* gPhysics)
 	wold = new WorldManager(gScene, gPhysics);
 	part_sys = new ParticleSys();
 	wold->addRigid(new Enemy(gScene, gPhysics, { 40,15,-15 }, CreateShape(PxBoxGeometry(5, 5, 5), gPhysics->createMaterial(0.1f, 0.1f, 0.1f)), part_sys, 3,wold));
-	player = new Player(gScene, gPhysics,4);
+	player = new Player(gScene, gPhysics,3,is);
 	wold->addRigid(player);
 }
 SceneShoot::~SceneShoot()

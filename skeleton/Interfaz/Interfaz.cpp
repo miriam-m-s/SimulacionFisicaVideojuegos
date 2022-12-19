@@ -46,4 +46,16 @@ void Interfaz::update(double t)
 
 void Interfaz::restavida()
 {
+	auto it = vidas.end();
+	--it;
+	delete(*it);
+	it = vidas.erase(it);
+}
+
+void Interfaz::restart()
+{
+	for (int i = 0; i < 3; i++) {
+		auto vida = new Particle(cam_->getTransform().p + GetCamera()->getDir() + Vector3(-10 + 10 * i, 10, 0), { 0,0,0 }, { 0,0,0 }, 0, 0, 2, { 0,1,0,1 }, TRUE, CreateShape(physx::PxBoxGeometry(0.1, 0.1, 0.1)));
+		vidas.push_back(vida);
+	}
 }

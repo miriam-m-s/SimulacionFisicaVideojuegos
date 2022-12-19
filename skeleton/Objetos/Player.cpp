@@ -1,7 +1,7 @@
 #include "Player.h"
 #include <iostream>
 
-Player::Player(PxScene* gScene, PxPhysics* gPhysics,int vidas):ParticleRigid(gScene, gPhysics, GetCamera()->getTransform().p, CreateShape(PxSphereGeometry(5)), { 0,0,0 }, { 0,0,0,0 }, 10),vidas_(vidas)
+Player::Player(PxScene* gScene, PxPhysics* gPhysics,int vidas, Interfaz* inter_):ParticleRigid(gScene, gPhysics, GetCamera()->getTransform().p, CreateShape(PxSphereGeometry(5)), { 0,0,0 }, { 0,0,0,0 }, 10),vidas_(vidas),inter(inter_)
 {
 	setInfiniteVida(true);
 	setName("player");
@@ -15,11 +15,16 @@ void Player::onCollision(PhsiscsPart* name1)
 {
 	if (name1->getName() == "Suelo") {
 		suelo = true;
-		std::cout << "Suelo";
+		
 	}
 	if (name1->getName() == "balaenemy") {
-		
-		std::cout << "bala";
+		inter->restavida();
+		vidas_--;
+		if (vidas_ == 0) {
+			vidas_ = 3;
+			inter->restart();
+		}
+	
 	}
 }
 

@@ -7,6 +7,7 @@ public:
 	Interfaz(Camera* cam);
 	void update(double t);
 	void restavida();
+	void restart();
 
 protected:
 	Camera* cam_;
