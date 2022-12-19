@@ -8,13 +8,16 @@ WorldManager::WorldManager(PxScene* gScene, PxPhysics* gPhysics):gScene_(gScene)
 	rgb morado = hsv2rgb(col);
 	ParticleRigidStatic* part = new ParticleRigidStatic(gScene_, gPhysics_, { 0,0,0 }, CreateShape(PxBoxGeometry(200, 10, 100)),{morado.r,morado.g,morado.b,1});
 	Objects.push_back(part);
-	part->setName("Suelo");
+	
 	 col = { 49,0.98,0.94 };
 	 rgb amarillo = hsv2rgb(col);
 	ParticleRigidStatic* part1 = new ParticleRigidStatic(gScene_, gPhysics_, { 10,10,-30 }, CreateShape(PxBoxGeometry(40, 20, 5)), {amarillo.r,amarillo.g,amarillo.b,1  });
 	Objects.push_back(part1);
 	forceregistry = new ParticleForceRegistryPhis();
+	ParticleRigidStatic* part3 = new ParticleRigidStatic(gScene_, gPhysics_, { 0,-20,0 }, CreateShape(PxBoxGeometry(20000, 10, 10000)), { 0,0,0,0 });
 	//generateparticles();
+	part->setName("Muerte");
+	Objects.push_back(part3);
 }
 
 WorldManager::~WorldManager()

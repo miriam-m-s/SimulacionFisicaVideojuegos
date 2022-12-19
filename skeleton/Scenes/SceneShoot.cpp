@@ -18,11 +18,11 @@ SceneShoot::~SceneShoot()
 
 void SceneShoot::update(double const& t)
 {
+	//is->update(t);
 	wold->integrate(t);
-	is->update(t);
 	part_sys->update(t);
 	GetCamera()->setEye(player->getRigid()->getGlobalPose().p + physx::PxVec3(0, 6, 0));
-
+	is->update(t);
 }
 
 void SceneShoot::inputHandler(unsigned char key)

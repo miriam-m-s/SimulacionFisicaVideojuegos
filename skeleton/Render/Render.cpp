@@ -270,7 +270,7 @@ void setupDefaultRenderState()
 
 	// Setup lighting
 	glEnable(GL_LIGHTING);
-	PxReal ambientColor[]	= { 0.5f, 0.0f, 0.5f, 0.0f };
+	PxReal ambientColor[]	= { 0.85f, 0.0f, 0.5f, 0.0f };
 	PxReal diffuseColor[]	= { 1.0f, 1.0f, 1.0f, 0.0f };		
 	PxReal specularColor[]	= { 1.0f, 1.0f, 1.0f, 1.0f };		
 	PxReal position[]		= { 0.0f, 0.0f, 400.0f, 1.0f };		

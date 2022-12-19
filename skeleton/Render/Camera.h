@@ -55,7 +55,7 @@ private:
 	int				mMouseX;
 	int				mMouseY;
 	physx::PxVec3   posInicial;
-	bool player = true;
+	bool player = false;
 };
 
 

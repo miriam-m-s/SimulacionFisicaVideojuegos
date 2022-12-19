@@ -17,6 +17,10 @@ void Player::onCollision(PhsiscsPart* name1)
 		suelo = true;
 		std::cout << "Suelo";
 	}
+	if (name1->getName() == "balaenemy") {
+		
+		std::cout << "bala";
+	}
 }
 
 void Player::integrate(double t)

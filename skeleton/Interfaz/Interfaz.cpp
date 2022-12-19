@@ -8,6 +8,11 @@ Interfaz::Interfaz(Camera* cam):cam_(cam)
 	parteabajo->setInfiniteVida(true);
 	punta = new Particle(cam_->getTransform().p + GetCamera()->getDir(), { 0,0,0 }, { 0,0,0 }, 0, 0, 2, { 0,0,0,1 }, TRUE, CreateShape(physx::PxBoxGeometry(0.13, 0.13, 0.13)));
 	punta->setInfiniteVida(true);
+
+	for (int i = 0; i < 3; i++) {
+		auto vida = new Particle(cam_->getTransform().p + GetCamera()->getDir()+Vector3(-10+10*i,10,0), {0,0,0}, {0,0,0}, 0, 0, 2, {0,1,0,1}, TRUE, CreateShape(physx::PxBoxGeometry(0.1, 0.1, 0.1)));
+		vidas.push_back(vida);
+	}
 }
 
 void Interfaz::update(double t)
@@ -27,6 +32,18 @@ void Interfaz::update(double t)
 	//q.rotate({ 20, 0, 0 });
 	punta->setPos(cam_->getTransform().p + GetCamera()->getDir() * 2.5 + normal * -0.7);
 	punta->setRot(q);
+	int i = 0;
+	for (auto l:vidas) {
+		Vector3 viewY = GetCamera()->getDir().cross(Vector3(0, 1, 0)).getNormalized();
+		int s = i - 1;
+		(*l).setPos(cam_->getTransform().p + GetCamera()->getDir()*2+normal * 0.9+viewY*s);
+		(*l).setRot(cam_->getTransform().q);
+		i++;
+	}
 	//parteabajo->setRot(q);
 	
+}
+
+void Interfaz::restavida()
+{
 }
