@@ -16,7 +16,6 @@ void SceneShoot::createEnemys(physx::PxScene* gScene, physx::PxPhysics* gPhysics
 void SceneShoot::createplayer()
 {
 	player = new Player(gScene_, gPhysics_, 3, is);
-
 	wold->addRigid(player);
 }
 SceneShoot::~SceneShoot()
@@ -36,9 +35,10 @@ void SceneShoot::update(double const& t)
 	if (player->getVidas() == 0) {
 		player->resetVidas();
 		wold->deleteActor(player);
-		createplayer();
+		
 		wold->deleteescenarios();
 		wold->creaEscenario();
+		createplayer();
 	}
 }
 
@@ -70,7 +70,7 @@ void SceneShoot::inputHandler(unsigned char key)
 		break;
 	
 	case 'G':
-		wold->generaFuerzas(TipoFuerzasF::Viento);
+		wold->generaFuerzas(Viento);
 		break;
 	case 'B':
 		wold->createBullet(TipoBala(balas), p, GetCamera()->getDir());

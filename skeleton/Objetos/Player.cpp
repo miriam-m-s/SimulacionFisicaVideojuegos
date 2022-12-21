@@ -1,7 +1,7 @@
 #include "Player.h"
 #include <iostream>
 
-Player::Player(PxScene* gScene, PxPhysics* gPhysics,int vidas, Interfaz* inter_):ParticleRigid(gScene, gPhysics, GetCamera()->getInit(), CreateShape(PxSphereGeometry(5)), { 0,0,0 }, { 0,0,0,0 }, 10000),vidas_(vidas),inter(inter_)
+Player::Player(PxScene* gScene, PxPhysics* gPhysics,int vidas, Interfaz* inter_):ParticleRigid(gScene, gPhysics, GetCamera()->getInit(), CreateShape(PxSphereGeometry(5)), { 0,0,0 }, { 0,0,0,0 }, 10),vidas_(vidas),inter(inter_)
 {
 	setInfiniteVida(true);
 	setName("player");

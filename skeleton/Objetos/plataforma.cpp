@@ -10,5 +10,6 @@ void plataforma::onCollision(PhsiscsPart* name1)
 {
 	if (name1->getName() == "player") {
 		wold_->generaFuerzas(TipoFuerzasF::Viento);
+		alive = false;
 	}
 }

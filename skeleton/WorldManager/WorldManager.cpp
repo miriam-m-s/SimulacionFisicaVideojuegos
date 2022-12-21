@@ -145,7 +145,7 @@ void WorldManager::generaFuerzas(TipoFuerzasF fuerza)
 	ForceGenerator* force;
 	switch (fuerza) {
 	case Viento:
-		force= new WindGenerator(0.001, { -20,10,0 });
+		force= new WindGenerator(0, { 0,0,0 });
 	
 		break;
 	default:
@@ -195,7 +195,7 @@ void WorldManager::creaEscenario()
 	ParticleRigidStatic* partsuelo = new ParticleRigidStatic(gScene_, gPhysics_, {-150,0,-150}, CreateShape(PxBoxGeometry(100, 10, 300)), { 0.098,0.369,0.388,1 });
 	Objects.push_back(partsuelo);
 
-	plataforma* plat = new plataforma(gScene_, gPhysics_, { -150,0,-150 }, CreateShape(PxBoxGeometry(50, 11, 20)), { 0,1,1,1 }, this, partsys_);
+	plataforma* plat = new plataforma(gScene_, gPhysics_, { -150,0,-150 }, CreateShape(PxBoxGeometry(50, 10, 20)), { 0,1,1,1 }, this, partsys_);
 	Objects.push_back(plat);
 
 	ParticleRigidStatic* techo = new ParticleRigidStatic(gScene_, gPhysics_, { -150,100,-280 }, CreateShape(PxBoxGeometry(100, 100, 100)), { 0.0224,0.224,0.251,1 });

@@ -41,4 +41,4 @@ void SceneManager::InputHandler(unsigned char key)
 void SceneManager::handleCollision(PxActor* actor1, PxActor* actor2)
 {
 	escenas[id]->handleCollision(actor1, actor2);
-}
+ }
