@@ -30,6 +30,7 @@ public:
 	void putGravity();
 	void incrementK(double s);
 	void createBloodExplosion(Vector3 pos);
+	void createFirWorksExplosion(Vector3 pos);
 
 protected:
 	std::list<Particle*>particles;

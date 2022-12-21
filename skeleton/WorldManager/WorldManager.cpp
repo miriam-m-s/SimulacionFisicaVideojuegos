@@ -6,17 +6,24 @@ WorldManager::WorldManager(PxScene* gScene, PxPhysics* gPhysics):gScene_(gScene)
 {	
 	hsv col = { 299,0.81,0.40 };
 	rgb morado = hsv2rgb(col);
-	ParticleRigidStatic* part = new ParticleRigidStatic(gScene_, gPhysics_, { 0,0,0 }, CreateShape(PxBoxGeometry(200, 10, 100)),{morado.r,morado.g,morado.b,1});
+	ParticleRigidStatic* part = new ParticleRigidStatic(gScene_, gPhysics_, { 0,0,0 }, CreateShape(PxBoxGeometry(200, 10, 100)),{0.098,0.369,0.388,1});
 	Objects.push_back(part);
 	
 	 col = { 49,0.98,0.94 };
 	 rgb amarillo = hsv2rgb(col);
-	ParticleRigidStatic* part1 = new ParticleRigidStatic(gScene_, gPhysics_, { 10,10,-30 }, CreateShape(PxBoxGeometry(40, 20, 5)), {amarillo.r,amarillo.g,amarillo.b,1  });
+	ParticleRigidStatic* part1 = new ParticleRigidStatic(gScene_, gPhysics_, { 10,30,-30 }, CreateShape(PxBoxGeometry(100, 20, 5)), {0.0224,0.224,0.251,1  });
 	Objects.push_back(part1);
+
+	ParticleRigidStatic* part4 = new ParticleRigidStatic(gScene_, gPhysics_, { 0,30,50 }, CreateShape(PxBoxGeometry(100, 20, 5)), { 0.0224,0.224,0.251,1 });
+	Objects.push_back(part4);
+
+	ParticleRigidStatic* part5 = new ParticleRigidStatic(gScene_, gPhysics_, { 150,30,50 }, CreateShape(PxBoxGeometry(50, 20, 100)), { 0.0224,0.224,0.251,1 });
+	Objects.push_back(part5);
+
 	forceregistry = new ParticleForceRegistryPhis();
 	ParticleRigidStatic* part3 = new ParticleRigidStatic(gScene_, gPhysics_, { 0,-20,0 }, CreateShape(PxBoxGeometry(20000, 10, 10000)), { 0,0,0,0 });
 	//generateparticles();
-	part->setName("Muerte");
+	part3->setName("Muerte");
 	Objects.push_back(part3);
 }
 
@@ -184,6 +191,16 @@ void WorldManager::createBullet(TipoBala s, Vector3 Pos, Vector3 dir) {
 	
 
 	Objects.push_back(new Proyectil(s,Pos,dir,gScene_,gPhysics_));
+
+}
+void WorldManager::deleteActor(PhsiscsPart* part)
+{
+	auto it = Objects.begin();
+	while (it != Objects.end() && (*it) != part)it++;
+	(*it)->getRenderItem()->release();
+	gScene_->removeActor(*((*it)->getRigid()));
+	Objects.erase(it);
+	
 
 }
 TypeParticlesF::TypeParticlesF(TipoParticlesF par, PxScene* gScene, PxPhysics* gPhysics)

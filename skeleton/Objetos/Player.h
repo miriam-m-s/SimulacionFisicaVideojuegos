@@ -9,6 +9,12 @@ public:
 	bool getSuelo() {
 		return suelo;
 	}
+	int getVidas() {
+		return vidas_;
+	}
+	void resetVidas() {
+		vidas_ = 3;
+	}
 	virtual void integrate(double t);
 protected:
 	int vidas_;

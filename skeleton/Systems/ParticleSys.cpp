@@ -277,6 +277,23 @@ void ParticleSys::createBloodExplosion(Vector3 pos)
 
 }
 
+void ParticleSys::createFirWorksExplosion(Vector3 pos)
+{
+	Particle* model1 = new Particle(pos, { 0,100,0 }, { 0, 10,0 }, 0.99f, 1, 0.5, 1, { 0.2,0.2,0.8,1 }, false);
+	shared_ptr<ParticleGenerator> gener5(new GausseanParticleGen(model1, { 0,0,0 }, { 0,0,0 }, { 0.1,0.1,0.1 }, { 10,10,10 }, 1, 30));
+	Firework* fire3 = new Firework(pos, { 0,100,0 }, { 0,0,0 }, 0.99f, 1, 0.5, 1, { 0.3,0.2,0.5,1 }, false);
+	fire3->addgenerator(gener5);
+	//PAPA
+	Firework* fire4 = new Firework(pos, { 0,50,0 }, { 0,-10,0 }, 0.99f, 1, 0.5, 1, { 1,0,1,1 }, false);
+	/*TypeParticles tipo(TipoParticles::Explosion);*/
+	auto sphere = new CircleGenerator(10, 40, fire3);
+	sphere->setfuego(true);
+	shared_ptr<ParticleGenerator> gener4(sphere);
+	fire4->addgenerator(gener4);
+	_fireworks_pool.push_back(fire4);
+	particles.push_back(_fireworks_pool[0]->clone());
+}
+
 void ParticleSys::generateFireWorkSystem()
 {
 	//firework1

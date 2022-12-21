@@ -36,6 +36,7 @@ public:
 	void generaFuerzas(TipoFuerzasF fuerza);
 	void deletecurrentforces();
 	void createBullet(TipoBala s, Vector3 Pos, Vector3 dir);
+	void deleteActor(PhsiscsPart* part);
 protected:
 	PxScene* gScene_;
 	PxPhysics* gPhysics_;

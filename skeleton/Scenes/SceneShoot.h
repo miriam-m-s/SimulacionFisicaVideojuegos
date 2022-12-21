@@ -9,11 +9,14 @@
 #include"../Objetos/Enemy.h"
 #include"../Objetos/Player.h"
 #include "../Systems/ParticleSys.h"
+#include"../Objetos/TNT.h"
 
 class SceneShoot:public Scene
 {
 public:
 	SceneShoot(PxScene* gScene, PxPhysics* gPhysics);
+	void createEnemys(physx::PxScene* gScene, physx::PxPhysics* gPhysics);
+	void createplayer();
 	~SceneShoot();
 	virtual void update(double const& t) override;
 	virtual void inputHandler(unsigned char key) override;
@@ -24,6 +27,9 @@ protected:
 	TipoBalas balas= TipoBalas::Balacanyon;
 	ParticleSys* part_sys;
 	Player* player;
+	PxScene* gScene_;
+	PxPhysics* gPhysics_;
+	vector<Enemy*>enemigos;
 	
 };
 

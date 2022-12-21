@@ -46,6 +46,8 @@ public:
 	void				handleAnalogMove(float x, float y);
 
 	physx::PxVec3		getEye()	const;
+	physx::PxVec3		getInit()	const;
+	physx::PxVec3		getPosIni()	const;
 	void        		setEye(physx::PxVec3 mEyes)	;
 	physx::PxVec3		getDir()	const;
 	physx::PxTransform	getTransform() const;
@@ -55,6 +57,7 @@ private:
 	int				mMouseX;
 	int				mMouseY;
 	physx::PxVec3   posInicial;
+	physx::PxVec3 init;
 	bool player = false;
 };
 

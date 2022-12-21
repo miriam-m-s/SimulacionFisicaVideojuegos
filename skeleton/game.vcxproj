@@ -271,6 +271,7 @@
     <ClCompile Include="Objetos\Player.cpp" />
     <ClCompile Include="Scenes\SceneManager.cpp" />
     <ClCompile Include="Scenes\SceneShoot.cpp" />
+    <ClCompile Include="Objetos\TNT.cpp" />
     <ClCompile Include="WorldManager\ParticleRigidGenerator.cpp" />
     <ClCompile Include="WorldManager\ParticleRigid.cpp" />
     <ClCompile Include="Systems\ParticleGenerator.cpp" />
@@ -300,6 +301,7 @@
     <ClInclude Include="Objetos\Player.h" />
     <ClInclude Include="Scenes\SceneManager.h" />
     <ClInclude Include="Scenes\SceneShoot.h" />
+    <ClInclude Include="Objetos\TNT.h" />
     <ClInclude Include="WorldManager\ParticleRigidGenerator.h" />
     <ClInclude Include="WorldManager\ParticleRigid.h" />
     <ClInclude Include="Scenes\Scene.h" />

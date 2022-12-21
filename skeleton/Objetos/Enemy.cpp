@@ -9,9 +9,10 @@ Enemy::Enemy(PxScene* gScene, PxPhysics* gPhysics, Vector3 pos, PxShape* shape, 
 	changecolor = (1 - color.x) / vidas;
 	setName("enemy");
 	
-	ojo1 = new Particle(pos+Vector3(-5,5,10), {0,0,0}, {0,0,0}, 0.8, 20, 0, {0,1,0.4,1}, true, CreateShape(PxSphereGeometry(3)));
+	distr = std::uniform_real_distribution<double>(0, 3);
+	ojo1 = new Particle(pos+Vector3(-5,5,5), {0,0,0}, {0,0,0}, 0.8, 20, 0, {0,1,0.4,1}, true, CreateShape(PxSphereGeometry(3)));
 	ojo1->setRot(getRigid()->getGlobalPose().q);
-	ojo2= new Particle(pos + Vector3(5, 5, 10), { 0,0,0 }, { 0,0,0 }, 0.8, 20, 0, { 0,1,0.4,1 }, true, CreateShape(PxSphereGeometry(3)));
+	ojo2= new Particle(pos + Vector3(5, 5, 5), { 0,0,0 }, { 0,0,0 }, 0.8, 20, 0, { 0,1,0.4,1 }, true, CreateShape(PxSphereGeometry(3)));
 	ojo2->setRot(getRigid()->getGlobalPose().q);
 }
 
@@ -47,7 +48,8 @@ void Enemy::integrate(double t)
 		partSys_->createBloodExplosion(getRigid()->getGlobalPose().p);
 		alive = false;
 	}
-	if (timer >= time+t) {
+	std::default_random_engine eng(rd());
+	if (timer-distr(rd) >= time+t) {
 		Vector3 vec = ojo1->getpos() - ojo2->getpos();
 		vec.getNormalized();
 		Vector3 normal = vec.cross({0,1,0}).getNormalized();

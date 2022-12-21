@@ -26,6 +26,8 @@ protected:
 	double time = 2;
 	vector<Proyectil>balas;
 	WorldManager* wold;
+	std::random_device rd{};
+	std::uniform_real_distribution<double> distr;
 
 };
 
