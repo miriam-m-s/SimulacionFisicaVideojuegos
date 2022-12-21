@@ -64,7 +64,7 @@ void ParticleSys::update(double t)
 
 		}
 		auto s=gpart->gettime()--;
-		if (s <= 0) {
+		if (!gpart->getinfiniteTime()&&s <= 0) {
 			delete(gpart);
 			gpar = particle_generators.erase(gpar);
 		}
@@ -270,10 +270,10 @@ void ParticleSys::incrementK(double as)
 	}
 }
 
-void ParticleSys::createBloodExplosion(Vector3 pos)
+void ParticleSys::createParticles(Vector3 pos, TipoParticles part)
 {
-	TypeParticles part(Sangre,pos);
-	particle_generators.push_back(part.getparticles());
+	TypeParticles parts(part,pos);
+	particle_generators.push_back(parts.getparticles());
 
 }
 
@@ -429,6 +429,7 @@ TypeParticles::TypeParticles(TipoParticles par) :partenum(par) {
 }
 TypeParticles::TypeParticles(TipoParticles par, Vector3 pos):partenum(par)
 {
+	Particle* part;
 	switch (par)
 	{
 	case Sangre:
@@ -443,6 +444,17 @@ TypeParticles::TypeParticles(TipoParticles par, Vector3 pos):partenum(par)
 		partgaus->setrandommass(true);
 		//partgaus->setRandomColor(true);
 		partgaus->addForceGenerator(explosion);
+		break;
+	case Vient:
+	
+
+		part = new Particle(pos, { 0,1,0 }, { 0, 0,0 }, 0.99f, 1, 0.5, 7, { 0,0.7,0.4,1 }, true);
+		unigen = new UniformParticleGenerator(pos, { 0,10,0 }, part, { 3,33,3 }, { 100,100,50 }, 0.8, 1);
+		
+		//partgaus->setran;
+		unigen->setrandommass(true);
+		//partgaus->setRandomColor(true);
+		
 		break;
 	}
 }
@@ -475,6 +487,9 @@ ParticleGenerator* TypeParticles::getparticles() {
 		break;
 	case Sangre:
 		return partgaus;
+		break;
+	case Vient:
+		return unigen;
 		break;
 	default:
 		break;

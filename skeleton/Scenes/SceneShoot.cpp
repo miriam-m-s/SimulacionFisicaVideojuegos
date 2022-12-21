@@ -3,24 +3,20 @@
 SceneShoot::SceneShoot(PxScene* gScene, PxPhysics* gPhysics):gScene_(gScene),gPhysics_(gPhysics)
 {
 	is = new Interfaz(GetCamera());
-	wold = new WorldManager(gScene, gPhysics);
+
 	part_sys = new ParticleSys();
-	createEnemys(gScene, gPhysics);
+	wold = new WorldManager(gScene, gPhysics, part_sys);
 	createplayer();
 }
 void SceneShoot::createEnemys(physx::PxScene* gScene, physx::PxPhysics* gPhysics)
 {
-	for (int i = 0; i < 4; i++) {
-		auto en = new Enemy(gScene, gPhysics, Vector3(-1*(30 * i ), 15, -15), CreateShape(PxBoxGeometry(5, 5, 5), gPhysics->createMaterial(0.1f, 0.1f, 0.1f)), part_sys, 3, wold);
-		enemigos.push_back(en);
-		wold->addRigid(en);
-	}
-	TNT* tnt=new TNT(gScene, gPhysics, Vector3(0, 17, 15), CreateShape(PxBoxGeometry(2, 7, 2), gPhysics->createMaterial(0.1f, 0.1f, 0.1f)), part_sys);
-	wold->addRigid(tnt);
+	
+	
 }
 void SceneShoot::createplayer()
 {
 	player = new Player(gScene_, gPhysics_, 3, is);
+
 	wold->addRigid(player);
 }
 SceneShoot::~SceneShoot()
@@ -41,6 +37,8 @@ void SceneShoot::update(double const& t)
 		player->resetVidas();
 		wold->deleteActor(player);
 		createplayer();
+		wold->deleteescenarios();
+		wold->creaEscenario();
 	}
 }
 
@@ -72,7 +70,7 @@ void SceneShoot::inputHandler(unsigned char key)
 		break;
 	
 	case 'G':
-		wold->generaFuerzas(Viento);
+		wold->generaFuerzas(TipoFuerzasF::Viento);
 		break;
 	case 'B':
 		wold->createBullet(TipoBala(balas), p, GetCamera()->getDir());

@@ -124,47 +124,35 @@ void keyPress(unsigned char key, const PxTransform& camera)
 		
 		break;
 	case '1':
-		changebalas = TipoBalas::Bala;
-		break;
-	case '2':
-		changebalas = TipoBalas::Balacanyon;
-		break;
-	case '3':
-		changebalas = TipoBalas::Laser;
-		break;
-	case 'F':
-		part_system->shootFireWork(firework);
-		firework++;
-		if (firework > 3)firework = 0;
 
 		break;
+	case '2':
+
+		break;
+	case '3':
+	
+		break;
+	case 'F':
+	
+		break;
 	case 'X':
-		part_system->deletecurrentgenerators();
+
 	
 		break;
 	case 'Q':
-		part_system->creategenerator(TipoParticles(changeparticles));
-		changeparticles++;
-		if (changeparticles >=5) {
-			changeparticles = 0;
-		}
+		
 		break;
 	case 'M':
-		part_system->deletecurrentgenerators();
-		part_system->generatemuelle(changemuelles);
-		changemuelles++;
-		if (changemuelles >= 4) {
-			changemuelles = 0;
-		}
+		
 		break;
 	case 'G':
 	
 		break;
 	case '+':
-		part_system->incrementK(0.5);
+	
 		break;
 	case '-':
-		part_system->incrementK(-0.5);
+	
 		break;
 	case ' ':
 	{

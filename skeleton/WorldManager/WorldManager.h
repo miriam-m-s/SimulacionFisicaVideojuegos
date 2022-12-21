@@ -12,6 +12,9 @@
 #include "../Force/ParticleForceRegistry.h"
 #include"../ColorHSV.h"
 #include "../Objetos/Proyectil.h"
+
+#include"../Objetos/TNT.h"
+#include"../Systems/ParticleSys.h"
 #define MAXPART 400;
 //
 using namespace physx;
@@ -24,7 +27,7 @@ enum TipoFuerzasF {
 class WorldManager
 {
 public:
-	WorldManager(PxScene* gScene, PxPhysics* gPhysics);
+	WorldManager(PxScene* gScene, PxPhysics* gPhysics,ParticleSys*partsys);
 	~WorldManager();
 	ParticleRigidStatic* createRigidStatic(Vector3 pos, PxShape* shape, Vector4 color,  std::string name =" ", double time = 0);
 	ParticleRigid* createRigidDynamic(Vector3 pos, PxShape* shape, Vector3 vel, Vector4 color,float density=2, std::string name="", double time=0);
@@ -37,6 +40,8 @@ public:
 	void deletecurrentforces();
 	void createBullet(TipoBala s, Vector3 Pos, Vector3 dir);
 	void deleteActor(PhsiscsPart* part);
+	void creaEscenario();
+	void deleteescenarios();
 protected:
 	PxScene* gScene_;
 	PxPhysics* gPhysics_;
@@ -48,6 +53,7 @@ protected:
 	double time_gen=1;
 	double contador=0;
 	std::vector<Proyectil*>bullets;
+	ParticleSys* partsys_;
 };
 
 class TypeParticlesF {

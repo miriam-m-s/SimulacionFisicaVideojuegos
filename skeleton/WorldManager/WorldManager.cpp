@@ -1,30 +1,11 @@
 #include "WorldManager.h"
 #include <iostream>
+#include"../Objetos/Enemy.h"
+#include "../Objetos/plataforma.h"
 
-
-WorldManager::WorldManager(PxScene* gScene, PxPhysics* gPhysics):gScene_(gScene),gPhysics_(gPhysics)
+WorldManager::WorldManager(PxScene* gScene, PxPhysics* gPhysics, ParticleSys* partsys):gScene_(gScene),gPhysics_(gPhysics),partsys_(partsys)
 {	
-	hsv col = { 299,0.81,0.40 };
-	rgb morado = hsv2rgb(col);
-	ParticleRigidStatic* part = new ParticleRigidStatic(gScene_, gPhysics_, { 0,0,0 }, CreateShape(PxBoxGeometry(200, 10, 100)),{0.098,0.369,0.388,1});
-	Objects.push_back(part);
-	
-	 col = { 49,0.98,0.94 };
-	 rgb amarillo = hsv2rgb(col);
-	ParticleRigidStatic* part1 = new ParticleRigidStatic(gScene_, gPhysics_, { 10,30,-30 }, CreateShape(PxBoxGeometry(100, 20, 5)), {0.0224,0.224,0.251,1  });
-	Objects.push_back(part1);
-
-	ParticleRigidStatic* part4 = new ParticleRigidStatic(gScene_, gPhysics_, { 0,30,50 }, CreateShape(PxBoxGeometry(100, 20, 5)), { 0.0224,0.224,0.251,1 });
-	Objects.push_back(part4);
-
-	ParticleRigidStatic* part5 = new ParticleRigidStatic(gScene_, gPhysics_, { 150,30,50 }, CreateShape(PxBoxGeometry(50, 20, 100)), { 0.0224,0.224,0.251,1 });
-	Objects.push_back(part5);
-
-	forceregistry = new ParticleForceRegistryPhis();
-	ParticleRigidStatic* part3 = new ParticleRigidStatic(gScene_, gPhysics_, { 0,-20,0 }, CreateShape(PxBoxGeometry(20000, 10, 10000)), { 0,0,0,0 });
-	//generateparticles();
-	part3->setName("Muerte");
-	Objects.push_back(part3);
+	creaEscenario();
 }
 
 WorldManager::~WorldManager()
@@ -164,7 +145,7 @@ void WorldManager::generaFuerzas(TipoFuerzasF fuerza)
 	ForceGenerator* force;
 	switch (fuerza) {
 	case Viento:
-		force= new WindGenerator(0.8, { 20,0,0 });
+		force= new WindGenerator(0.001, { -20,10,0 });
 	
 		break;
 	default:
@@ -201,6 +182,60 @@ void WorldManager::deleteActor(PhsiscsPart* part)
 	gScene_->removeActor(*((*it)->getRigid()));
 	Objects.erase(it);
 	
+
+}
+void WorldManager::creaEscenario()
+{
+	hsv col = { 299,0.81,0.40 };
+	rgb morado = hsv2rgb(col);
+	//suelo
+	ParticleRigidStatic* part = new ParticleRigidStatic(gScene_, gPhysics_, { 0,0,0 }, CreateShape(PxBoxGeometry(200, 10, 50)), { 0.098,0.369,0.388,1 });
+	Objects.push_back(part);
+
+	ParticleRigidStatic* partsuelo = new ParticleRigidStatic(gScene_, gPhysics_, {-150,0,-150}, CreateShape(PxBoxGeometry(100, 10, 300)), { 0.098,0.369,0.388,1 });
+	Objects.push_back(partsuelo);
+
+	plataforma* plat = new plataforma(gScene_, gPhysics_, { -150,0,-150 }, CreateShape(PxBoxGeometry(50, 11, 20)), { 0,1,1,1 }, this, partsys_);
+	Objects.push_back(plat);
+
+	ParticleRigidStatic* techo = new ParticleRigidStatic(gScene_, gPhysics_, { -150,100,-280 }, CreateShape(PxBoxGeometry(100, 100, 100)), { 0.0224,0.224,0.251,1 });
+	Objects.push_back(techo);
+
+	col = { 49,0.98,0.94 };
+	rgb amarillo = hsv2rgb(col);
+	ParticleRigidStatic* part1 = new ParticleRigidStatic(gScene_, gPhysics_, { 10,30,-30 }, CreateShape(PxBoxGeometry(100, 20, 5)), { 0.0224,0.224,0.251,1 });
+	Objects.push_back(part1);
+
+	ParticleRigidStatic* part4 = new ParticleRigidStatic(gScene_, gPhysics_, { 0,30,50 }, CreateShape(PxBoxGeometry(100, 20, 5)), { 0.0224,0.224,0.251,1 });
+	Objects.push_back(part4);
+
+	ParticleRigidStatic* part5 = new ParticleRigidStatic(gScene_, gPhysics_, { 150,30,50 }, CreateShape(PxBoxGeometry(50, 20, 100)), { 0.0224,0.224,0.251,1 });
+	Objects.push_back(part5);
+
+	forceregistry = new ParticleForceRegistryPhis();
+	ParticleRigidStatic* part3 = new ParticleRigidStatic(gScene_, gPhysics_, { 0,-20,0 }, CreateShape(PxBoxGeometry(20000, 10, 10000)), { 0,0,0,0 });
+	//generateparticles();
+	part3->setName("Muerte");
+	Objects.push_back(part3);
+
+
+	for (int i = 0; i < 4; i++) {
+		auto en = new Enemy(gScene_, gPhysics_, Vector3(-1 * (30 * i), 15, -15), CreateShape(PxBoxGeometry(5, 5, 5), gPhysics_->createMaterial(0.1f, 0.1f, 0.1f)), partsys_, 3, this);
+		Objects.push_back(en);
+
+	}
+	TNT* tnt = new TNT(gScene_, gPhysics_, Vector3(0, 17, 15), CreateShape(PxBoxGeometry(2, 7, 2), gPhysics_->createMaterial(0.1f, 0.1f, 0.1f)), partsys_);
+	Objects.push_back(tnt);
+}
+void WorldManager::deleteescenarios()
+{
+	for (std::list<PhsiscsPart*>::iterator it = Objects.begin(); it != Objects.end();) {
+		gScene_->removeActor(*((*it)->getRigid()));
+		auto l = *it;
+		delete l;
+		l = nullptr;
+		it = Objects.erase(it);
+	}
 
 }
 TypeParticlesF::TypeParticlesF(TipoParticlesF par, PxScene* gScene, PxPhysics* gPhysics)

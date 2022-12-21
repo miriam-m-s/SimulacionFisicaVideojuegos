@@ -32,6 +32,7 @@
     <ClCompile Include="Objetos\Enemy.cpp" />
     <ClCompile Include="Objetos\Player.cpp" />
     <ClCompile Include="Objetos\TNT.cpp" />
+    <ClCompile Include="Objetos\plataforma.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.hpp" />
@@ -67,6 +68,7 @@
     <ClInclude Include="Objetos\Enemy.h" />
     <ClInclude Include="Objetos\Player.h" />
     <ClInclude Include="Objetos\TNT.h" />
+    <ClInclude Include="Objetos\plataforma.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Render">

@@ -13,7 +13,7 @@
 #include"../Muelles/AnchoredSpringFG.h"
 #include "../Force/BuoyancyForceGenerator.h"
 enum TipoParticles {
-	Fuego, Cascada, Explosion,Purpurina,Polvo,Poder,Portal,Esphere,Sangre
+	Fuego, Cascada, Explosion,Purpurina,Polvo,Poder,Portal,Esphere,Sangre,Vient
 };
 class ParticleSys
 {
@@ -29,7 +29,7 @@ public:
 	void generatemuelle(int ejs);
 	void putGravity();
 	void incrementK(double s);
-	void createBloodExplosion(Vector3 pos);
+	void createParticles(Vector3 pos,TipoParticles part);
 	void createFirWorksExplosion(Vector3 pos);
 
 protected:

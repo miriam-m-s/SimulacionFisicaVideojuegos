@@ -1,6 +1,7 @@
 #include "Enemy.h"
 #include <iostream>
 
+
 Enemy::Enemy(PxScene* gScene, PxPhysics* gPhysics, Vector3 pos, PxShape* shape, ParticleSys* partSys,int vidas,WorldManager*wolds):ParticleRigidStatic(gScene, gPhysics, pos, shape, { 0,1,0.4,1 }),partSys_(partSys),vidas(vidas),wold(wolds)
 {
 	
@@ -45,7 +46,7 @@ void Enemy::integrate(double t)
 {
 	timer += t;
 	if (vidas <= 0) {
-		partSys_->createBloodExplosion(getRigid()->getGlobalPose().p);
+		partSys_->createParticles(getRigid()->getGlobalPose().p,TipoParticles::Sangre);
 		alive = false;
 	}
 	std::default_random_engine eng(rd());

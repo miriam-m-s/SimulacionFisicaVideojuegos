@@ -269,6 +269,7 @@
     <ClCompile Include="Force\ParticleDragGenerator.cpp" />
     <ClCompile Include="Muelles\SpringForceGenerator.cpp" />
     <ClCompile Include="Objetos\Player.cpp" />
+    <ClCompile Include="Objetos\plataforma.cpp" />
     <ClCompile Include="Scenes\SceneManager.cpp" />
     <ClCompile Include="Scenes\SceneShoot.cpp" />
     <ClCompile Include="Objetos\TNT.cpp" />
@@ -299,6 +300,7 @@
     <ClInclude Include="Force\ParticleDragGenerator.h" />
     <ClInclude Include="Muelles\SpringForceGenerator.h" />
     <ClInclude Include="Objetos\Player.h" />
+    <ClInclude Include="Objetos\plataforma.h" />
     <ClInclude Include="Scenes\SceneManager.h" />
     <ClInclude Include="Scenes\SceneShoot.h" />
     <ClInclude Include="Objetos\TNT.h" />
