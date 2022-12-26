@@ -145,7 +145,7 @@ void WorldManager::generaFuerzas(TipoFuerzasF fuerza)
 	ForceGenerator* force;
 	switch (fuerza) {
 	case Viento:
-		force= new WindGenerator(0, { 0,0,0 });
+		force= new WindGenerator(0.4, { 0,20,0 });
 	
 		break;
 	default:

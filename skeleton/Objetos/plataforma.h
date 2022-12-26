@@ -10,5 +10,6 @@ public:
 protected:
 	WorldManager* wold_;
 	ParticleSys* part;
+	bool tocada = false;
 };
 

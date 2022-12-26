@@ -52,7 +52,7 @@ void WindGenerator::updateForce(ParticleRigid* particle, double t)
 {
 	Vector3 pos = particle->getRigid()->getGlobalPose().p;
 	//if (particle->getName() == "player") {
-		//if (/*pos.z<(-150) || pos.z>-120 || pos.x > -100 || pos.x < -150 ||*/ pos.y > 200)return;
+		if (pos.z<(-150) || pos.z>-120 || pos.x > -100 || pos.x < -190 || pos.y > 230)return;
 
 		if (particle == nullptr && particle->getRigid() == nullptr) {
 			return;

@@ -8,8 +8,10 @@ plataforma::plataforma(PxScene* gScene, PxPhysics* gPhysics, Vector3 pos, PxShap
 
 void plataforma::onCollision(PhsiscsPart* name1)
 {
-	if (name1->getName() == "player") {
+	if (name1->getName() == "player"&&!tocada) {
+
 		wold_->generaFuerzas(TipoFuerzasF::Viento);
-		alive = false;
+		//alive = false;
+		tocada = true;
 	}
 }
