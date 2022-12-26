@@ -277,6 +277,12 @@ void ParticleSys::createParticles(Vector3 pos, TipoParticles part)
 
 }
 
+void ParticleSys::createtrees(Vector3 pos, Vector4 col, TipoParticles part)
+{
+	TypeParticles parts(part, pos,col);
+	particle_generators.push_back(parts.getparticles());
+}
+
 void ParticleSys::createFirWorksExplosion(Vector3 pos)
 {
 	Particle* model1 = new Particle(pos, { 0,100,0 }, { 0, 10,0 }, 0.99f, 1, 0.5, 1, { 0.2,0.2,0.8,1 }, false);
@@ -458,6 +464,27 @@ TypeParticles::TypeParticles(TipoParticles par, Vector3 pos):partenum(par)
 		break;
 	}
 }
+TypeParticles::TypeParticles(TipoParticles par, Vector3 pos, Vector4 col) :partenum(par)
+{
+	switch (par)
+	{
+	case Tree:
+
+		partgaus = new GausseanParticleGen(pos, { 0,0,0 }, { 10,10.1,10.1 }, { 0.1,0.1,0.1 }, 0.8, 1000, 1, 50);
+		partgaus->setGravity({ 0,0,0 });
+		partgaus->setRadius(2);
+		partgaus->setColor(col);
+		//partgaus->setfuego(true);
+		partgaus->settimes(1);
+		partgaus->infiniteVida(true);
+		//partgaus->setran;
+		
+		//partgaus->setRandomColor(true);
+		//partgaus->addForceGenerator(explosion);
+		break;
+	
+	}
+}
 ParticleGenerator* TypeParticles::getparticles() {
 	switch (partenum)
 	{
@@ -490,6 +517,9 @@ ParticleGenerator* TypeParticles::getparticles() {
 		break;
 	case Vient:
 		return unigen;
+		break;
+	case Tree:
+		return partgaus;
 		break;
 	default:
 		break;

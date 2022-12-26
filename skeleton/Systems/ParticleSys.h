@@ -13,7 +13,7 @@
 #include"../Muelles/AnchoredSpringFG.h"
 #include "../Force/BuoyancyForceGenerator.h"
 enum TipoParticles {
-	Fuego, Cascada, Explosion,Purpurina,Polvo,Poder,Portal,Esphere,Sangre,Vient
+	Fuego, Cascada, Explosion,Purpurina,Polvo,Poder,Portal,Esphere,Sangre,Vient,Tree
 };
 class ParticleSys
 {
@@ -30,6 +30,7 @@ public:
 	void putGravity();
 	void incrementK(double s);
 	void createParticles(Vector3 pos,TipoParticles part);
+	void createtrees(Vector3 pos,Vector4 col, TipoParticles part);
 	void createFirWorksExplosion(Vector3 pos);
 
 protected:
@@ -51,6 +52,7 @@ class TypeParticles {
 public:
 	TypeParticles(TipoParticles par);
 	TypeParticles(TipoParticles par,Vector3 pos);
+	TypeParticles(TipoParticles par, Vector3 pos,Vector4 col);
 	ParticleGenerator* getparticles();
 	bool isLoop() {
 		return repeat;

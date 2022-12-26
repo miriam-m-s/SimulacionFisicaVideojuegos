@@ -12,7 +12,7 @@
 #include "../Force/ParticleForceRegistry.h"
 #include"../ColorHSV.h"
 #include "../Objetos/Proyectil.h"
-
+#include"../Objetos/Tree.h"
 #include"../Objetos/TNT.h"
 #include"../Systems/ParticleSys.h"
 #define MAXPART 400;

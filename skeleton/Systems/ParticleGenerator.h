@@ -79,6 +79,7 @@ public:
     std::vector<ForceGenerator*> returnforce() {
         return fuerzas;
     }
+    void infiniteVida(bool s);
     int& gettime() {
         return times;
     }
@@ -103,6 +104,7 @@ protected:
     double generation_probability;
     int num_particles;
     std::string name;
+    bool infinitevida=false;
     Particle* _model=nullptr;
     std::random_device rd{};
     std::mt19937 gen{ rd() };

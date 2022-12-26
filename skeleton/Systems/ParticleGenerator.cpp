@@ -83,6 +83,7 @@ std::list<Particle*> GausseanParticleGen::generateParticles()
 			if (_model == nullptr) {
 				
 				part = new Particle(ppos, vel, { gravity_.x,gravity_.y,gravity_.z }, 0.99, radius, mass, (time(eng)), color, true);
+				part->setInfiniteVida(infinitevida);
 			}
 			else {
 				Firework* fire = dynamic_cast<Firework*>(_model);
@@ -193,6 +194,7 @@ std::list<Particle*> UniformParticleGenerator::generateParticles()
 			if (randommass_)mass = getrandommass(mass);
 			if (_model == nullptr) {
 				part = new Particle(ppos, vel, { gravity_.x,gravity_.y,gravity_.z }, 0.99, radius, mass, (time(eng)), color,true);
+				part->setInfiniteVida(infinitevida);
 			}
 			else {
 				auto fire = dynamic_cast<Firework*>(_model);
@@ -201,8 +203,11 @@ std::list<Particle*> UniformParticleGenerator::generateParticles()
 					fire1->setgenerators(fire->getGenerators());
 					particle.push_back(fire1);
 				}
-				else
-				part = new Particle(ppos, vel, _model->getgravity(), _model->getdamp(), _model->getradius(), mass, _model->gettime(), _model->getcolor(),true);
+				else {
+					part = new Particle(ppos, vel, _model->getgravity(), _model->getdamp(), _model->getradius(), mass, _model->gettime(), _model->getcolor(), true);
+
+					part->setInfiniteVida(infinitevida);
+				}
 				
 			}
 			if (part != nullptr) {
@@ -372,4 +377,9 @@ float ParticleGenerator::getrandommass(int maxmass)
 	std::default_random_engine eng(rd());
 
 	return massdist_(eng);
+}
+
+void ParticleGenerator::infiniteVida(bool s)
+{
+	infinitevida = s;
 }

@@ -217,6 +217,7 @@ void WorldManager::creaEscenario()
 	//generateparticles();
 	part3->setName("Muerte");
 	Objects.push_back(part3);
+	Trees* hay = new Trees(gScene_, gPhysics_, { 0,30,0 }, partsys_, Vector4(0.3, 0, 0.8, 1));
 
 
 	for (int i = 0; i < 4; i++) {
