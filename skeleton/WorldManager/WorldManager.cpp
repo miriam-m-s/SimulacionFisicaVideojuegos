@@ -104,6 +104,10 @@ void WorldManager::addRigid(PhsiscsPart* rig)
 {
 	Objects.push_back(rig);
 }
+void WorldManager::addPlayer(ParticleRigid* rig) {
+	player = rig;
+	Objects.push_back(rig);
+}
 
 
 void WorldManager::handleCollision(PxActor* actor1, PxActor* actor2)
@@ -122,7 +126,7 @@ void WorldManager::handleCollision(PxActor* actor1, PxActor* actor2)
 	if ((particles[0]) != nullptr && (particles[1]) != nullptr) {
 		(particles[1])->onCollision((particles[0]));
 		(particles[0])->onCollision((particles[1]));
-		cout << "colision" << "\n";
+	
 	}
 }
 
@@ -203,6 +207,11 @@ void WorldManager::creaEscenario()
 
 	ParticleRigidStatic* techo = new ParticleRigidStatic(gScene_, gPhysics_, { -150,100,-280 }, CreateShape(PxBoxGeometry(100, 100, 100)), { 0.0224,0.224,0.251,1 });
 	Objects.push_back(techo);
+	ParticleRigidStatic* pasillo = new ParticleRigidStatic(gScene_, gPhysics_, { -150,100,-430 }, CreateShape(PxBoxGeometry(50, 100, 100)), { 0.0224,0.224,0.251,1 });
+	Objects.push_back(pasillo);
+	ParticleRigidStatic* combate = new ParticleRigidStatic(gScene_, gPhysics_, { -150,100,-600 }, CreateShape(PxBoxGeometry(150, 100, 150)), { 0.0224,0.224,0.4,1 });
+	Objects.push_back(combate);
+
 
 	col = { 49,0.98,0.94 };
 	rgb amarillo = hsv2rgb(col);
@@ -230,6 +239,9 @@ void WorldManager::creaEscenario()
 		Objects.push_back(en);
 
 	}
+	Enemy2* ens = new Enemy2(gScene_, gPhysics_, { 0, 30, 0 }, CreateShape(PxBoxGeometry(5, 5, 5)), partsys_, 3);
+	ens->getPLayer(player);
+	Objects.push_back(ens);
 	TNT* tnt = new TNT(gScene_, gPhysics_, Vector3(0, 17, 15), CreateShape(PxBoxGeometry(2, 7, 2), gPhysics_->createMaterial(0.1f, 0.1f, 0.1f)), partsys_);
 	Objects.push_back(tnt);
 	TNT* tnts = new TNT(gScene_, gPhysics_, Vector3(-170, 210, -240), CreateShape(PxBoxGeometry(2, 7, 2), gPhysics_->createMaterial(0.1f, 0.1f, 0.1f)), partsys_);

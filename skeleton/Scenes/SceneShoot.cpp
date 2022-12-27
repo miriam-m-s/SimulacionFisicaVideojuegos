@@ -17,7 +17,7 @@ void SceneShoot::createEnemys(physx::PxScene* gScene, physx::PxPhysics* gPhysics
 void SceneShoot::createplayer()
 {
 	player = new Player(gScene_, gPhysics_, 3, is);
-	wold->addRigid(player);
+	wold->addPlayer(player);
 }
 SceneShoot::~SceneShoot()
 {
@@ -63,7 +63,7 @@ void SceneShoot::inputHandler(unsigned char key)
 		break;
 	case ' ':	
 		
-		player->getRigid()->addForce({ 0, 100, 0 },PxForceMode::eIMPULSE);
+		player->getRigid()->addForce({ 0, 500, 0 },PxForceMode::eIMPULSE);
 		break;  
 	case 'X':
 	

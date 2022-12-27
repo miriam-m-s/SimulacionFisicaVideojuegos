@@ -73,6 +73,8 @@
     <ClInclude Include="Objetos\plataforma.h" />
     <ClInclude Include="Objetos\Tree.h" />
     <ClInclude Include="Objetos\Enemy2.h" />
+    <ClInclude Include="ring.h" />
+    <ClInclude Include="ringcombat.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Render">
