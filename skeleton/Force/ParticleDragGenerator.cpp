@@ -51,7 +51,7 @@ void WindGenerator::updateForce(Particle* particle, double t)
 void WindGenerator::updateForce(ParticleRigid* particle, double t)
 {
 	Vector3 pos = particle->getRigid()->getGlobalPose().p;
-	//if (particle->getName() == "player") {
+	if (particle->getName() == "player") {
 		if (pos.z<(-150) || pos.z>-120 || pos.x > -100 || pos.x < -190 || pos.y > 230)return;
 
 		if (particle == nullptr && particle->getRigid() == nullptr) {
@@ -63,7 +63,7 @@ void WindGenerator::updateForce(ParticleRigid* particle, double t)
 		auto type = particle->getRenderItem()->shape->getGeometryType();
 
 		double area;
-		switch (type)
+		/*switch (type)
 		{
 		case physx::PxGeometryType::eSPHERE:
 		{
@@ -83,15 +83,19 @@ void WindGenerator::updateForce(ParticleRigid* particle, double t)
 		}
 
 		break;
-		}
+		}*/
 		Vector3 v = particle->getRigid()->getLinearVelocity() - velwind_;
-		k2_ = area * coefAerodin * airDensity;
+		float drag_coef = v.normalize();
+		Vector3 dragF;
+		drag_coef = k1_ * drag_coef + k2_ * drag_coef * drag_coef;
+		/*k2_ = area * coefAerodin * airDensity;
 		float drag_coef = v.normalize();
 		PxVec3 dragF;
 		drag_coef = k1_ * drag_coef + k2_ * drag_coef * drag_coef;
+		dragF = -v * drag_coef;*/
 		dragF = -v * drag_coef;
-		particle->getRigid()->addForce({ dragF.x,dragF.y,dragF.z }, PxForceMode::eFORCE);
-	//}
+		particle->getRigid()->addForce(dragF, PxForceMode::eFORCE);
+}
 	
 }
 

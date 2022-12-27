@@ -4,7 +4,7 @@
 
 AnchoredSpringFG::AnchoredSpringFG(double k, double resting, const Vector3& anchorpos):SpringForceGenerator(k, resting, nullptr)
 {
-	_other = new Particle(anchorpos, { 0,0,0 }, { 0, 0,0 }, 0.85, 4,1e6, 1000, { 1,1,1,1 }, true,FormaParticle(BOX));
+	_other = new Particle(anchorpos, { 0,0,0 }, { 0, 0,0 }, 0.85,0.4,1e6, 1000, { 0,0,0,0 }, true,FormaParticle(BOX));
 	/*_other=new Particle()*/
 }
 

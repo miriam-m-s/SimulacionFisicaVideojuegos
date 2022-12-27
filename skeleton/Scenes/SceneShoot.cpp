@@ -7,6 +7,7 @@ SceneShoot::SceneShoot(PxScene* gScene, PxPhysics* gPhysics):gScene_(gScene),gPh
 	part_sys = new ParticleSys();
 	wold = new WorldManager(gScene, gPhysics, part_sys);
 	createplayer();
+	wold->creaEscenario();
 }
 void SceneShoot::createEnemys(physx::PxScene* gScene, physx::PxPhysics* gPhysics)
 {

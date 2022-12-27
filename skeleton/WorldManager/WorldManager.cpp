@@ -2,11 +2,12 @@
 #include <iostream>
 #include"../Objetos/Enemy.h"
 #include "../Objetos/plataforma.h"
+#include"../Objetos/Tree.h"
 
 WorldManager::WorldManager(PxScene* gScene, PxPhysics* gPhysics, ParticleSys* partsys):gScene_(gScene),gPhysics_(gPhysics),partsys_(partsys)
 {	
-	creaEscenario();
-	createmuelle({ -200,200,0 }, { 1,1,1,1 });
+	forceregistry = new ParticleForceRegistryPhis();
+
 }
 
 WorldManager::~WorldManager()
@@ -146,7 +147,7 @@ void WorldManager::generaFuerzas(TipoFuerzasF fuerza)
 	ForceGenerator* force;
 	switch (fuerza) {
 	case Viento:
-		force= new WindGenerator(0.4, { 0,20,0 });
+		force= new WindGenerator(20, { 0,60,0 });
 	
 		break;
 	default:
@@ -193,7 +194,7 @@ void WorldManager::creaEscenario()
 	ParticleRigidStatic* part = new ParticleRigidStatic(gScene_, gPhysics_, { 0,0,0 }, CreateShape(PxBoxGeometry(200, 10, 50)), { 0.098,0.369,0.388,1 });
 	Objects.push_back(part);
 
-	ParticleRigidStatic* partsuelo = new ParticleRigidStatic(gScene_, gPhysics_, {-150,0,-150}, CreateShape(PxBoxGeometry(100, 10, 300)), { 0.098,0.369,0.388,1 });
+	ParticleRigidStatic* partsuelo = new ParticleRigidStatic(gScene_, gPhysics_, {-150,0,-30}, CreateShape(PxBoxGeometry(100, 10, 100)), { 0.098,0.369,0.388,1 });
 	Objects.push_back(partsuelo);
 
 	plataforma* plat = new plataforma(gScene_, gPhysics_, { -150,0,-150 }, CreateShape(PxBoxGeometry(50, 10, 20)), { 0,1,1,1 }, this, partsys_);
@@ -213,13 +214,15 @@ void WorldManager::creaEscenario()
 	ParticleRigidStatic* part5 = new ParticleRigidStatic(gScene_, gPhysics_, { 150,30,50 }, CreateShape(PxBoxGeometry(50, 20, 100)), { 0.0224,0.224,0.251,1 });
 	Objects.push_back(part5);
 
-	forceregistry = new ParticleForceRegistryPhis();
+	
 	ParticleRigidStatic* part3 = new ParticleRigidStatic(gScene_, gPhysics_, { 0,-20,0 }, CreateShape(PxBoxGeometry(20000, 10, 10000)), { 0,0,0,0 });
 	//generateparticles();
 	part3->setName("Muerte");
 	Objects.push_back(part3);
-	Trees* hay = new Trees(gScene_, gPhysics_, { 0,30,0 }, partsys_, Vector4(0.3, 0, 0.8, 1));
-
+	Trees* hay = new Trees(gScene_, gPhysics_, { -130,30,40 }, partsys_, Vector4(0.3, 0, 0.8, 1),this);
+	Objects.push_back(hay);
+	Trees* hays = new Trees(gScene_, gPhysics_, { -130,210,-240 }, partsys_, Vector4(0.3, 0, 0.8, 1), this);
+	Objects.push_back(hays);
 
 	for (int i = 0; i < 4; i++) {
 		auto en = new Enemy(gScene_, gPhysics_, Vector3(-1 * (30 * i), 15, -15), CreateShape(PxBoxGeometry(5, 5, 5), gPhysics_->createMaterial(0.1f, 0.1f, 0.1f)), partsys_, 3, this);
@@ -228,6 +231,8 @@ void WorldManager::creaEscenario()
 	}
 	TNT* tnt = new TNT(gScene_, gPhysics_, Vector3(0, 17, 15), CreateShape(PxBoxGeometry(2, 7, 2), gPhysics_->createMaterial(0.1f, 0.1f, 0.1f)), partsys_);
 	Objects.push_back(tnt);
+	TNT* tnts = new TNT(gScene_, gPhysics_, Vector3(-170, 210, -240), CreateShape(PxBoxGeometry(2, 7, 2), gPhysics_->createMaterial(0.1f, 0.1f, 0.1f)), partsys_);
+	Objects.push_back(tnts);
 }
 void WorldManager::deleteescenarios()
 {
@@ -242,8 +247,8 @@ void WorldManager::deleteescenarios()
 }
 void WorldManager::createmuelle(Vector3 pos, Vector4 color)
 {
-	ParticleRigid* p3 = new ParticleRigid(gScene_, gPhysics_,  pos, CreateShape(physx::PxSphereGeometry(3.5)), {0,0,0},  color, 10);
-	AnchoredSpringFG* f3 = new AnchoredSpringFG(10, 0, pos+Vector3(0, 1, 0 ));
+	ParticleRigid* p3 = new ParticleRigid(gScene_, gPhysics_,  pos, CreateShape(physx::PxCapsuleGeometry(2,1)), {0,0,0},  color, 10);
+	AnchoredSpringFG* f3 = new AnchoredSpringFG(100, 0, pos+Vector3(0, 1, 0 ));
 	forceregistry->addRegistry(f3, p3);
 	Objects.push_back(p3);
 	forces.push_back(f3);
