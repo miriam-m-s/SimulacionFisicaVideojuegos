@@ -13,7 +13,7 @@ WorldManager::WorldManager(PxScene* gScene, PxPhysics* gPhysics, ParticleSys* pa
 WorldManager::~WorldManager()
 {
 	for (std::list<PhsiscsPart*>::iterator it = Objects.begin(); it != Objects.end();) {
-			gScene_->removeActor(*((*it)->getRigid()));
+			//gScene_->removeActor(*((*it)->getRigid()));
 			auto l = *it;
 			delete l;
 			l = nullptr;
@@ -147,7 +147,7 @@ void WorldManager::generaFuerzas(TipoFuerzasF fuerza)
 	ForceGenerator* force;
 	switch (fuerza) {
 	case Viento:
-		force= new WindGenerator(20, { 0,60,0 });
+		force= new WindGenerator(100, { 0,260,0 });
 	
 		break;
 	default:
@@ -196,6 +196,7 @@ void WorldManager::creaEscenario()
 
 	ParticleRigidStatic* partsuelo = new ParticleRigidStatic(gScene_, gPhysics_, {-150,0,-30}, CreateShape(PxBoxGeometry(100, 10, 100)), { 0.098,0.369,0.388,1 });
 	Objects.push_back(partsuelo);
+	
 
 	plataforma* plat = new plataforma(gScene_, gPhysics_, { -150,0,-150 }, CreateShape(PxBoxGeometry(50, 10, 20)), { 0,1,1,1 }, this, partsys_);
 	Objects.push_back(plat);
@@ -243,6 +244,19 @@ void WorldManager::deleteescenarios()
 		l = nullptr;
 		it = Objects.erase(it);
 	}
+	for (std::list<ParticleRigidGenerator*>::iterator it = particle_generators.begin(); it != particle_generators.end();) {
+		auto l = (*it);
+		delete (l);
+		it = particle_generators.erase(it);
+	}
+	particle_generators.resize(0);
+	for (std::list<ForceGenerator*>::iterator it = forces.begin(); it != forces.end();) {
+		auto l= (*it);
+		delete (l);
+		it = forces.erase(it);
+	}
+	forces.resize(0);
+	forceregistry->deleteforce();
 
 }
 void WorldManager::createmuelle(Vector3 pos, Vector4 color)

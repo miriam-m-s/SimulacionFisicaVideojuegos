@@ -253,6 +253,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Objetos\Enemy2.cpp" />
     <ClCompile Include="Objetos\Enemy.cpp" />
     <ClCompile Include="Interfaz\Interfaz.cpp" />
     <ClCompile Include="Force\BuoyancyForceGenerator.cpp" />
@@ -285,6 +286,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ColorHSV.h" />
+    <ClInclude Include="Objetos\Enemy2.h" />
     <ClInclude Include="Objetos\Enemy.h" />
     <ClInclude Include="Interfaz\Interfaz.h" />
     <ClInclude Include="Force\BuoyancyForceGenerator.h" />

@@ -5,6 +5,9 @@ class SpringForceGenerator:public ForceGenerator
 {
 public:
 	SpringForceGenerator(double k, double resting_length, Particle* other, double min_length=3);
+	virtual ~SpringForceGenerator()override {
+
+	}
 	virtual void updateForce(Particle* particle, double t);
 	inline void setK(double k) {
 	

@@ -17,7 +17,7 @@ public:
 	SceneShoot(PxScene* gScene, PxPhysics* gPhysics);
 	void createEnemys(physx::PxScene* gScene, physx::PxPhysics* gPhysics);
 	void createplayer();
-	~SceneShoot();
+	virtual ~SceneShoot()override;
 	virtual void update(double const& t) override;
 	virtual void inputHandler(unsigned char key) override;
 	virtual void handleCollision(PxActor* actor1, PxActor* actor2)override;

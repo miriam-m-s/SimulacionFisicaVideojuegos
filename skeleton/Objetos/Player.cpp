@@ -5,8 +5,8 @@ Player::Player(PxScene* gScene, PxPhysics* gPhysics,int vidas, Interfaz* inter_)
 {
 	setInfiniteVida(true);
 	setName("player");
-	getRigid()->setLinearDamping(1.0f);
-	getRigid()->setMass(50.0f);
+	getRigid()->setLinearDamping(0.8);
+	getRigid()->setMass(150.0f);
 	getRigid()->setRigidDynamicLockFlags(PxRigidDynamicLockFlag::eLOCK_ANGULAR_X | PxRigidDynamicLockFlag::eLOCK_ANGULAR_Y | PxRigidDynamicLockFlag::eLOCK_ANGULAR_Z);
 	
 }

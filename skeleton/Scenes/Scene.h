@@ -8,7 +8,7 @@ public:
 	Scene(){}
 	Scene(PxScene* gScene, PxPhysics* gPhysics) {
 	}
-	~Scene() {
+	virtual ~Scene() {
 	}
 	virtual void update(double const& t) = 0;
 	virtual void inputHandler(unsigned char key) = 0;

@@ -6,6 +6,7 @@
 class ForceGenerator {
 public:
 	ForceGenerator(){};
+	virtual ~ForceGenerator(){};
 	virtual void updateForce(Particle* particle, double duration) {
 	}
 	virtual void updateForce(ParticleRigid* particle, double duration) {

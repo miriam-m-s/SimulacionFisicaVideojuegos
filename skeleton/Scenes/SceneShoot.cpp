@@ -51,19 +51,19 @@ void SceneShoot::inputHandler(unsigned char key)
 	switch (toupper(key))
 	{	
 	case 'W':	
-		player->getRigid()->addForce(dirForward * 3000.f);
+		player->getRigid()->addForce(dirForward * 8000.f);
 		break;
 	case 'A':	 
-		player->getRigid()->addForce(-dirSide * 3000.f);
+		player->getRigid()->addForce(-dirSide * 8000.f);
 		break;
 	case 'D':	 
-		player->getRigid()->addForce(dirSide * 3000.f); break;
+		player->getRigid()->addForce(dirSide * 8000.f); break;
 	case 'S':	
-		player->getRigid()->addForce(-dirForward * 3000.f); 
+		player->getRigid()->addForce(-dirForward * 8000.f); 
 		break;
 	case ' ':	
 		
-		player->getRigid()->addForce({ 0, 40, 0 },PxForceMode::eIMPULSE);
+		player->getRigid()->addForce({ 0, 100, 0 },PxForceMode::eIMPULSE);
 		break;  
 	case 'X':
 	

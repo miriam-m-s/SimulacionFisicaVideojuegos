@@ -34,6 +34,7 @@
     <ClCompile Include="Objetos\TNT.cpp" />
     <ClCompile Include="Objetos\plataforma.cpp" />
     <ClCompile Include="Objetos\Tree.cpp" />
+    <ClCompile Include="Objetos\Enemy2.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.hpp" />
@@ -71,6 +72,7 @@
     <ClInclude Include="Objetos\TNT.h" />
     <ClInclude Include="Objetos\plataforma.h" />
     <ClInclude Include="Objetos\Tree.h" />
+    <ClInclude Include="Objetos\Enemy2.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Render">
