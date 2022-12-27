@@ -297,7 +297,8 @@ void ParticleSys::createFirWorksExplosion(Vector3 pos)
 	shared_ptr<ParticleGenerator> gener4(sphere);
 	fire4->addgenerator(gener4);
 	_fireworks_pool.push_back(fire4);
-	particles.push_back(_fireworks_pool[0]->clone());
+	particles.push_back(_fireworks_pool[ss]->clone());
+	ss++;
 }
 
 void ParticleSys::generateFireWorkSystem()

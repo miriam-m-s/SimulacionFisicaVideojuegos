@@ -44,6 +44,7 @@ protected:
 	list<SpringForceGenerator*>fuerzasMuelles;
 	list<ForceGenerator*>forces;
 	bool loop_ = true;
+	int ss = 0;
 	bool hey = true;
 };
 
