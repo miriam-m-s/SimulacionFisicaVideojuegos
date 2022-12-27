@@ -32,6 +32,8 @@
 #include "Camera.h"
 #include <ctype.h>
 #include "foundation/PxMat33.h"
+#include <windows.h>
+#include <glut.h>
 
 using namespace physx;
 
@@ -86,8 +88,10 @@ void Camera::handleAnalogMove(float x, float y)
 
 void Camera::handleMotion(int x, int y)
 {
-	int dx = mMouseX - x;
-	int dy = mMouseY - y;
+	int screenw = GetSystemMetrics(SM_CXSCREEN);
+	int screenH = GetSystemMetrics(SM_CYSCREEN);
+	int dx = screenw/4 - x;
+	int dy = screenH/4 - y;
 
 	PxVec3 viewY = mDir.cross(PxVec3(0,1,0)).getNormalized();
 
@@ -98,8 +102,9 @@ void Camera::handleMotion(int x, int y)
 
 	mDir.normalize();
 
-	mMouseX = x;
-	mMouseY = y;
+	//mMouseX = x;
+	//mMouseY = y;
+	glutWarpPointer(screenw / 4, screenH / 4);
 }
 
 PxTransform Camera::getTransform() const

@@ -37,3 +37,16 @@ void AnchoredSpringFG::updateForce(Particle* particle, double t)
 		particle->addForce(forceDistance);
 	}
 }
+
+void AnchoredSpringFG::updateForce(ParticleRigid* particle, double t)
+{
+	Vector3 forceDistance = _other->getpos() - particle->getRigid()->getGlobalPose().p;
+	const float length = forceDistance.normalize();
+
+	const float delta_x = length - _resting_length;
+	forceDistance *= delta_x * _k;
+
+	if ( length > _resting_length) {
+		particle->getRigid()->addForce(forceDistance);
+	}
+}

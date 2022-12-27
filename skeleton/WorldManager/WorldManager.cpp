@@ -6,6 +6,7 @@
 WorldManager::WorldManager(PxScene* gScene, PxPhysics* gPhysics, ParticleSys* partsys):gScene_(gScene),gPhysics_(gPhysics),partsys_(partsys)
 {	
 	creaEscenario();
+	createmuelle({ -200,200,0 }, { 1,1,1,1 });
 }
 
 WorldManager::~WorldManager()
@@ -238,6 +239,14 @@ void WorldManager::deleteescenarios()
 		it = Objects.erase(it);
 	}
 
+}
+void WorldManager::createmuelle(Vector3 pos, Vector4 color)
+{
+	ParticleRigid* p3 = new ParticleRigid(gScene_, gPhysics_,  pos, CreateShape(physx::PxSphereGeometry(3.5)), {0,0,0},  color, 10);
+	AnchoredSpringFG* f3 = new AnchoredSpringFG(10, 0, pos+Vector3(0, 1, 0 ));
+	forceregistry->addRegistry(f3, p3);
+	Objects.push_back(p3);
+	forces.push_back(f3);
 }
 TypeParticlesF::TypeParticlesF(TipoParticlesF par, PxScene* gScene, PxPhysics* gPhysics)
 {

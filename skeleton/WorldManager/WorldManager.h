@@ -42,6 +42,7 @@ public:
 	void deleteActor(PhsiscsPart* part);
 	void creaEscenario();
 	void deleteescenarios();
+	void createmuelle(Vector3 pos ,Vector4 color);
 protected:
 	PxScene* gScene_;
 	PxPhysics* gPhysics_;
