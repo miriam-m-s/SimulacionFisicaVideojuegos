@@ -15,6 +15,7 @@
 #include"../Objetos/TNT.h"
 #include"../Systems/ParticleSys.h"
 #include "../Objetos/Enemy2.h"
+
 #define MAXPART 400;
 //
 using namespace physx;
@@ -44,6 +45,7 @@ public:
 	void creaEscenario();
 	void deleteescenarios();
 	void createmuelle(Vector3 pos ,Vector4 color);
+	void creaEnemy(Vector3 pos, int vidas, PxShape* shape);
 	ParticleRigid* player;
 protected:
 	PxScene* gScene_;

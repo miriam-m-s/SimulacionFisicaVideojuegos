@@ -271,6 +271,7 @@
     <ClCompile Include="Muelles\SpringForceGenerator.cpp" />
     <ClCompile Include="Objetos\Player.cpp" />
     <ClCompile Include="Objetos\plataforma.cpp" />
+    <ClCompile Include="Objetos\ringpelea.cpp" />
     <ClCompile Include="Scenes\SceneManager.cpp" />
     <ClCompile Include="Scenes\SceneShoot.cpp" />
     <ClCompile Include="Objetos\TNT.cpp" />
@@ -306,6 +307,7 @@
     <ClInclude Include="Objetos\plataforma.h" />
     <ClInclude Include="ring.h" />
     <ClInclude Include="ringcombat.h" />
+    <ClInclude Include="Objetos\ringpelea.h" />
     <ClInclude Include="Scenes\SceneManager.h" />
     <ClInclude Include="Scenes\SceneShoot.h" />
     <ClInclude Include="Objetos\TNT.h" />

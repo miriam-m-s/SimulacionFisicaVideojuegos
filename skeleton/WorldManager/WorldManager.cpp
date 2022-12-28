@@ -3,7 +3,7 @@
 #include"../Objetos/Enemy.h"
 #include "../Objetos/plataforma.h"
 #include"../Objetos/Tree.h"
-
+#include "../Objetos/ringpelea.h"
 WorldManager::WorldManager(PxScene* gScene, PxPhysics* gPhysics, ParticleSys* partsys):gScene_(gScene),gPhysics_(gPhysics),partsys_(partsys)
 {	
 	forceregistry = new ParticleForceRegistryPhis();
@@ -209,10 +209,10 @@ void WorldManager::creaEscenario()
 	Objects.push_back(techo);
 	ParticleRigidStatic* pasillo = new ParticleRigidStatic(gScene_, gPhysics_, { -150,100,-430 }, CreateShape(PxBoxGeometry(50, 100, 100)), { 0.0224,0.224,0.251,1 });
 	Objects.push_back(pasillo);
-	ParticleRigidStatic* combate = new ParticleRigidStatic(gScene_, gPhysics_, { -150,100,-600 }, CreateShape(PxBoxGeometry(150, 100, 150)), { 0.0224,0.224,0.4,1 });
+	/*ParticleRigidStatic* combate = new ParticleRigidStatic(gScene_, gPhysics_, { -150,100,-600 }, CreateShape(PxBoxGeometry(150, 100, 150)), { 0.0224,0.224,0.4,1 });
+	Objects.push_back(combate);*/
+	ringpelea* combate = new ringpelea(gScene_, gPhysics_, { -150,100,-600 }, CreateShape(PxBoxGeometry(150, 100, 150)), { 0.0224,0.224,0.4,1 }, this, partsys_);
 	Objects.push_back(combate);
-
-
 	col = { 49,0.98,0.94 };
 	rgb amarillo = hsv2rgb(col);
 	ParticleRigidStatic* part1 = new ParticleRigidStatic(gScene_, gPhysics_, { 10,30,-30 }, CreateShape(PxBoxGeometry(100, 20, 5)), { 0.0224,0.224,0.251,1 });
@@ -278,6 +278,12 @@ void WorldManager::createmuelle(Vector3 pos, Vector4 color)
 	forceregistry->addRegistry(f3, p3);
 	Objects.push_back(p3);
 	forces.push_back(f3);
+}
+void WorldManager::creaEnemy(Vector3 pos, int vidas, PxShape* shape)
+{
+	Enemy2* ens = new Enemy2(gScene_, gPhysics_, pos, shape, partsys_, vidas);
+	ens->getPLayer(player);
+	Objects.push_back(ens);
 }
 TypeParticlesF::TypeParticlesF(TipoParticlesF par, PxScene* gScene, PxPhysics* gPhysics)
 {
