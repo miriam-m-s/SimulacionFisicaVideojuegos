@@ -46,7 +46,7 @@ public:
 	void deleteescenarios();
 	void createmuelle(Vector3 pos ,Vector4 color);
 	void creaEnemy(Vector3 pos, int vidas, PxShape* shape);
-	ParticleRigid* player;
+	
 protected:
 	PxScene* gScene_;
 	PxPhysics* gPhysics_;
@@ -59,6 +59,7 @@ protected:
 	double contador=0;
 	std::vector<Proyectil*>bullets;
 	ParticleSys* partsys_;
+	ParticleRigid* player;
 };
 
 class TypeParticlesF {

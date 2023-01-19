@@ -239,9 +239,9 @@ void WorldManager::creaEscenario()
 		Objects.push_back(en);
 
 	}
-	Enemy2* ens = new Enemy2(gScene_, gPhysics_, { 0, 30, 0 }, CreateShape(PxBoxGeometry(5, 5, 5)), partsys_, 3);
-	ens->getPLayer(player);
-	Objects.push_back(ens);
+	/*Enemy2* ens = new Enemy2(gScene_, gPhysics_, { 0, 30, 0 }, CreateShape(PxBoxGeometry(5, 5, 5)), partsys_, 3);
+	ens->getPLayer(player);*/
+	//Objects.push_back(ens);
 	TNT* tnt = new TNT(gScene_, gPhysics_, Vector3(0, 17, 15), CreateShape(PxBoxGeometry(2, 7, 2), gPhysics_->createMaterial(0.1f, 0.1f, 0.1f)), partsys_);
 	Objects.push_back(tnt);
 	TNT* tnts = new TNT(gScene_, gPhysics_, Vector3(-170, 210, -240), CreateShape(PxBoxGeometry(2, 7, 2), gPhysics_->createMaterial(0.1f, 0.1f, 0.1f)), partsys_);

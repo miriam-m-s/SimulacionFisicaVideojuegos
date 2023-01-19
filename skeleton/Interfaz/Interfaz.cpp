@@ -26,10 +26,11 @@ void Interfaz::update(double t)
 
 	physx::PxQuat q = { cam_->getTransform().q.x ,cam_->getTransform().q.y,cam_->getTransform().q.z,cam_->getTransform().q.w };
 	//q.rotate({ 20, 0, 0 });
-	parteabajo->setPos(cam_->getTransform().p + GetCamera()->getDir() * 2 + normal * -1);
 	part->setRot(q);
-	parteabajo->setRot(q);
+	
 	//q.rotate({ 20, 0, 0 });
+	parteabajo->setPos(cam_->getTransform().p + GetCamera()->getDir() * 2 + normal * -1);
+	parteabajo->setRot(q);
 	punta->setPos(cam_->getTransform().p + GetCamera()->getDir() * 2.5 + normal * -0.7);
 	punta->setRot(q);
 	int i = 0;
